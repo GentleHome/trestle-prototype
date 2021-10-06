@@ -1,0 +1,111 @@
+.date_navigation{
+    margin-bottom: 50px;
+}
+
+.container{
+    margin: 10px;
+}
+
+.box {
+    display: inline-flex;
+    border: 1px solid lightgray;
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    padding: 5px;
+}
+
+.box2 {
+    display: inline-flex;
+    border: 1px solid lightgray;
+    width: 100px;
+    height: 100px;
+    background-color: lightgreen;
+    padding: 5px;
+}
+
+.box3 {
+    display: inline-flex;
+    border: 1px solid lightgray;
+    width: 100px;
+    height: 100px;
+    background-color: white;
+    color: lightgray;
+    padding: 5px;
+}
+
+.box-4{
+    display: inline-block;
+    border: 1px solid lightgray;
+    width: 250px;
+    height: 250px;
+    background-color: white;
+    padding: 5px;
+    text-align: center;
+}
+
+.small_box{
+    display: inline-block;
+    border: 1px solid lightgray;
+    width: 27px;
+    height: 27px;
+    background-color: white;
+    /* padding: 5px; */
+    text-align: center;
+}
+
+.small_box-2{
+    display: inline-block;
+    border: 1px solid lightgray;
+    width: 27px;
+    height: 27px;
+    background-color: white;
+    background-color: lightgreen;
+    text-align: center;
+}
+
+.small_box-3{
+    display: inline-block;
+    border: 1px solid lightgray;
+    width: 27px;
+    height: 27px;
+    background-color: white;
+    color: lightgray;
+    text-align: center;
+}
+
+.small_box-no-outline{
+    display: inline-block;
+    border: 1px solid white;
+    width: 27px;
+    height: 27px;
+    background-color: white;
+    text-align: center;
+}
+
+.month_name{
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 2%;
+}
+
+.long_box{
+    display: inline-flex;
+    border: 1px solid lightgray;
+    width: 150px;
+    height: 200px;
+    max-height: fit-content;
+    background-color: white;
+    padding: 5px;
+}
+
+.long_box-day{
+    display: inline-block;
+    border: 1px solid lightgray;
+    width: 150px;
+    height: auto;
+    background-color: white;
+    padding: 5px;
+    text-align: center;
+}
