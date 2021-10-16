@@ -109,3 +109,24 @@
     padding: 5px;
     text-align: center;
 }
+
+.long_box-2{
+    display: inline-flex;
+    border: 1px solid lightgray;
+    width: 150px;
+    height: 200px;
+    max-height: fit-content;
+    background-color: lightgreen;
+    padding: 5px;
+}
+
+.long_box-3{
+    display: inline-flex;
+    border: 1px solid lightgray;
+    width: 150px;
+    height: 200px;
+    max-height: fit-content;
+    color: lightgray;
+    padding: 5px;
+}
+
