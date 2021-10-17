@@ -6,7 +6,8 @@
 </head>
 
 <body>
-    <a href="tests.php">Tests</a>
+    <a href="./calendar.html">Calendar Test</a>
+    <a href="./api/tests.php">API Tests</a>
 </body>
 
 </html>
