@@ -1,4 +1,4 @@
-// year, month, week, day
+// year, month, week
 const date = new Date();
 const box_range = [12, 42, 7, 1];
 let range_holder;
@@ -67,10 +67,6 @@ function renderer(options) {
             renderBoxes_week(weeks_to_render);
             break;
 
-        case "3":
-            renderBoxes_day(box_range[options]);
-            break;
-
         default:
             console.log("no such thing");
             break;
@@ -102,9 +98,6 @@ function prev_manipulator() {
             renderBoxes_week(weeks_to_render);
             break;
 
-        case "3":
-            break;
-
         default:
             console.log("no such thing");
             break;
@@ -133,10 +126,7 @@ function next_manipulator() {
 
         case "2":
             let weeks_to_render = getWeeksToRender_next();
-            renderBoxes_week( weeks_to_render);
-            break;
-
-        case "3":
+            renderBoxes_week(weeks_to_render);
             break;
 
         default:
@@ -161,9 +151,6 @@ function today_manipulator() {
         case "2":
             let weeks_to_render = getWeeksToRender_today();
             renderBoxes_week(weeks_to_render);
-            break;
-
-        case "3":
             break;
 
         default:
@@ -264,7 +251,7 @@ function renderBoxes_month(range, month, year) {
     let startofnextmonth = 0;
 
     for (let index = 0; index < day.length; index++) {
-        html += '<span class="box">' + day[index] + "</span>";
+        html += '<span class="box-day">' + day[index] + "</span>";
     }
     html += "<br>";
 
@@ -369,13 +356,6 @@ function renderBoxes_week(weeks_to_render) {
     document.querySelector(".container").innerHTML = html;
 }
 
-function renderBoxes_day(range) {
-    let html = "";
-    for (let index = 0; index < range; index++) {
-        html += '<span class="box"></span>';
-    }
-    document.querySelector(".container").innerHTML = html;
-}
 // event functions
 function go_prev() {
     console.log("clicked prev");
