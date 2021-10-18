@@ -333,13 +333,9 @@ function renderBoxes_week(weeks_to_render) {
     while(index != current_size){
         if(current[index] == date.getDate() && month == date.getMonth()){
             html += '<span class="long_box-2">'+ current[index] +'</span>';
-            if(index+=1 == RangeError){
-                break;
-            }else{
-                index+=1;
-            }
+        }else{
+            html += '<span class="long_box">'+ current[index] +'</span>';
         }
-        html += '<span class="long_box">'+ current[index] +'</span>';
         index++;
     }
     index = 0;
