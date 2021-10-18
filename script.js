@@ -340,9 +340,8 @@ function renderBoxes_week(weeks_to_render) {
     html += '<br>';
     if(current.length < 7){
         if(current[0] == 1){
-            while(before_size != 0){
+            while(index != before_size){
                 html += '<span class="long_box-3">'+ before[index] +'</span>';
-                before_size-=1;
                 index++;
             }
         }
@@ -357,12 +356,15 @@ function renderBoxes_week(weeks_to_render) {
         index++;
     }
     index = 0;
-
     if(current.length < 7){
         if(current[0] > 1){
-            while(after_size != 0){
+            while(index != after_size){
                 html += '<span class="long_box-3">'+ after[index] +'</span>';
-                after_size-=1;
+                index++;
+            }
+        }else{
+            while (index != 7-(before_size+current_size)) {
+                html += '<span class="long_box-3">'+ after[index] +'</span>';
                 index++;
             }
         }
