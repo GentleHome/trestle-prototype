@@ -7,63 +7,62 @@ const prev = document.querySelector("#prev");
 const next = document.querySelector("#next");
 const today = document.querySelector("#today");
 const date_indication = document.querySelector("#date_indication");
+const the_date = document.querySelector('#date');
 
 let view_state_holder;
 const day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
 const small_day = ["Su", "M", "T", "W", "TH", "F", "Sa",];
-const date_today = {
-    current_year: date.getFullYear(),
-    current_month: date.getMonth(),
-    current_day: date.getDay(),
-    current_date: date.getDate(),
-    current_week_number: getWeekNumber(date.getFullYear(), date.getMonth()),
-};
+
+let week_number = getWeekNumber(date.getFullYear(), date.getMonth(), date.getDate());
 
 let manipulate = {
-    year: date_today.current_year,
-    month: date_today.current_month,
-    date: date_today.current_date,
-    weekNumber: getWeekNumber(date_today.current_year, date_today.current_month),
+    year: date.getFullYear(),
+    month: date.getMonth(),
+    date: date.getDate(),
+    weekNumber: getWeekNumber(date.getFullYear(), date.getMonth(), date.getDate()),
 };
 
 // initial load out
-renderer(choose_view.value);
 view_state_holder = choose_view.value;
+today_manipulator();
 
 // event listeners
 choose_view.addEventListener("change", go_choose_view);
-prev.addEventListener("mouseup", go_prev);
-next.addEventListener("mouseup", go_next);
-today.addEventListener("mouseup", go_today);
+prev.addEventListener("mouseup", prev_manipulator);
+next.addEventListener("mouseup", next_manipulator);
+today.addEventListener("mouseup", today_manipulator);
 
 function go_choose_view() {
-    console.log("clicked choose view");
     let options = this.value;
     view_state_holder = options;
-    // reset every view change
-    manipulate.year = date_today.current_year;
-    manipulate.month = date_today.current_month;
-    manipulate.weekNumber = getWeekNumber(date_today.current_year, date_today.current_month);
 
-    renderer(options);
+    renderer(view_state_holder);
 }
 // controllers
 function renderer(options) {
+    if(the_date.innerHTML){
+        let selected_date = new Date(the_date.innerHTML);
+        manipulate.year = selected_date.getFullYear();
+        manipulate.month = selected_date.getMonth();
+        manipulate.date = selected_date.getDate();
+        manipulate.weekNumber=getWeekNumber(selected_date.getFullYear(), selected_date.getMonth(), selected_date.getDate());
+    }
     switch (options) {
         case "0":
-            renderBoxes_year(box_range[options], date_today.current_year);
+            renderBoxes_year(box_range[options], 
+                manipulate.year);
             break;
 
         case "1":
             renderBoxes_month(
                 box_range[options],
-                date_today.current_month,
-                date_today.current_year
+                manipulate.month,
+                manipulate.year
             );
             break;
 
         case "2":
-            let weeks_to_render = getWeeksToRender_today();
+            let weeks_to_render = getWeeksToRender();
             renderBoxes_week(weeks_to_render);
             break;
 
@@ -71,6 +70,7 @@ function renderer(options) {
             console.log("no such thing");
             break;
     }
+    highlightstuff();
 }
 
 function prev_manipulator() {
@@ -102,6 +102,7 @@ function prev_manipulator() {
             console.log("no such thing");
             break;
     }
+    highlightstuff();
 }
 
 function next_manipulator() {
@@ -133,18 +134,20 @@ function next_manipulator() {
             console.log("no such thing");
             break;
     }
+    highlightstuff();
 }
 
 function today_manipulator() {
+    the_date.innerHTML='';
     switch (view_state_holder) {
         case "0":
-            manipulate.year = date_today.current_year;
+            manipulate.year = date.getFullYear();
             renderBoxes_year(box_range[view_state_holder], manipulate.year);
             break;
 
         case "1":
-            manipulate.month = date_today.current_month;
-            manipulate.year = date_today.current_year;
+            manipulate.month = date.getMonth();
+            manipulate.year = date.getFullYear();
             renderBoxes_month(box_range[view_state_holder], manipulate.month, manipulate.year);
             break;
 
@@ -157,6 +160,7 @@ function today_manipulator() {
             console.log("no such thing");
             break;
     }
+    highlightstuff();
 }
 
 // renderers
@@ -202,7 +206,8 @@ function renderBoxes_year(range, year) {
 			while (daycounter != endofmonth) {
 				daycounter += 1;
 				if (daycounter == date.getDate() && year == date.getFullYear() && month == date.getMonth()) {
-					html += '<span class="small_box-2">' + daycounter + "</span>";
+					html += '<span class="small_box-2" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
+                        daycounter + "</span>";
                     if (br2 == 7) {
                         html += "<br>";
                         br2 = 0;
@@ -211,7 +216,22 @@ function renderBoxes_year(range, year) {
 					index++;
 					br2 += 1;
 				}
-				html += '<span class="small_box">' + daycounter + "</span>";
+
+                if(the_date.innerHTML){
+                    if(daycounter == manipulate.date && year == manipulate.year && month == manipulate.month){
+                        html += '<span class="small_box active" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
+                            daycounter + "</span>";
+                        if (br2 == 7) {
+                            html += "<br>";
+                            br2 = 0;
+                        }
+                        daycounter+=1;
+                        index++;
+                        br2+=1;
+                    }
+                }
+                html += '<span class="small_box" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
+                daycounter + "</span>";
 				if (br2 == 7) {
 					html += "<br>";
 					br2 = 0;
@@ -302,15 +322,13 @@ function renderBoxes_month(range, month, year) {
 }
 
 function renderBoxes_week(weeks_to_render) {
-    let mydate = new Date(date.getFullYear(), weeks_to_render.month);
+    let mydate = new Date(manipulate.year, manipulate.month);
     let month_name = mydate.toLocaleString("default", { month: "long" });
-    date_indication.innerHTML = month_name + "-" + date.getFullYear();
+    date_indication.innerHTML = month_name + "-" + manipulate.year;
     let html = "";
     let before = weeks_to_render.before;
     let current = weeks_to_render.current;
     let after = weeks_to_render.after;
-    let month = weeks_to_render.month;
-
     let before_size = before.length;
     let current_size = current.length;
     let after_size = after.length;
@@ -331,7 +349,7 @@ function renderBoxes_week(weeks_to_render) {
     }
     index = 0;
     while(index != current_size){
-        if(current[index] == date.getDate() && month == date.getMonth()){
+        if(current[index] == date.getDate() && manipulate.month == date.getMonth() && manipulate.year == date.getFullYear()){
             html += '<span class="long_box-2">'+ current[index] +'</span>';
         }else{
             html += '<span class="long_box">'+ current[index] +'</span>';
@@ -352,166 +370,3 @@ function renderBoxes_week(weeks_to_render) {
     document.querySelector(".container").innerHTML = html;
 }
 
-// event functions
-function go_prev() {
-    console.log("clicked prev");
-    prev_manipulator();
-}
-
-function go_next() {
-    console.log("clicked next");
-    next_manipulator();
-}
-
-function go_today() {
-    console.log("clicked today");
-    today_manipulator();
-}
-
-// date proccessing
-function daysInMonth(month, year) {
-    return new Date(year, month + 1, 0).getDate();
-}
-
-function getDayStartOfMonth(month, year) {
-    return new Date(year, month, 1).getDay();
-}
-
-// code from https://gist.github.com/markthiessen/3883242
-function getWeeksInMonth(year, month) {
-    const weeks = [],
-      firstDate = new Date(year, month, 1),
-      lastDate = new Date(year, month + 1, 0),
-      numDays = lastDate.getDate();
-  
-    let dayOfWeekCounter = firstDate.getDay();
-  
-    for (let date = 1; date <= numDays; date++) {
-      if (dayOfWeekCounter === 0 || weeks.length === 0) {
-        weeks.push([]);
-      }
-      weeks[weeks.length - 1].push(date);
-      dayOfWeekCounter = (dayOfWeekCounter + 1) % 7;
-    }
-
-    return weeks;
-}
-
-// takes year and month, feeds myweeks with the 2D array getWeeksInMonth() returns
-// loops myweeks and tries to find what index is the date today and returns what row number it is in the array
-function getWeekNumber(year, month){
-    let myweeks = getWeeksInMonth(year, month);
-    for (let i = 0; i < myweeks.length; i++) {
-        if(myweeks[i].includes(date.getDate())){
-            return i;
-        }
-    }
-}
-
-function getWeeksToRender_prev() {
-    manipulate.weekNumber -= 1;
-    let weekNumber_before = manipulate.weekNumber - 1;
-    let month_before = manipulate.month;
-    let weekNumber_after = manipulate.weekNumber + 1;
-    let month_after = manipulate.month;
-
-    if (weekNumber_before < 0) {
-        month_before -= 1;
-        weekNumber_before = getWeeksInMonth(manipulate.year, month_before).length - 1;
-    }
-
-    if (manipulate.weekNumber < 0) {
-        manipulate.month -= 1;
-        manipulate.weekNumber = getWeeksInMonth(manipulate.year, manipulate.month).length - 1;
-    }
-
-    if (weekNumber_after > getWeeksInMonth(manipulate.year, manipulate.month).length-1) {
-        month_after += 1;
-        weekNumber_after = 0;
-    }
-
-    if(manipulate.month < 0){
-        manipulate.month = 0;
-        manipulate.weekNumber = 0;
-    }
-
-    let weeks_to_render_before = getWeeksInMonth(manipulate.year, month_before)[weekNumber_before];
-    let weeks_to_render = getWeeksInMonth(manipulate.year, manipulate.month)[manipulate.weekNumber];
-    let weeks_to_render_after = getWeeksInMonth(manipulate.year, month_after)[weekNumber_after];
-
-    return weeks_to_render = {
-        before: weeks_to_render_before,
-        current: weeks_to_render,
-        after: weeks_to_render_after,
-        month: manipulate.month,
-    };
-}
-
-function getWeeksToRender_next() {
-    manipulate.weekNumber += 1;
-    let weekNumber_before = manipulate.weekNumber - 1;
-    let month_before = manipulate.month;
-    let weekNumber_after = manipulate.weekNumber + 1;
-    let month_after = manipulate.month;
-
-    if (weekNumber_before < 0) {
-        month_before -= 1;
-        weekNumber_before = getWeeksInMonth(manipulate.year, month_before).length - 1;
-    }
-
-    if (manipulate.weekNumber > getWeeksInMonth(manipulate.year, manipulate.month).length - 1) {
-        manipulate.month += 1;
-        manipulate.weekNumber = 0;
-    }
-
-    if (weekNumber_after > getWeeksInMonth(manipulate.year, manipulate.month).length-1) {
-        month_after += 1;
-        weekNumber_after = 0;
-    }
-
-    if(manipulate.month > 11){
-        manipulate.month = 11;
-        manipulate.weekNumber = getWeeksInMonth(manipulate.year, manipulate.month).length - 1
-    }
-
-    let weeks_to_render_before = getWeeksInMonth(manipulate.year, month_before)[weekNumber_before];
-    let weeks_to_render = getWeeksInMonth(manipulate.year, manipulate.month)[manipulate.weekNumber];
-    let weeks_to_render_after = getWeeksInMonth(manipulate.year, month_after)[weekNumber_after];
-
-    return weeks_to_render = {
-        before: weeks_to_render_before,
-        current: weeks_to_render,
-        after: weeks_to_render_after,
-        month: manipulate.month,
-    };
-}
-
-function getWeeksToRender_today(){
-    manipulate.month = date_today.current_month;
-    manipulate.weekNumber = date_today.current_week_number;
-    let weekNumber_before = date_today.current_week_number - 1;
-    let month_before = date_today.current_month-1;
-    let weekNumber_after = date_today.current_week_number + 1;
-    let month_after = date_today.current_month;
-
-    if (weekNumber_before < 0) {
-        month_before -= 1;
-        weekNumber_before = getWeeksInMonth(date_today.current_year, month_before).length - 1;
-    }
-
-    if (weekNumber_after > getWeeksInMonth(date_today.current_year, month_after).length-1) {
-        month_after += 1;
-        weekNumber_after = 0;
-    }
-
-    let weeks_to_render_before = getWeeksInMonth(date_today.current_year, month_before)[weekNumber_before];
-    let weeks_to_render = getWeeksInMonth(date_today.current_year, date_today.current_month)[date_today.current_week_number];
-    let weeks_to_render_after = getWeeksInMonth(date_today.current_year, month_after)[weekNumber_after];
-
-    return weeks_to_render = {
-        before: weeks_to_render_before,
-        current: weeks_to_render,
-        after: weeks_to_render_after,
-        month: date_today.current_month,
-    };
-}

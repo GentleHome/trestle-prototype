@@ -79,6 +79,7 @@
 }
 
 .small_box-3{
+    cursor: default;
     display: inline-block;
     border: 1px solid lightgray;
     width: 27px;
@@ -88,9 +89,13 @@
     text-align: center;
 }
 
-.small_box:hover, .small_box-2:hover, .small_box-3:hover{
+.small_box:hover, .small_box-2:hover{
     cursor: pointer;
     border: 1px solid blue;
+}
+
+.active{
+    background-color: blueviolet;
 }
 
 .small_box-no-outline{
