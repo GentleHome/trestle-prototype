@@ -8,6 +8,7 @@ const next = document.querySelector("#next");
 const today = document.querySelector("#today");
 const date_indication = document.querySelector("#date_indication");
 const the_date = document.querySelector('#date');
+let selected_date = new Date(the_date.innerHTML);
 
 let view_state_holder;
 const day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
@@ -41,11 +42,11 @@ function go_choose_view() {
 // controllers
 function renderer(options) {
     if(the_date.innerHTML){
-        let selected_date = new Date(the_date.innerHTML);
+        selected_date = new Date(the_date.innerHTML);
         manipulate.year = selected_date.getFullYear();
         manipulate.month = selected_date.getMonth();
         manipulate.date = selected_date.getDate();
-        manipulate.weekNumber=getWeekNumber(selected_date.getFullYear(), selected_date.getMonth(), selected_date.getDate());
+        manipulate.weekNumber = getWeekNumber(selected_date.getFullYear(), selected_date.getMonth(), selected_date.getDate())
     }
     switch (options) {
         case "0":
@@ -70,7 +71,6 @@ function renderer(options) {
             console.log("no such thing");
             break;
     }
-    highlightstuff();
 }
 
 function prev_manipulator() {
@@ -102,7 +102,6 @@ function prev_manipulator() {
             console.log("no such thing");
             break;
     }
-    highlightstuff();
 }
 
 function next_manipulator() {
@@ -134,10 +133,14 @@ function next_manipulator() {
             console.log("no such thing");
             break;
     }
-    highlightstuff();
 }
 
 function today_manipulator() {
+    manipulate.year = date.getFullYear();
+    manipulate.month = date.getMonth();
+    manipulate.date = date.getDate();
+    manipulate.weekNumber = getWeekNumber(date.getFullYear(), date.getMonth(), date.getDate());
+
     the_date.innerHTML='';
     switch (view_state_holder) {
         case "0":
@@ -160,11 +163,11 @@ function today_manipulator() {
             console.log("no such thing");
             break;
     }
-    highlightstuff();
 }
 
 // renderers
 function renderBoxes_year(range, year) {
+    selected_date = new Date(the_date.innerHTML);
     date_indication.innerHTML = year;
     let html = "";
     let br = 0;
@@ -216,22 +219,14 @@ function renderBoxes_year(range, year) {
 					index++;
 					br2 += 1;
 				}
-
-                if(the_date.innerHTML){
-                    if(daycounter == manipulate.date && year == manipulate.year && month == manipulate.month){
-                        html += '<span class="small_box active" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
-                            daycounter + "</span>";
-                        if (br2 == 7) {
-                            html += "<br>";
-                            br2 = 0;
-                        }
-                        daycounter+=1;
-                        index++;
-                        br2+=1;
-                    }
+                if(the_date.innerHTML!= '' && daycounter == selected_date.getDate() && year == selected_date.getFullYear() && month == selected_date.getMonth()){
+                    html += '<span class="small_box active" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
+                        daycounter + "</span>";
+                }else{
+                    html += '<span class="small_box" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
+                    daycounter + "</span>";
                 }
-                html += '<span class="small_box" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
-                daycounter + "</span>";
+
 				if (br2 == 7) {
 					html += "<br>";
 					br2 = 0;
@@ -255,6 +250,7 @@ function renderBoxes_year(range, year) {
         }
     }
     document.querySelector(".container").innerHTML = html;
+    highlightstuff();
 }
 
 function renderBoxes_month(range, month, year) {

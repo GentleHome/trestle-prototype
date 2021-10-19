@@ -44,6 +44,8 @@ function getWeeksToRender(){
     let month_before = manipulate.month-1;
     let weekNumber_after = manipulate.weekNumber + 1;
     let month_after = manipulate.month;
+    let year_before = manipulate.year;
+    let year_after = manipulate.year;
 
     if (weekNumber_before < 0) {
         month_before -= 1;
@@ -55,9 +57,20 @@ function getWeeksToRender(){
         weekNumber_after = 0;
     }
 
-    let weeks_to_render_before = getWeeksInMonth(manipulate.year, month_before)[weekNumber_before];
+    if(manipulate.month == 0){
+        year_before-=1;
+        month_before=11;
+        weekNumber_before = getWeeksInMonth(year_before, month_before).length - 1;
+    }
+    if(manipulate.month == 11){
+        year_after+=1;
+        month_after=0;
+        weekNumber_after = 0;
+    }
+
+    let weeks_to_render_before = getWeeksInMonth(year_before, month_before)[weekNumber_before];
     let weeks_to_render = getWeeksInMonth(manipulate.year, manipulate.month)[manipulate.weekNumber];
-    let weeks_to_render_after = getWeeksInMonth(manipulate.year, month_after)[weekNumber_after];
+    let weeks_to_render_after = getWeeksInMonth(year_after, month_after)[weekNumber_after];
 
     return weeks_to_render = {
         before: weeks_to_render_before,
@@ -176,8 +189,7 @@ function getWeeksToRender_today(){
     };
 }
 
-
-
+// for clicking dates in year view
 function highlightstuff(){
     let year_small_box = document.querySelectorAll('.small_box');
     let year_small_box_2 = document.querySelectorAll('.small_box-2');
@@ -189,7 +201,7 @@ function highlightstuff(){
     });
 }
 
-function setActive(){
+function setActive(){    
     let activated = document.querySelectorAll('.active');
     if(activated.length > 0){
         activated.forEach(active =>{
