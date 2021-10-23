@@ -1,4 +1,8 @@
 <?php
+require_once dirname(__FILE__) . './setup.php';
+
+$client = get_client();
+
 if (isset($_GET['code'])) {
     $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
     if (!isset($token['error'])) {
@@ -8,3 +12,4 @@ if (isset($_GET['code'])) {
 }
 
 header("./tests.php");
+exit;
