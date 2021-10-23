@@ -1,5 +1,5 @@
 <?php
-    require_once dirname(__FILE__) . '/vendor/autoload.php';
+    require_once dirname(__FILE__) . '\..\vendor\autoload.php';
 
     $canvas_token = $_GET['canvas_token'];
     $course_id = $_GET['course_id'];
