@@ -1,13 +1,22 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
-
-$client = new Google\Client();
-$client->setAuthConfig('client_secret.json');
-
-$client->addScope(Google\Service\Classroom::CLASSROOM_COURSES_READONLY);
-$client->addScope(Google\Service\Classroom::CLASSROOM_COURSEWORK_ME_READONLY);
-$client->addScope(Google\Service\Classroom::CLASSROOM_COURSEWORK_STUDENTS_READONLY);
-
-$client->setIncludeGrantedScopes(true);
+require_once dirname(__FILE__) . '\..\vendor\autoload.php';
 
 session_start();
+
+/**
+ * Returns an authorized API client.
+ * @return Google_Client the authorized client object
+ */
+function get_client()
+{
+    $client = new Google\Client();
+    $client->setAuthConfig(__DIR__ . './client_secret.json');
+
+    $client->addScope(Google\Service\Classroom::CLASSROOM_COURSES_READONLY);
+    $client->addScope(Google\Service\Classroom::CLASSROOM_COURSEWORK_ME_READONLY);
+    $client->addScope(Google\Service\Classroom::CLASSROOM_COURSEWORK_STUDENTS_READONLY);
+
+    $client->setIncludeGrantedScopes(true);
+
+    return $client;
+}
