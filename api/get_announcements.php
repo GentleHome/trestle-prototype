@@ -5,24 +5,31 @@ if (!isset($_GET['course_id'])) {
     echo "No course ID!";
     exit;
 }
+
+if (!isset($_GET['source'])) {
+    echo "No source!";
+    exit;
+}
+
 $course_id = $_GET['course_id'];
+$source = $_GET['source'];
 
 $google_announcements = get_google_announcements($course_id);
 $canvas_announcements = get_canvas_announcements($course_id);
 
 $announcements = [];
+if($source === SOURCE_GOOGLE_CLASSROOM){
+    foreach ($google_announcements as $google_announcement) {
 
-foreach ($google_announcements as $google_announcement) {
+        $announcement = parse_announcement($google_announcement, SOURCE_GOOGLE_CLASSROOM);
+        array_push($announcements, $announcement);
+    }
+} else if ($source === SOURCE_CANVAS){
+    foreach ($canvas_announcements as $canvas_announcement) {
 
-    $announcement = parse_announcement($google_announcement, SOURCE_GOOGLE_CLASSROOM);
-    array_push($announcements, $announcement);
-}
-
-foreach ($canvas_announcements as $canvas_announcement) {
-
-    $announcement = parse_announcement($canvas_announcement, SOURCE_CANVAS);
-    array_push($announcements, $announcement);
-
+        $announcement = parse_announcement($canvas_announcement, SOURCE_CANVAS);
+        array_push($announcements, $announcement);
+    }
 }
 
 echo json_encode($announcements);

@@ -12,7 +12,7 @@ function setButtons() {
             `get_courses.php?canvas_token=${getCanvasToken()}`
         );
 
-        const data = fetch(req)
+        fetch(req)
             .then((res) => res.text())
             .then((data) => {
                 // Do stuff here
@@ -27,21 +27,21 @@ function setButtons() {
     getCourse.addEventListener('click', () => {
         const textArea = document.querySelector('#get-course-response');
         const selectedCourse = getCourseIdAndOption();
-
-        if (selectedCourse.source === "CANVAS") {
-            const req = new Request(
+        var req;
+        if (selectedCourse.source == "CANVAS") {
+            req = new Request(
                 `get_course.php?canvas_token=${getCanvasToken()}` +
                 `&source=${selectedCourse.source}` +
                 `&course_id=${selectedCourse.courseId}`
             );
         }
-        else if (selectedCourse.source === "GCLASS") {
-            const req = new Request(
+        else if (selectedCourse.source == "GCLASS") {
+            req = new Request(
                 `get_course.php?source=${selectedCourse.source}` +
                 `&course_id=${selectedCourse.courseId}`
             );
         }
-        const data = fetch(req)
+        fetch(req)
             .then((res) => res.text())
             .then((data) => {
                 textArea.value = data;
@@ -55,21 +55,22 @@ function setButtons() {
     getCourseworks.addEventListener('click', () => {
         const textArea = document.querySelector('#get-courseworks-response');
         const selectedCourse = getCourseIdAndOption();
-        if (selectedCourse.source === "CANVAS") {
-            const req = new Request(
+        var req;
+        if (selectedCourse.source == "CANVAS") {
+            req = new Request(
                 `get_courseworks.php?canvas_token=${getCanvasToken()}` +
                 `&source=${selectedCourse.source}` +
                 `&course_id=${selectedCourse.courseId}`
             );
         }
-        else if (selectedCourse.source === "GCLASS") {
-            const req = new Request(
+        else if (selectedCourse.source == "GCLASS") {
+            req = new Request(
                 `get_courseworks.php?source=${selectedCourse.source}` +
                 `&course_id=${selectedCourse.courseId}`
             );
         }
 
-        const data = fetch(req)
+        fetch(req)
             .then((res) => res.text())
             .then((data) => {
                 textArea.value = data;
@@ -82,27 +83,59 @@ function setButtons() {
     const getCoursework = document.querySelector('#get-coursework-button');
     getCoursework.addEventListener('click', () => {
         const textArea = document.querySelector('#get-coursework-response');
-        const assignIdInput = document.querySelector('#get-coursework-id')
+        const assignIdInput = document.querySelector('#get-coursework-id');
+        const typeInput = document.querySelector('#get-type-option');
         const selectedCourse = getCourseIdAndOption();
-
-        if (selectedCourse.source === "CANVAS") {
-            const req = new Request(
+        var req;
+        if (selectedCourse.source == "CANVAS") {
+            req = new Request(
                 `get_coursework.php?canvas_token=${getCanvasToken()}` +
                 `&source=${selectedCourse.source}` +
                 `&course_id=${selectedCourse.courseId}` +
-                `&assignment_id=${assignIdInput.value}`
+                `&coursework_id=${assignIdInput.value}` +
+                `&type=${typeInput.value}`
             );
         }
 
-        else if (selectedCourse.source === "GCLASS") {
-            const req = new Request(
+        else if (selectedCourse.source == "GCLASS") {
+            req = new Request(
                 `get_coursework.php?source=${selectedCourse.source}` +
                 `&course_id=${selectedCourse.courseId}` +
-                `&assignment_id=${assignIdInput.value}`
+                `&coursework_id=${assignIdInput.value}` +
+                `&type=${typeInput.value}`
             );
         }
 
-        const data = fetch(req)
+        fetch(req)
+            .then((res) => res.text())
+            .then((data) => {
+                textArea.value = data;
+                var parsed = JSON.parse(data);
+                console.log(parsed);
+            });
+    });
+
+    // Get Announcements
+    const getAnnouncements = document.querySelector('#get-announcements-button');
+    getAnnouncements.addEventListener('click', () => {
+        const textArea = document.querySelector('#get-announcements-response');
+        const selectedCourse = getCourseIdAndOption();
+        var req;
+        if (selectedCourse.source == "CANVAS") {
+            req = new Request(
+                `get_announcements.php?canvas_token=${getCanvasToken()}` +
+                `&source=${selectedCourse.source}` +
+                `&course_id=${selectedCourse.courseId}`
+            );
+        }
+        else if (selectedCourse.source == "GCLASS") {
+            req = new Request(
+                `get_announcements.php?source=${selectedCourse.source}` +
+                `&course_id=${selectedCourse.courseId}`
+            );
+        }
+
+       fetch(req)
             .then((res) => res.text())
             .then((data) => {
                 textArea.value = data;
@@ -121,7 +154,7 @@ function getCanvasToken() {
 function getCourseIdAndOption() {
 
     const courseId = document.querySelector('#get-course-id');
-    const selected = document.querySelector('#get-course-option');
+    const selected = document.querySelector('#get-source-option');
 
     return {
         courseId: courseId.value,

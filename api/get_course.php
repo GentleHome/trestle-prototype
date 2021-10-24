@@ -14,7 +14,6 @@ if (!isset($_GET['source'])) {
 $course_id = $_GET['course_id'];
 $source = $_GET['source'];
 
-// We need to be able to choose whether it's getting a course on Canvas or Google Classroom
 if ($source === SOURCE_GOOGLE_CLASSROOM) {
 
     $google_course = get_google_course($course_id);
@@ -44,7 +43,7 @@ function get_google_course($course_id)
 
         $client->setAccessToken($_SESSION['access_token']);
         $service = new Google\Service\Classroom($client);
-        $course = $service->courses->get($course_id)->get;
+        $course = $service->courses->get($course_id);
 
         return $course;
     }

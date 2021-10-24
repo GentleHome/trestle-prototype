@@ -7,10 +7,10 @@ function parse_course($object, $source)
     if ($source === SOURCE_GOOGLE_CLASSROOM) {
 
         $course["source"]   = SOURCE_GOOGLE_CLASSROOM;
-        $course["id"]       = (int)$object["id"];
-        $course["name"]     = $object["name"];
-        $course["heading"]  = $object["descriptionHeading"];
-        $course["link"]     = $object["alternateLink"];
+        $course["id"]       = (int)$object->getId();
+        $course["name"]     = $object->getName();
+        $course["heading"]  = $object->getDescriptionHeading();
+        $course["link"]     = $object->getAlternateLink();
 
     } else if ($source === SOURCE_CANVAS) {
 
