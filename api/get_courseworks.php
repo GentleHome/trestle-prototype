@@ -23,29 +23,25 @@ $courseworks = [];
 if ($source === SOURCE_GOOGLE_CLASSROOM) {
 
     $google_courseworks = get_google_courseworks($course_id);
-
     foreach ($google_courseworks as $google_coursework) {
         $coursework = parse_coursework($google_coursework, SOURCE_GOOGLE_CLASSROOM, TYPE_COURSEWORK);
-
         array_push($courseworks, $coursework);
     }
+
 } else if ($source === SOURCE_CANVAS) {
 
     $canvas_assignments = get_canvas_assignments($course_id);
-
     foreach ($canvas_assignments as $canvas_assignment) {
         $coursework = parse_coursework($canvas_assignment, SOURCE_CANVAS, TYPE_ASSIGNMENT);
-
         array_push($courseworks, $coursework);
     }
 
     $canvas_quizzes = get_canvas_quizzes($course_id);
-
     foreach ($canvas_quizzes as $canvas_quiz) {
         $coursework = parse_coursework($canvas_quiz, SOURCE_CANVAS, TYPE_QUIZ);
-
         array_push($courseworks, $coursework);
     }
+
 }
 
 echo json_encode($courseworks);
