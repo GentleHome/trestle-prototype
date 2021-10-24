@@ -8,8 +8,12 @@ if (isset($_GET['code'])) {
     if (!isset($token['error'])) {
         $client->setAccessToken($token['access_token']);
         $_SESSION['access_token'] = $token['access_token'];
+
+        header("./tests.php");
+        exit;
+    }
+    else {
+        echo $token['error'];
     }
 }
 
-header("./tests.php");
-exit;

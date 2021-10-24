@@ -1,5 +1,4 @@
 <?php
-include dirname(__FILE__) . './helpers/constants.php';
 
 function parse_course($object, $source)
 {
