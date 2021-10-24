@@ -15,6 +15,7 @@ function get_client()
     $client->addScope(Google\Service\Classroom::CLASSROOM_COURSES_READONLY);
     $client->addScope(Google\Service\Classroom::CLASSROOM_COURSEWORK_ME_READONLY);
     $client->addScope(Google\Service\Classroom::CLASSROOM_COURSEWORK_STUDENTS_READONLY);
+    $client->addScope(Google\Service\Classroom::CLASSROOM_ANNOUNCEMENTS_READONLY);
 
     $client->setIncludeGrantedScopes(true);
 
