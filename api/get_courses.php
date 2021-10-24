@@ -8,24 +8,22 @@ $courses = [];
 
 foreach ($google_courses as $google_course) {
 
-    $course = [];
-    $course["source"] = "GCLASS";
-    $course["id"] = (int)$google_course["id"];
-    $course["name"] = $google_course["name"];
-    $course["heading"] = $google_course["descriptionHeading"];
-    $course["link"] = $google_course["alternateLink"];
+    $course["source"]   = "GCLASS";
+    $course["id"]       = (int)$google_course["id"];
+    $course["name"]     = $google_course["name"];
+    $course["heading"]  = $google_course["descriptionHeading"];
+    $course["link"]     = $google_course["alternateLink"];
 
     array_push($courses, $course);
 }
 
 foreach ($canvas_courses as $canvas_course) {
 
-    $course = [];
-    $course["source"] = "CANVAS";
-    $course["id"] = $canvas_course->id;
-    $course["name"] = $canvas_course->name;
-    $course["heading"] = null;
-    $course["link"] = "https://canvas.instructure.com/courses/" . $canvas_course->id;
+    $course["source"]   = "CANVAS";
+    $course["id"]       = $canvas_course->id;
+    $course["name"]     = $canvas_course->name;
+    $course["heading"]  = null;
+    $course["link"]     = "https://canvas.instructure.com/courses/" . $canvas_course->id;
 
     array_push($courses, $course);
 }
