@@ -18,66 +18,38 @@ if (!isset($_GET['source'])) {
 $course_id = $_GET['course_id'];
 $source = $_GET['source'];
 
-// We need to be able to choose whether it's getting a course on Canvas or Google Classroom
-if ($source === 'GCLASS') {
+$courseworks = [];
+
+if ($source === SOURCE_GOOGLE_CLASSROOM) {
 
     $google_courseworks = get_google_courseworks($course_id);
 
-    $courseworks = [];
-
     foreach ($google_courseworks as $google_coursework) {
-        $coursework["source"]   = "GCLASS";
-        $coursework["type"]     = "COURSEWORK";
-        $coursework["id"]       = (int)$google_coursework["id"];
-        $coursework["courseId"] = (int)$google_coursework["courseId"];
-        $coursework["title"]     = $google_coursework["title"];
-        $coursework["description"]     = $google_coursework["description"];
-        $coursework["datePosted"] = $google_coursework["creationTime"];
-        $coursework["dueDate"]  = $google_coursework["dueDate"];
-        $coursework["unlockDate"] = null;
-        $coursework["link"]     = $google_coursework["alternateLink"];
+        $coursework = parse_coursework($google_coursework, SOURCE_GOOGLE_CLASSROOM, TYPE_COURSEWORK);
 
         array_push($courseworks, $coursework);
     }
-} else if ($source === 'CANVAS') {
+} else if ($source === SOURCE_CANVAS) {
 
     $canvas_assignments = get_canvas_assignments($course_id);
-    $canvas_quizzes = get_canvas_quizzes($course_id);
-
-    $courseworks = [];
 
     foreach ($canvas_assignments as $canvas_assignment) {
-        $coursework["source"]   = "CANVAS";
-        $coursework["type"]     = "ASSIGNMENT";
-        $coursework["id"]       = (int)$canvas_assignment->id;
-        $coursework["courseId"] = (int)$canvas_assignment->course_id;
-        $coursework["title"]     = $canvas_assignment->name;
-        $coursework["description"]     = $canvas_assignment->description;
-        $coursework["datePosted"] = $canvas_assignment->created_at;
-        $coursework["dueDate"]  = $canvas_assignment->due_at;
-        $coursework["unlockDate"] = $canvas_assignment->unlock_at;
-        $coursework["link"]     = $canvas_assignment->html_url;
+        $coursework = parse_coursework($canvas_assignment, SOURCE_CANVAS, TYPE_ASSIGNMENT);
 
         array_push($courseworks, $coursework);
     }
 
+    $canvas_quizzes = get_canvas_quizzes($course_id);
+
     foreach ($canvas_quizzes as $canvas_quiz) {
-        $coursework["source"]   = "CANVAS";
-        $coursework["type"]     = "QUIZ";
-        $coursework["id"]       = (int)$canvas_quiz->id;
-        $coursework["courseId"] = (int)$canvas_quiz->course_id;
-        $coursework["title"]     = $canvas_quiz->title;
-        $coursework["description"]     = $canvas_quiz->description;
-        $coursework["datePosted"] = $canvas_quiz->created_at;
-        $coursework["dueDate"]  = $canvas_quiz->due_at;
-        $coursework["unlockDate"] = $canvas_quiz->unlock_at;
-        $coursework["link"]     = $canvas_quiz->html_url;
+        $coursework = parse_coursework($canvas_quiz, SOURCE_CANVAS, TYPE_QUIZ);
 
         array_push($courseworks, $coursework);
     }
 }
 
 echo json_encode($courseworks);
+exit;
 
 function get_google_courseworks($course_id)
 {
@@ -135,8 +107,8 @@ function get_canvas_quizzes($course_id)
         );
 
         $response = Requests::get('https://canvas.instructure.com/api/v1/courses/' . $course_id . '/quizzes', $headers);
-        $assignments = json_decode($response->body);
+        $quizzes = json_decode($response->body);
 
-        return $assignments;
+        return $quizzes;
     }
 }

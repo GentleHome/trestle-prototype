@@ -14,26 +14,15 @@ $announcements = [];
 
 foreach ($google_announcements as $google_announcement) {
 
-    $announcement["source"]     = "CANVAS";
-    $announcement["id"]         = $google_announcement["id"];
-    $announcement["title"]      = null;
-    $announcement["message"]    = $google_announcement["text"];
-    $announcement["link"]       = $google_announcement["alternateLink"];
-    $announcement["datePosted"] = $google_announcement["creationTime"];
-
+    $announcement = parse_announcement($google_announcement, SOURCE_GOOGLE_CLASSROOM);
     array_push($announcements, $announcement);
 }
 
 foreach ($canvas_announcements as $canvas_announcement) {
 
-    $announcement["source"]     = "CANVAS";
-    $announcement["id"]         = $canvas_announcement->id;
-    $announcement["title"]      = $canvas_announcement->title;
-    $announcement["message"]    = $canvas_announcement->message;
-    $announcement["link"]       = $canvas_announcement->html_url;
-    $announcement["datePosted"] = $canvas_announcement->posted_at;
-
+    $announcement = parse_announcement($canvas_announcement, SOURCE_CANVAS);
     array_push($announcements, $announcement);
+
 }
 
 echo json_encode($announcements);

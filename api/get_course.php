@@ -15,29 +15,20 @@ $course_id = $_GET['course_id'];
 $source = $_GET['source'];
 
 // We need to be able to choose whether it's getting a course on Canvas or Google Classroom
-if ($source === 'GCLASS') {
+if ($source === SOURCE_GOOGLE_CLASSROOM) {
 
     $google_course = get_google_course($course_id);
-
-    $course["source"]   = "GCLASS";
-    $course["id"]       = (int)$google_course["id"];
-    $course["name"]     = $google_course["name"];
-    $course["heading"]  = $google_course["descriptionHeading"];
-    $course["link"]     = $google_course["alternateLink"];
+    $course = parse_course($google_course, SOURCE_GOOGLE_CLASSROOM);
     
-} else if ($source === 'CANVAS') {
+} else if ($source === SOURCE_CANVAS) {
 
     $canvas_course = get_canvas_course($course_id);
-
-    $course["source"]   = "CANVAS";
-    $course["id"]       = $canvas_course->id;
-    $course["name"]     = $canvas_course->name;
-    $course["heading"]  = null;
-    $course["link"]     = "https://canvas.instructure.com/courses/" . $canvas_course->id;
+    $course = parse_course($canvas_course, SOURCE_CANVAS);
 
 }
 
 echo json_encode($course);
+exit;
 
 
 function get_google_course($course_id)

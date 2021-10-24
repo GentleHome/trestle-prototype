@@ -8,27 +8,19 @@ $courses = [];
 
 foreach ($google_courses as $google_course) {
 
-    $course["source"]   = "GCLASS";
-    $course["id"]       = (int)$google_course["id"];
-    $course["name"]     = $google_course["name"];
-    $course["heading"]  = $google_course["descriptionHeading"];
-    $course["link"]     = $google_course["alternateLink"];
+    $course = parse_course($google_course, SOURCE_GOOGLE_CLASSROOM);
 
     array_push($courses, $course);
 }
 
 foreach ($canvas_courses as $canvas_course) {
 
-    $course["source"]   = "CANVAS";
-    $course["id"]       = $canvas_course->id;
-    $course["name"]     = $canvas_course->name;
-    $course["heading"]  = null;
-    $course["link"]     = "https://canvas.instructure.com/courses/" . $canvas_course->id;
-
+    $course = parse_course($canvas_course, SOURCE_CANVAS);
     array_push($courses, $course);
 }
 
 echo json_encode($courses);
+exit;
 
 
 function get_google_courses()
@@ -45,9 +37,6 @@ function get_google_courses()
         $client->setAccessToken($_SESSION['access_token']);
         $service = new Google\Service\Classroom($client);
         $courses = $service->courses->listCourses()->getCourses();
-
-        // echo var_dump($courses);
-        // echo json_encode($courses);
 
         return $courses;
     }
@@ -71,9 +60,6 @@ function get_canvas_courses()
 
         $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
         $courses = json_decode($response->body);
-
-        // echo var_dump($courses);
-        // echo $response->body;
 
         return $courses;
     }
