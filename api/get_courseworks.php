@@ -63,7 +63,7 @@ if ($source === 'GCLASS') {
 
     foreach ($canvas_quizzes as $canvas_quiz) {
         $coursework["source"]   = "CANVAS";
-        $coursework["type"]     = "ASSIGNMENT";
+        $coursework["type"]     = "QUIZ";
         $coursework["id"]       = (int)$canvas_quiz->id;
         $coursework["courseId"] = (int)$canvas_quiz->course_id;
         $coursework["title"]     = $canvas_quiz->title;
