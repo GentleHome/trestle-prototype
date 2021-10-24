@@ -1,3 +1,9 @@
+var collection = [];
+async function getDummyData(){
+    return (await fetch('dummy_source.php')).json();
+}
+
+
 // year, month, week
 const date = new Date();
 const box_range = [12, 42, 7, 1];
@@ -287,7 +293,7 @@ function renderBoxes_month(range, month, year) {
         while (daycounter != endofmonth) {
             daycounter += 1;
             if (daycounter == date.getDate() && year == date.getFullYear() && month == date.getMonth()) {
-                html += '<span class="box2">' + daycounter + "</span>";
+                html += '<span class="box current_day">' + daycounter + "</span>";
                 if (br == 7) {
                     html += "<br>";
                     br = 0;
@@ -313,11 +319,12 @@ function renderBoxes_month(range, month, year) {
             br = 0;
         }
     }
-
     document.querySelector(".container").innerHTML = html;
 }
 
-function renderBoxes_week(weeks_to_render) {
+async function renderBoxes_week(weeks_to_render) {
+    collection = await getDummyData();
+
     let mydate = new Date(manipulate.year, manipulate.month);
     let month_name = mydate.toLocaleString("default", { month: "long" });
     date_indication.innerHTML = month_name + "-" + manipulate.year;
@@ -345,9 +352,20 @@ function renderBoxes_week(weeks_to_render) {
     index = 0;
     while(index != current_size){
         if(current[index] == date.getDate() && manipulate.month == date.getMonth() && manipulate.year == date.getFullYear()){
-            html += '<span class="long_box-2">'+ current[index] +'</span>';
+            html += '<span class="long_box current_day" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'">'+ current[index] +'</span>';
         }else{
-            html += '<span class="long_box">'+ current[index] +'</span>';
+            html += '<span class="long_box" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'">'+
+            current[index];
+
+            collection.forEach(data=>{
+                if(data.dueDate.day==current[index] && 
+                    data.dueDate.year == manipulate.year &&
+                    data.dueDate.month == manipulate.month+1){
+                    html+= '<span class="dot"></span>'
+                }
+            });
+
+            html+='</span>';
         }
         index++;
     }
@@ -366,5 +384,6 @@ function renderBoxes_week(weeks_to_render) {
         }
     }
     document.querySelector(".container").innerHTML = html;
+    week();
 }
 

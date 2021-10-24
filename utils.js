@@ -215,3 +215,23 @@ function setActive(){
     let mydate = new Date(year, month, day);
     document.querySelector('#date').innerHTML = mydate;
 }
+
+function week(){
+    let week_box = document.querySelectorAll('.long_box');
+    // let month_box = document.querySelectorAll('.box');
+    week_box.forEach(box=>{
+        box.addEventListener('mouseup', addShedule_view);
+    });
+
+    // month_box.forEach(box=>{
+    //     box.addEventListener('mouseup', addShedule_view);
+    // });
+}
+
+function addShedule_view(){
+    let current_dir = window.location.pathname;
+    let dir = current_dir.substring(0, current_dir.lastIndexOf('/'))
+    let clicked_date = this.getAttribute('data-month') + '-' + this.getAttribute('data-day') + '-' + this.getAttribute('data-year'); 
+    document.location.href= dir +'/add_schedule.html?date='+ clicked_date;
+        
+}
