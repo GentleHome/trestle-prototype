@@ -5,35 +5,35 @@ if (!isset($_GET['course_id'])) {
     echo "No course ID!";
     exit;
 }
-$course_id = $_GET['course_id'];
 
-$google_announcements = get_google_announcements($course_id);
-$canvas_announcements = get_canvas_announcements($course_id);
+if (!isset($_GET['source'])) {
+    echo "No source!";
+    exit;
+}
+
+$course_id = $_GET['course_id'];
+$source = $_GET['source'];
 
 $announcements = [];
 
-foreach ($google_announcements as $google_announcement) {
+if ($source === SOURCE_GOOGLE_CLASSROOM) {
 
-    $announcement["source"]     = "CANVAS";
-    $announcement["id"]         = $google_announcement["id"];
-    $announcement["title"]      = null;
-    $announcement["message"]    = $google_announcement["text"];
-    $announcement["link"]       = $google_announcement["alternateLink"];
-    $announcement["datePosted"] = $google_announcement["creationTime"];
+    $google_announcements = get_google_announcements($course_id);
+    foreach ($google_announcements as $google_announcement) {
 
-    array_push($announcements, $announcement);
-}
+        $announcement = parse_announcement($google_announcement, SOURCE_GOOGLE_CLASSROOM);
+        array_push($announcements, $announcement);
+    }
 
-foreach ($canvas_announcements as $canvas_announcement) {
+} else if ($source === SOURCE_CANVAS) {
 
-    $announcement["source"]     = "CANVAS";
-    $announcement["id"]         = $canvas_announcement->id;
-    $announcement["title"]      = $canvas_announcement->title;
-    $announcement["message"]    = $canvas_announcement->message;
-    $announcement["link"]       = $canvas_announcement->html_url;
-    $announcement["datePosted"] = $canvas_announcement->posted_at;
+    $canvas_announcements = get_canvas_announcements($course_id);
+    foreach ($canvas_announcements as $canvas_announcement) {
 
-    array_push($announcements, $announcement);
+        $announcement = parse_announcement($canvas_announcement, SOURCE_CANVAS);
+        array_push($announcements, $announcement);
+    }
+
 }
 
 echo json_encode($announcements);

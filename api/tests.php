@@ -11,28 +11,30 @@
 
     <!-- Get Courses -->
     <button id="get-courses-button">Get Courses</button> = <textarea id="get-courses-response" disabled placeholder="Response"></textarea></br></br>
-
+    </br></br>
+    
     <!-- Get Course -->
     <input type="text" id="get-course-id" placeholder="Course ID">
-    <select id="get-course-option">
-        <option selected>Canvas</option>
-        <option>Google Classroom</option>
+    <select id="get-source-option">
+        <option selected value="CANVAS">Canvas</option>
+        <option value="GCLASS">Google Classroom</option>
+    </select></br></br>
+
+    <button id="get-course-button">Get Course</button> = <textarea id="get-course-response" disabled placeholder="Response"></textarea></br></br>
+
+    <!-- Get Courseworks -->
+    <button id="get-courseworks-button">Get Courseworks</button> = <textarea id="get-courseworks-response" disabled placeholder="Response"></textarea></br></br>
+
+    <!-- Get Coursework -->
+    <select id="get-type-option">
+        <option selected value="ASSIGNMENT">Assignment</option>
+        <option value="COURSEWORK">Coursework</option>
+        <option value="QUIZ">Quiz</option>
     </select>
-    <button id="get-course-button">Get Courses</button> = <textarea id="get-course-response" disabled placeholder="Response"></textarea></br></br>
+    <input type="text" id="get-coursework-id" placeholder="Coursework ID">
+    <button id="get-coursework-button">Get Coursework</button> = <textarea id="get-coursework-response" disabled placeholder="Response"></textarea></br></br>
 
-    <!-- Get Assignments -->
-    <button id="get-assignments-button">Get Assignments</button> = <textarea id="get-assignments-response" disabled placeholder="Response"></textarea></br></br>
-
-    <!-- Get Assignment -->
-    <input type="text" id="get-assignment-id" placeholder="Assignment ID">
-    <button id="get-assignment-button">Get Assignment</button> = <textarea id="get-assignment-response" disabled placeholder="Response"></textarea></br></br>
-
-    <!-- Get Quizzes -->
-    <button id="get-quizzes-button">Get Quizzes</button> = <textarea id="get-quizzes-response" disabled placeholder="Response"></textarea></br></br>
-
-    <!-- Get Quiz -->
-    <input type="text" id="get-quiz-id" placeholder="Quiz ID">
-    <button id="get-quiz-button">Get Quiz</button> = <textarea id="get-quiz-response" disabled placeholder="Response"></textarea></br></br>
+    <button id="get-announcements-button">Get Announcements</button> = <textarea id="get-announcements-response" disabled placeholder="Response"></textarea></br></br>
 
 </body>
 
