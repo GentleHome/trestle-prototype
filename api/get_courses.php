@@ -47,8 +47,7 @@ function get_canvas_courses()
 
     if (!isset($_GET['canvas_token'])) {
 
-        echo "Canvas token not set!";
-        exit;
+        return null;
         
     } else {
 

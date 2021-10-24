@@ -11,15 +11,16 @@
 
     <!-- Get Courses -->
     <button id="get-courses-button">Get Courses</button> = <textarea id="get-courses-response" disabled placeholder="Response"></textarea></br></br>
-
+    </br></br>
+    
     <!-- Get Course -->
     <input type="text" id="get-course-id" placeholder="Course ID">
     <select id="get-source-option">
         <option selected value="CANVAS">Canvas</option>
         <option value="GCLASS">Google Classroom</option>
-    </select>
+    </select></br></br>
 
-    <button id="get-course-button">Get Courses</button> = <textarea id="get-course-response" disabled placeholder="Response"></textarea></br></br>
+    <button id="get-course-button">Get Course</button> = <textarea id="get-course-response" disabled placeholder="Response"></textarea></br></br>
 
     <!-- Get Courseworks -->
     <button id="get-courseworks-button">Get Courseworks</button> = <textarea id="get-courseworks-response" disabled placeholder="Response"></textarea></br></br>
