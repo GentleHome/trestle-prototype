@@ -352,7 +352,19 @@ async function renderBoxes_week(weeks_to_render) {
     index = 0;
     while(index != current_size){
         if(current[index] == date.getDate() && manipulate.month == date.getMonth() && manipulate.year == date.getFullYear()){
-            html += '<span class="long_box current_day" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'">'+ current[index] +'</span>';
+            html += '<span class="long_box current_day" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'">'+ 
+            current[index];
+            
+            collection.forEach(data=>{
+                if(data.dueDate.day==current[index] && 
+                    data.dueDate.year == manipulate.year &&
+                    data.dueDate.month == manipulate.month+1){
+                    html+= '<span class="dot"></span>'
+                }
+            });
+
+            html+='</span>';
+        
         }else{
             html += '<span class="long_box" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'">'+
             current[index];
