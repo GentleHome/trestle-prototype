@@ -1,6 +1,3 @@
 .prettierrc
-index.html
-jsconfig.json
-task.html
 /vendor
 client_secret.json
