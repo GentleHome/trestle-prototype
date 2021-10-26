@@ -7,109 +7,32 @@
         <title>Document</title>
     </head>
     <body>
-        <p id="date"></p>
-        <form action="" method="post" name="schedule">
-            Title: <input type="text" name="title" /> <br />
-            Description: <br /><textarea
-                name="description"
-                cols="30"
-                rows="10"
-            ></textarea>
-            <br />
-            Start: <input type="date" name="start_date" />
-            <input type="time" name="start_time" /> <br />
-            End: <input type="date" name="end_date" />
-            <input type="time" name="end_time" /> <br />
-            <button type="button" id="submit_btn">submit</button>
-        </form>
+        <div class="row">
+            <div id='close_modal'>&#10006;</div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <p><strong>Tasks</strong></p>
+                <task_preview></task_preview>                
+            </div>
 
-        <task_preview> </task_preview>
-
-        <script>
-            let currentURL = window.location.href;
-            let url = new URL(currentURL);
-            let clicked_date = url.searchParams.get("date");
-            let mydate = new Date(clicked_date);
-            document.querySelector('#date').innerHTML = clicked_date;
-            document.querySelector("form[name='schedule'] input[name='start_date']").value = formatDate(clicked_date);
-            document.querySelector("form[name='schedule'] input[name='end_date']").min = formatDate(clicked_date);
-            https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
-            function formatDate(date) {
-                var d = new Date(date),
-                month = '' + (d.getMonth() + 1),
-                day = '' + d.getDate(),
-                year = d.getFullYear();
-
-                if (month.length < 2)
-                    month = '0' + month;
-                if (day.length < 2)
-                    day = '0' + day;
-
-                return [year, month, day].join('-');
-            }
-            const xhttp = new XMLHttpRequest
-            let myform = document.querySelector("form[name='schedule']");
-            let submit_btn = document.querySelector("#submit_btn");
-            submit_btn.addEventListener('mouseup', ()=>{
-                let formdata = new FormData(myform);
-                formdata.append('date', clicked_date);
-
-                fetch('add_schedule.php', {
-                    method: 'POST',
-                    body: formdata, })
-                .then( res => res.text())
-                .then(data => console.log(data));
-
-            });
-
-            var collection = [];
-            async function getDummyData(){
-                return (await fetch('dummy_source.php')).json();
-            }
-
-            async function putData(){
-                collection = await getDummyData();
-                let html = '';
-                collection.forEach(element => {
-                    let dueDate = element.dueDate;
-                    let dueTime = element.dueTime;
-                    https://stackoverflow.com/questions/6525538/convert-utc-date-time-to-local-date-time
-                    var date = new Date(dueDate.month.toString() + '/' + dueDate.day.toString() + '/' + dueDate.year.toString() + ' ' +
-                        (dueTime.hours == null ? '00' : dueTime.hours.toString()) + ':' +
-                        (dueTime.minutes == null ? '00' : dueTime.minutes.toString()) + ' UTC');
-
-                    let hours = date.getHours() == '0' ? '00' : date.getHours();
-                    let minutes = date.getMinutes() == '0' ? '00' : date.getMinutes();
-
-                    if(dueDate.day == mydate.getDate() &&
-                        dueDate.month == mydate.getMonth()+1 &&
-                        dueDate.year == mydate.getFullYear()){
-                            html += '<b>' + element.courseName + '</b><br>';
-                            html += element.title + '| Due date: ' +
-                            dueDate.month + '/' +
-                            dueDate.day + '/' +
-                            dueDate.year +' | Due time: '+
-                                timeConvert(hours + ':' + minutes) + '<br>' +
-                            'Description: ' + element.description + '<br>' +
-                            'Link: ' + '<a href=' + element.alternateLink + '>course work link</a>' +
-                            '<br><br>'
-                        }
-                    });
-                document.querySelector('task_preview').innerHTML = html;
-            }
-            putData();
-            // https://stackoverflow.com/questions/13898423/javascript-convert-24-hour-time-of-day-string-to-12-hour-time-with-am-pm-and-no
-            function timeConvert (time) {
-                // Check correct time format and split into components
-                time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-  
-                if (time.length > 1) { // If time format correct
-                time = time.slice (1);  // Remove full string match value
-                time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
-                time[0] = +time[0] % 12 || 12; // Adjust hours
-                }
-                return time.join (''); // return adjusted time or original string
-            }
-        </script>
+            <div class="column">
+                <p id="clicked_date"></p>
+                <form action="" method="post" name="schedule">
+                    Title: <input type="text" name="title" /> <br />
+                    Description: <br /><textarea
+                        name="description"
+                        cols="30"
+                        rows="10"
+                    ></textarea>
+                    <br />
+                    Start: <input type="date" name="start_date" />
+                    <input type="time" name="start_time" /> <br />
+                    End: <input type="date" name="end_date" />
+                    <input type="time" name="end_time" /> <br />
+                    <button type="button" id="submit_btn">submit</button>
+                </form>
+            </div>
+        </div>
     </body>
 </html>

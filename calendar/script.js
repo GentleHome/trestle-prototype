@@ -1,8 +1,5 @@
+// data variables
 var collection = [];
-async function getDummyData(){
-    return (await fetch('dummy_source.php')).json();
-}
-
 
 // year, month, week
 const date = new Date();
@@ -31,7 +28,7 @@ let manipulate = {
 
 // initial load out
 view_state_holder = choose_view.value;
-today_manipulator();
+renderer(view_state_holder);
 
 // event listeners
 choose_view.addEventListener("change", go_choose_view);
@@ -46,7 +43,10 @@ function go_choose_view() {
     renderer(view_state_holder);
 }
 // controllers
-function renderer(options) {
+async function renderer(options) {
+    
+    collection = await getDummyData();
+
     if(the_date.innerHTML){
         selected_date = new Date(the_date.innerHTML);
         manipulate.year = selected_date.getFullYear();
@@ -54,6 +54,7 @@ function renderer(options) {
         manipulate.date = selected_date.getDate();
         manipulate.weekNumber = getWeekNumber(selected_date.getFullYear(), selected_date.getMonth(), selected_date.getDate())
     }
+
     switch (options) {
         case "0":
             renderBoxes_year(box_range[options], 
@@ -271,14 +272,15 @@ function renderBoxes_month(range, month, year) {
     let prevmonth = daysInMonth(month - 1, year);
     let excess_fromPrev = prevmonth - startofmonth;
     let startofnextmonth = 0;
-
+    // rendering sunday to saturday
     for (let index = 0; index < day.length; index++) {
         html += '<span class="box-day">' + day[index] + "</span>";
     }
     html += "<br>";
-
+    // rendering dates with range of 42 boxes
     for (let index = 0; index < range; index++) {
         br += 1;
+        // rendering the dates from prev month if theres any
         while (excess_fromPrev != prevmonth) {
             excess_fromPrev += 1;
             html += '<span class="box3">' + excess_fromPrev + "</span>";
@@ -289,11 +291,23 @@ function renderBoxes_month(range, month, year) {
             index++;
             br += 1;
         }
-
+        // rendering the dates of the current month
         while (daycounter != endofmonth) {
             daycounter += 1;
+            // checks if this is the current date and marks it light green
             if (daycounter == date.getDate() && year == date.getFullYear() && month == date.getMonth()) {
-                html += '<span class="box current_day">' + daycounter + "</span>";
+                html += '<span class="box current_day" data-day="'+daycounter+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'" data-view="week">' + 
+                daycounter;
+
+                collection.forEach(data=>{
+                    if(data.dueDate.day==daycounter && 
+                        data.dueDate.year == manipulate.year &&
+                        data.dueDate.month == manipulate.month+1){
+                        html+= '<span class="dot"></span>'
+                    }
+                });
+
+                html+= "</span>";
                 if (br == 7) {
                     html += "<br>";
                     br = 0;
@@ -303,7 +317,18 @@ function renderBoxes_month(range, month, year) {
                 br += 1;
                 
             }
-            html += '<span class="box">' + daycounter + "</span>";
+            html += '<span class="box" data-day="'+daycounter+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'" data-view="week">' + 
+            daycounter;
+
+            collection.forEach(data=>{
+                if(data.dueDate.day==daycounter && 
+                    data.dueDate.year == manipulate.year &&
+                    data.dueDate.month == manipulate.month+1){
+                    html+= '<span class="dot"></span>'
+                }
+            });
+
+            html+="</span>";
             if (br == 7) {
                 html += "<br>";
                 br = 0;
@@ -311,7 +336,7 @@ function renderBoxes_month(range, month, year) {
             index++;
             br += 1;
         }
-
+        // if theres excess fields for the dates of next month it will be rendered
         startofnextmonth += 1;
         html += '<span class="box3">' + startofnextmonth + "</span>";
         if (br == 7) {
@@ -320,11 +345,10 @@ function renderBoxes_month(range, month, year) {
         }
     }
     document.querySelector(".container").innerHTML = html;
+    week();
 }
 
-async function renderBoxes_week(weeks_to_render) {
-    collection = await getDummyData();
-
+function renderBoxes_week(weeks_to_render) {
     let mydate = new Date(manipulate.year, manipulate.month);
     let month_name = mydate.toLocaleString("default", { month: "long" });
     date_indication.innerHTML = month_name + "-" + manipulate.year;
@@ -352,7 +376,7 @@ async function renderBoxes_week(weeks_to_render) {
     index = 0;
     while(index != current_size){
         if(current[index] == date.getDate() && manipulate.month == date.getMonth() && manipulate.year == date.getFullYear()){
-            html += '<span class="long_box current_day" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'">'+ 
+            html += '<span class="long_box current_day" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'" data-view="week">'+ 
             current[index];
             
             collection.forEach(data=>{
@@ -366,7 +390,7 @@ async function renderBoxes_week(weeks_to_render) {
             html+='</span>';
         
         }else{
-            html += '<span class="long_box" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'">'+
+            html += '<span class="long_box" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'" data-view="week">'+
             current[index];
 
             collection.forEach(data=>{
@@ -398,4 +422,3 @@ async function renderBoxes_week(weeks_to_render) {
     document.querySelector(".container").innerHTML = html;
     week();
 }
-

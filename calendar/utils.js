@@ -216,22 +216,127 @@ function setActive(){
     document.querySelector('#date').innerHTML = mydate;
 }
 
+async function getDummyData(){
+    return (await fetch('dummy_source.php')).json();
+}
+
 function week(){
     let week_box = document.querySelectorAll('.long_box');
-    // let month_box = document.querySelectorAll('.box');
+    let month_box = document.querySelectorAll('.box');
     week_box.forEach(box=>{
         box.addEventListener('mouseup', addShedule_view);
     });
 
-    // month_box.forEach(box=>{
-    //     box.addEventListener('mouseup', addShedule_view);
-    // });
+    month_box.forEach(box=>{
+        box.addEventListener('mouseup', addShedule_view);
+    });
 }
 
-function addShedule_view(){
-    let current_dir = window.location.pathname;
-    let dir = current_dir.substring(0, current_dir.lastIndexOf('/'))
+async function addShedule_view(){
+    let modal = document.querySelector('.add_sched_modal');
+    let modal_content = document.querySelector('.modal_content');
+    
+    modal.style.display = 'block';
+    
+    let html = await fetchHTMLFiles('add_schedule.html');
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(html, 'text/html');
+    
+    modal_content.innerHTML = doc.querySelector('body').innerHTML;
+
+    let close_modal = document.querySelector('#close_modal');
+    close_modal.addEventListener('mouseup', ()=>{
+    modal.style.display = 'none';
+    });
+
     let clicked_date = this.getAttribute('data-month') + '-' + this.getAttribute('data-day') + '-' + this.getAttribute('data-year'); 
-    document.location.href= dir +'/add_schedule.html?date='+ clicked_date;
-        
+    let mydate = new Date(clicked_date);
+
+    document.querySelector('task_preview').innerHTML = await putData(mydate);
+    
+    document.querySelector("#clicked_date").innerHTML = clicked_date;
+    document.querySelector("form[name='schedule'] input[name='start_date']").value = formatDate(clicked_date);
+    document.querySelector("form[name='schedule'] input[name='end_date']").min = formatDate(clicked_date);
+
+    let myform = document.querySelector("form[name='schedule']");
+    let submit_btn = document.querySelector("#submit_btn");
+    submit_btn.addEventListener("mouseup", async () => {
+    
+    let formdata = new FormData(myform);
+    formdata.append("date", clicked_date);
+    
+    let post_response = await fetchPOSTData('add_schedule.php', formdata);
+    console.log(post_response);
+    });
+}
+
+async function fetchHTMLFiles(src){
+    let res = await fetch(src);
+    let data = await res.text();
+    return data;
+}
+
+async function fetchPOSTData(src, formData){
+    let res = await fetch(src, {method: "post", body:formData})
+    let data = await res.text();
+    return data;
+}
+
+async function putData(mydate) {
+    var collection = await getDummyData();
+    let html = "";
+    collection.forEach((element) => {
+        let dueDate = element.dueDate;
+        let dueTime = element.dueTime;
+        // https:stackoverflow.com/questions/6525538/convert-utc-date-time-to-local-date-time
+        var date = new Date(dueDate.month.toString() + "/" + dueDate.day.toString() + "/" + dueDate.year.toString() + " " + 
+            (dueTime.hours == null ? "00" : dueTime.hours.toString()) + ":" +
+            (dueTime.minutes == null ? "00" : dueTime.minutes.toString()) + " UTC" );
+
+        let hours = date.getHours() == "0" ? "00" : date.getHours();
+        let minutes = date.getMinutes() == "0" ? "00" : date.getMinutes();
+
+        if (dueDate.day == mydate.getDate() && dueDate.month == mydate.getMonth() + 1 && dueDate.year == mydate.getFullYear()) {
+            html += "<b>" + element.courseName + "</b><br>";
+            html += element.title + "| Due date: " + dueDate.month + "/" + dueDate.day + "/" + dueDate.year +
+                " | Due time: " + timeConvert(hours + ":" + minutes) +
+                "<br>" +
+                "Description: " +element.description +
+                "<br>" +
+                "Link: " + "<a href=" + element.alternateLink + ">course work link</a>" +
+                "<br><br>";
+        }
+    });
+    return html;
+}
+
+// https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
+function formatDate(date) {
+    var d = new Date(date),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+}
+
+// https://stackoverflow.com/questions/13898423/javascript-convert-24-hour-time-of-day-string-to-12-hour-time-with-am-pm-and-no
+function timeConvert(time) {
+    // Check correct time format and split into components
+    time = time
+        .toString()
+        .match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [
+        time,
+    ];
+
+    if (time.length > 1) {
+        // If time format correct
+        time = time.slice(1); // Remove full string match value
+        time[5] = +time[0] < 12 ? "AM" : "PM"; // Set AM/PM
+        time[0] = +time[0] % 12 || 12; // Adjust hours
+    }
+    return time.join(""); // return adjusted time or original string
 }
