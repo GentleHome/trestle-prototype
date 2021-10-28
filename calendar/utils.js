@@ -1,3 +1,5 @@
+var clicked_date;
+var mydate;
 // date proccessing
 function daysInMonth(month, year) {
     return new Date(year, month + 1, 0).getDate();
@@ -38,7 +40,7 @@ function getWeekNumber(year, month, date){
     }
 }
 
-// the ugly but stable code lmao
+// the ugly but stable code lmao 
 function getWeeksToRender(){
     let weekNumber_before = manipulate.weekNumber - 1;
     let month_before = manipulate.month-1;
@@ -215,12 +217,12 @@ function setActive(){
     let mydate = new Date(year, month, day);
     document.querySelector('#date').innerHTML = mydate;
 }
-
+// fetch for getting dummy data
 async function getDummyData(){
-    return (await fetch('dummy_source.php')).json();
+    return (await fetch('process/dummy_source.php')).json();
 }
-
-function week(){
+// clicking a date in month and week view triggers the modal that allows you to add schedule
+function trigger_modal(){
     let week_box = document.querySelectorAll('.long_box');
     let month_box = document.querySelectorAll('.box');
     week_box.forEach(box=>{
@@ -238,39 +240,45 @@ async function addShedule_view(){
     
     modal.style.display = 'block';
     
-    let html = await fetchHTMLFiles('add_schedule.html');
+    let html = await fetchGETData('add_schedule.html');
     let parser = new DOMParser();
     let doc = parser.parseFromString(html, 'text/html');
     
     modal_content.innerHTML = doc.querySelector('body').innerHTML;
-
+ 
     let close_modal = document.querySelector('#close_modal');
     close_modal.addEventListener('mouseup', ()=>{
     modal.style.display = 'none';
     });
 
-    let clicked_date = this.getAttribute('data-month') + '-' + this.getAttribute('data-day') + '-' + this.getAttribute('data-year'); 
-    let mydate = new Date(clicked_date);
-
-    document.querySelector('task_preview').innerHTML = await putData(mydate);
+    clicked_date = this.getAttribute('data-month') + '-' + this.getAttribute('data-day') + '-' + this.getAttribute('data-year'); 
+    mydate = new Date(clicked_date);
+    // fetching data from dummy_source and putting it on html
+    arrangeData(mydate);
     
     document.querySelector("#clicked_date").innerHTML = clicked_date;
-    document.querySelector("form[name='schedule'] input[name='start_date']").value = formatDate(clicked_date);
-    document.querySelector("form[name='schedule'] input[name='end_date']").min = formatDate(clicked_date);
+    let start_date = document.querySelector("form[name='schedule'] input[name='start_date']");
+    let end_date = document.querySelector("form[name='schedule'] input[name='end_date']");
 
+    start_date.value = formatDate(clicked_date);
+    end_date.min = start_date.value;
+
+    start_date.addEventListener('change', ()=>{
+        end_date.min = start_date.value;
+    });
+    
     let myform = document.querySelector("form[name='schedule']");
     let submit_btn = document.querySelector("#submit_btn");
-    submit_btn.addEventListener("mouseup", async () => {
-    
     let formdata = new FormData(myform);
     formdata.append("date", clicked_date);
-    
-    let post_response = await fetchPOSTData('add_schedule.php', formdata);
-    console.log(post_response);
+
+    submit_btn.addEventListener("mouseup", async () => {
+    let post_response = await fetchPOSTData('process/add_schedule.php', formdata);
+        console.log(post_response);
     });
 }
 
-async function fetchHTMLFiles(src){
+async function fetchGETData(src){
     let res = await fetch(src);
     let data = await res.text();
     return data;
@@ -281,14 +289,13 @@ async function fetchPOSTData(src, formData){
     let data = await res.text();
     return data;
 }
-
-async function putData(mydate) {
-    var collection = await getDummyData();
+// This is where the tasks came from
+async function arrangeData(mydate) {
     let html = "";
     collection.forEach((element) => {
         let dueDate = element.dueDate;
         let dueTime = element.dueTime;
-        // https:stackoverflow.com/questions/6525538/convert-utc-date-time-to-local-date-time
+        // https://stackoverflow.com/questions/6525538/convert-utc-date-time-to-local-date-time
         var date = new Date(dueDate.month.toString() + "/" + dueDate.day.toString() + "/" + dueDate.year.toString() + " " + 
             (dueTime.hours == null ? "00" : dueTime.hours.toString()) + ":" +
             (dueTime.minutes == null ? "00" : dueTime.minutes.toString()) + " UTC" );
@@ -306,8 +313,58 @@ async function putData(mydate) {
                 "Link: " + "<a href=" + element.alternateLink + ">course work link</a>" +
                 "<br><br>";
         }
+        html += 'note: only show EDIT and DELETE on custom tasks <br> <button class="edit_task">edit</button>';
+        html += '<button class="delete_task">delete</button> <br><br>';
     });
-    return html;
+    document.querySelector('task_preview').innerHTML = html;
+    edit_delete();
+}
+
+async function edit_schedule(){
+    document.querySelector('task_preview').innerHTML = await fetchGETData('edit_schedule.html');
+    document.querySelector("form[name='edit_schedule'] input[name='edit_start_date']").value = formatDate(clicked_date);
+    document.querySelector("form[name='edit_schedule'] input[name='edit_end_date']").min = formatDate(clicked_date);
+
+    let edit_start_date = document.querySelector("form[name='edit_schedule'] input[name='edit_start_date']");
+    let edit_end_date = document.querySelector("form[name='edit_schedule'] input[name='edit_end_date']");
+
+    edit_start_date.value = formatDate(clicked_date);
+    edit_end_date.min = edit_start_date.value;
+
+    edit_start_date.addEventListener('change', ()=>{
+        edit_end_date.min = edit_start_date.value;
+    });
+
+    let myform = document.querySelector("form[name='edit_schedule']");
+    let edit_submit_btn = document.querySelector("#edit_submit_btn");
+    let cancel_edit = document.querySelector('#cancel_edit');
+    let formdata = new FormData(myform);
+    formdata.append("date", clicked_date);
+
+    edit_submit_btn.addEventListener("mouseup", async () => {
+    let post_response = await fetchPOSTData('process/edit_schedule.php', formdata)
+        console.log(post_response);
+        arrangeData(mydate);
+    });
+
+    cancel_edit.addEventListener("mouseup", () =>{
+        arrangeData(mydate);
+    });
+}
+
+function edit_delete(){
+    let edit_task = document.querySelectorAll('.edit_task');
+    let delete_task = document.querySelectorAll('.delete_task');
+
+    edit_task.forEach(btn =>{
+        btn.addEventListener('mouseup', edit_schedule);
+    });
+
+    delete_task.forEach(btn =>{
+        btn.addEventListener('mouseup', async ()=>{
+            console.log(await fetchGETData('process/delete_schedule.php'));
+        });
+    });
 }
 
 // https://stackoverflow.com/questions/23593052/format-javascript-date-as-yyyy-mm-dd
