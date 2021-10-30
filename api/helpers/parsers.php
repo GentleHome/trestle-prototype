@@ -72,13 +72,14 @@ function parse_coursework($object, $source, $type)
     return $coursework;
 }
 
-function parse_announcement($object, $source){
+function parse_announcement($object, $source, $course_id){
     $announcement = [];
 
     if ($source === SOURCE_GOOGLE_CLASSROOM) {
 
         $announcement["source"]     = SOURCE_GOOGLE_CLASSROOM;
         $announcement["id"]         = $object["id"];
+        $announcement["courseId"]   = $course_id;
         $announcement["title"]      = null;
         $announcement["message"]    = $object["text"];
         $announcement["link"]       = $object["alternateLink"];
@@ -88,6 +89,7 @@ function parse_announcement($object, $source){
 
         $announcement["source"]     = SOURCE_CANVAS;
         $announcement["id"]         = $object->id;
+        $announcement["courseId"]   = $course_id;
         $announcement["title"]      = $object->title;
         $announcement["message"]    = $object->message;
         $announcement["link"]       = $object->html_url;
