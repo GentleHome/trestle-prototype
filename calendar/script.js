@@ -345,7 +345,7 @@ function renderBoxes_month(range, month, year) {
         }
     }
     document.querySelector(".container").innerHTML = html;
-    week();
+    trigger_modal();
 }
 
 function renderBoxes_week(weeks_to_render) {
@@ -420,5 +420,5 @@ function renderBoxes_week(weeks_to_render) {
         }
     }
     document.querySelector(".container").innerHTML = html;
-    week();
+    trigger_modal();
 }

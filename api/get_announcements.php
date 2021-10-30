@@ -21,7 +21,7 @@ if ($source === SOURCE_GOOGLE_CLASSROOM) {
     $google_announcements = get_google_announcements($course_id);
     foreach ($google_announcements as $google_announcement) {
 
-        $announcement = parse_announcement($google_announcement, SOURCE_GOOGLE_CLASSROOM);
+        $announcement = parse_announcement($google_announcement, SOURCE_GOOGLE_CLASSROOM, $course_id);
         array_push($announcements, $announcement);
     }
 
@@ -30,7 +30,7 @@ if ($source === SOURCE_GOOGLE_CLASSROOM) {
     $canvas_announcements = get_canvas_announcements($course_id);
     foreach ($canvas_announcements as $canvas_announcement) {
 
-        $announcement = parse_announcement($canvas_announcement, SOURCE_CANVAS);
+        $announcement = parse_announcement($canvas_announcement, SOURCE_CANVAS, $course_id);
         array_push($announcements, $announcement);
     }
 

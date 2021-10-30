@@ -13,23 +13,19 @@
         <div class="row">
             <div class="column">
                 <p><strong>Tasks</strong></p>
-                <task_preview></task_preview>                
+                <task_preview></task_preview>            
             </div>
 
             <div class="column">
                 <p id="clicked_date"></p>
                 <form action="" method="post" name="schedule">
-                    Title: <input type="text" name="title" /> <br />
-                    Description: <br /><textarea
-                        name="description"
-                        cols="30"
-                        rows="10"
-                    ></textarea>
+                    Title: <input type="text" name="title" /> <br>
+                    Description: <br /><textarea name="description" cols="30" rows="5"></textarea>
                     <br />
                     Start: <input type="date" name="start_date" />
                     <input type="time" name="start_time" /> <br />
                     End: <input type="date" name="end_date" />
-                    <input type="time" name="end_time" /> <br />
+                    <input type="time" name="end_time"/> <br />
                     <button type="button" id="submit_btn">submit</button>
                 </form>
             </div>
