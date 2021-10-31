@@ -19,7 +19,8 @@
 
     </br>
     </br>
-    <textarea id="get-data-response" disabled placeholder="Response" cols="30" rows="10"></textarea>
+
+    <div id="get-data-response"></div>
 </body>
 
 </html>

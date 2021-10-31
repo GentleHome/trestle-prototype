@@ -44,10 +44,10 @@ function go_choose_view() {
 }
 // controllers
 async function renderer(options) {
-    
+
     collection = await getDummyData();
 
-    if(the_date.innerHTML){
+    if (the_date.innerHTML) {
         selected_date = new Date(the_date.innerHTML);
         manipulate.year = selected_date.getFullYear();
         manipulate.month = selected_date.getMonth();
@@ -57,7 +57,7 @@ async function renderer(options) {
 
     switch (options) {
         case "0":
-            renderBoxes_year(box_range[options], 
+            renderBoxes_year(box_range[options],
                 manipulate.year);
             break;
 
@@ -148,7 +148,7 @@ function today_manipulator() {
     manipulate.date = date.getDate();
     manipulate.weekNumber = getWeekNumber(date.getFullYear(), date.getMonth(), date.getDate());
 
-    the_date.innerHTML='';
+    the_date.innerHTML = '';
     switch (view_state_holder) {
         case "0":
             manipulate.year = date.getFullYear();
@@ -183,71 +183,65 @@ function renderBoxes_year(range, year) {
         br += 1;
         let mydate = new Date(year, month);
         let month_name = mydate.toLocaleString("default", { month: "long" });
-		let daycounter = 0;
-		let startofmonth = getDayStartOfMonth(month, year);
-		let endofmonth = daysInMonth(month, year);
-		let prevmonth = daysInMonth(month - 1, year);
-		let excess_fromPrev = prevmonth - startofmonth;
-		let startofnextmonth = 0
+        let daycounter = 0;
+        let startofmonth = getDayStartOfMonth(month, year);
+        let endofmonth = daysInMonth(month, year);
+        let prevmonth = daysInMonth(month - 1, year);
+        let excess_fromPrev = prevmonth - startofmonth;
+        let startofnextmonth = 0
 
         html += '<span class="box-4">' +
-            	'<span class="month_name">' + month_name + '</span>';
+            '<span class="month_name">' + month_name + '</span>';
 
-		for (let index = 0; index < day.length; index++) {
-			html += '<span class="small_box-no-outline">' + small_day[index] + "</span>";
-		}
-		
-		html += '<div>';
-		
+        for (let index = 0; index < day.length; index++) {
+            html += '<span class="small_box-no-outline">' + small_day[index] + "</span>";
+        }
+
+        html += '<div>';
+
         for (let index = 0; index < box_range[1]; index++) {
             br2 += 1;
 
-			while (excess_fromPrev != prevmonth) {
-				excess_fromPrev += 1;
-				html += '<span class="small_box-3">' + excess_fromPrev + "</span>";
-				if (br == 7) {
-					html += "<br>";
-					br2 = 0;
-				}
-				index++;
-				br2 += 1;
-			}
+            while (excess_fromPrev != prevmonth) {
+                excess_fromPrev += 1;
+                html += '<span class="small_box-3">' + excess_fromPrev + "</span>";
+                if (br == 7) {
+                    html += "<br>";
+                    br2 = 0;
+                }
+                index++;
+                br2 += 1;
+            }
 
-			while (daycounter != endofmonth) {
-				daycounter += 1;
-				if (daycounter == date.getDate() && year == date.getFullYear() && month == date.getMonth()) {
-					html += '<span class="small_box-2" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
+            while (daycounter != endofmonth) {
+                daycounter += 1;
+                if (daycounter == date.getDate() && year == date.getFullYear() && month == date.getMonth()) {
+                    html += '<span class="small_box-2" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
                         daycounter + "</span>";
-                    if (br2 == 7) {
-                        html += "<br>";
-                        br2 = 0;
-                    }
-					daycounter += 1;
-					index++;
-					br2 += 1;
-				}
-                if(the_date.innerHTML!= '' && daycounter == selected_date.getDate() && year == selected_date.getFullYear() && month == selected_date.getMonth()){
-                    html += '<span class="small_box active" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
+                } else {
+                    html += '<span class="small_box" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
                         daycounter + "</span>";
-                }else{
-                    html += '<span class="small_box" data-day="'+daycounter+'" data-month="'+month+'" data-year="'+year+'">' +
-                    daycounter + "</span>";
                 }
 
-				if (br2 == 7) {
-					html += "<br>";
-					br2 = 0;
-				}
-				index++;
-				br2 += 1;
-			}
+                if (the_date.innerHTML != '' && daycounter == selected_date.getDate() && year == selected_date.getFullYear() && month == selected_date.getMonth()) {
+                    html += '<span class="small_box active" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
+                        daycounter + "</span>";
+                }
 
-			startofnextmonth += 1;
-        	html += '<span class="small_box-3">' + startofnextmonth + "</span>";
-        	if (br2 == 7) {
-            	html += "<br>";
-            	br2 = 0;
-        	}
+                if (br2 == 7) {
+                    html += "<br>";
+                    br2 = 0;
+                }
+                index++;
+                br2 += 1;
+            }
+
+            startofnextmonth += 1;
+            html += '<span class="small_box-3">' + startofnextmonth + "</span>";
+            if (br2 == 7) {
+                html += "<br>";
+                br2 = 0;
+            }
         }
 
         html += "</div></span>";
@@ -296,39 +290,31 @@ function renderBoxes_month(range, month, year) {
             daycounter += 1;
             // checks if this is the current date and marks it light green
             if (daycounter == date.getDate() && year == date.getFullYear() && month == date.getMonth()) {
-                html += '<span class="box current_day" data-day="'+daycounter+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'" data-view="week">' + 
-                daycounter;
+                html += '<span class="box current_day" data-day="' + daycounter + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
+                    daycounter;
 
-                collection.forEach(data=>{
-                    if(data.dueDate.day==daycounter && 
+                collection.forEach(data => {
+                    if (data.dueDate.day == daycounter &&
                         data.dueDate.year == manipulate.year &&
-                        data.dueDate.month == manipulate.month+1){
-                        html+= '<span class="dot"></span>'
+                        data.dueDate.month == manipulate.month + 1) {
+                        html += '<span class="dot"></span>'
                     }
                 });
+            } else {
+                html += '<span class="box" data-day="' + daycounter + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
+                    daycounter;
 
-                html+= "</span>";
-                if (br == 7) {
-                    html += "<br>";
-                    br = 0;
-                }
-                daycounter += 1;
-                index++;
-                br += 1;
-                
+                collection.forEach(data => {
+                    if (data.dueDate.day == daycounter &&
+                        data.dueDate.year == manipulate.year &&
+                        data.dueDate.month == manipulate.month + 1) {
+                        html += '<span class="dot"></span>'
+                    }
+                });
             }
-            html += '<span class="box" data-day="'+daycounter+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'" data-view="week">' + 
-            daycounter;
 
-            collection.forEach(data=>{
-                if(data.dueDate.day==daycounter && 
-                    data.dueDate.year == manipulate.year &&
-                    data.dueDate.month == manipulate.month+1){
-                    html+= '<span class="dot"></span>'
-                }
-            });
 
-            html+="</span>";
+            html += "</span>";
             if (br == 7) {
                 html += "<br>";
                 br = 0;
@@ -361,60 +347,60 @@ function renderBoxes_week(weeks_to_render) {
     let after_size = after.length;
     let index = 0;
 
-    for (let index = 0; index < day.length; index++) { 
+    for (let index = 0; index < day.length; index++) {
         html += '<span class="long_box-day">' + small_day[index] + "</span>";
     }
     html += '<br>';
-    if(current.length < 7){
-        if(current[0] == 1){
-            while(index != before_size){
-                html += '<span class="long_box-3">'+ before[index] +'</span>';
+    if (current.length < 7) {
+        if (current[0] == 1) {
+            while (index != before_size) {
+                html += '<span class="long_box-3">' + before[index] + '</span>';
                 index++;
             }
         }
     }
     index = 0;
-    while(index != current_size){
-        if(current[index] == date.getDate() && manipulate.month == date.getMonth() && manipulate.year == date.getFullYear()){
-            html += '<span class="long_box current_day" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'" data-view="week">'+ 
-            current[index];
-            
-            collection.forEach(data=>{
-                if(data.dueDate.day==current[index] && 
+    while (index != current_size) {
+        if (current[index] == date.getDate() && manipulate.month == date.getMonth() && manipulate.year == date.getFullYear()) {
+            html += '<span class="long_box current_day" data-day="' + current[index] + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
+                current[index];
+
+            collection.forEach(data => {
+                if (data.dueDate.day == current[index] &&
                     data.dueDate.year == manipulate.year &&
-                    data.dueDate.month == manipulate.month+1){
-                    html+= '<span class="dot"></span>'
+                    data.dueDate.month == manipulate.month + 1) {
+                    html += '<span class="dot"></span>'
                 }
             });
 
-            html+='</span>';
-        
-        }else{
-            html += '<span class="long_box" data-day="'+current[index]+'" data-month="'+ (manipulate.month+1) +'" data-year="'+manipulate.year+'" data-view="week">'+
-            current[index];
+            html += '</span>';
 
-            collection.forEach(data=>{
-                if(data.dueDate.day==current[index] && 
+        } else {
+            html += '<span class="long_box" data-day="' + current[index] + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
+                current[index];
+
+            collection.forEach(data => {
+                if (data.dueDate.day == current[index] &&
                     data.dueDate.year == manipulate.year &&
-                    data.dueDate.month == manipulate.month+1){
-                    html+= '<span class="dot"></span>'
+                    data.dueDate.month == manipulate.month + 1) {
+                    html += '<span class="dot"></span>'
                 }
             });
 
-            html+='</span>';
+            html += '</span>';
         }
         index++;
     }
     index = 0;
-    if(current.length < 7){
-        if(current[0] > 1){
-            while(index != after_size){
-                html += '<span class="long_box-3">'+ after[index] +'</span>';
+    if (current.length < 7) {
+        if (current[0] > 1) {
+            while (index != after_size) {
+                html += '<span class="long_box-3">' + after[index] + '</span>';
                 index++;
             }
-        }else{
-            while (index != 7-(before_size+current_size)) {
-                html += '<span class="long_box-3">'+ after[index] +'</span>';
+        } else {
+            while (index != 7 - (before_size + current_size)) {
+                html += '<span class="long_box-3">' + after[index] + '</span>';
                 index++;
             }
         }

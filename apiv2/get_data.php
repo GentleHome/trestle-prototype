@@ -1,16 +1,28 @@
 <?php
 require_once dirname(__FILE__) . './setup.php';
+$collection = [];
+if (isset($_GET['classroom'])) {
+    echo json_encode(get_google_data());
+    exit;
+}
 
-echo json_encode(get_google_data());
-exit;
+if (isset($_GET['canvas'])) {
+    echo json_encode(get_canvas_data());
+    exit;
+}
+
+array_push($collection, get_google_data());
+array_push($collection, get_canvas_data());
+
+echo json_encode($collection);
+
 
 function get_google_data()
 {
     $client = get_client();
 
     if (!isset($_SESSION['access_token'])) {
-        echo $client->createAuthUrl();
-        exit;
+        return array("oauthURL" => $client->createAuthUrl());
     } else {
         $client->setAccessToken(($_SESSION['access_token']));
         $service = new Google\Service\Classroom($client);
@@ -23,7 +35,7 @@ function get_google_data()
 function get_canvas_data()
 {
     if (!isset($_GET['canvas_token'])) {
-        return null;
+        return array("error" => null);
     } else {
         $canvas_token = $_GET['canvas_token'];
 
