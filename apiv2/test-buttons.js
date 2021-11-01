@@ -22,6 +22,7 @@ async function documentReady() {
     });
 
     let data = await get_google_data();
+    console.log(data);
     checkData(data);
 
     console.log(collection);

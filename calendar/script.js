@@ -216,18 +216,23 @@ function renderBoxes_year(range, year) {
             while (daycounter != endofmonth) {
                 daycounter += 1;
                 if (daycounter == date.getDate() && year == date.getFullYear() && month == date.getMonth()) {
-                    html += '<span class="small_box-2" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
-                        daycounter + "</span>";
+                    if (the_date.innerHTML != '' && daycounter == selected_date.getDate() && year == selected_date.getFullYear() && month == selected_date.getMonth()) {
+                        html += '<span class="small_box active" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
+                            daycounter + "</span>";
+                    } else {
+                        html += '<span class="small_box-2" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
+                            daycounter + "</span>";
+                    }
                 } else {
-                    html += '<span class="small_box" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
-                        daycounter + "</span>";
-                }
+                    if (the_date.innerHTML != '' && daycounter == selected_date.getDate() && year == selected_date.getFullYear() && month == selected_date.getMonth()) {
+                        html += '<span class="small_box active" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
+                            daycounter + "</span>";
+                    } else {
+                        html += '<span class="small_box" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
+                            daycounter + "</span>";
+                    }
 
-                if (the_date.innerHTML != '' && daycounter == selected_date.getDate() && year == selected_date.getFullYear() && month == selected_date.getMonth()) {
-                    html += '<span class="small_box active" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
-                        daycounter + "</span>";
                 }
-
                 if (br2 == 7) {
                     html += "<br>";
                     br2 = 0;
