@@ -27,8 +27,14 @@ let manipulate = {
 };
 
 // initial load out
-view_state_holder = choose_view.value;
-renderer(view_state_holder);
+getData();
+async function getData() {
+    collection = await getDummyData();
+    view_state_holder = choose_view.value;
+    renderer(view_state_holder);
+}
+
+
 
 // event listeners
 choose_view.addEventListener("change", go_choose_view);
@@ -44,8 +50,6 @@ function go_choose_view() {
 }
 // controllers
 async function renderer(options) {
-
-    collection = await getDummyData();
 
     if (the_date.innerHTML) {
         selected_date = new Date(the_date.innerHTML);
@@ -298,26 +302,14 @@ function renderBoxes_month(range, month, year) {
                 html += '<span class="box current_day" data-day="' + daycounter + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
                     daycounter;
 
-                collection.forEach(data => {
-                    if (data.dueDate.day == daycounter &&
-                        data.dueDate.year == manipulate.year &&
-                        data.dueDate.month == manipulate.month + 1) {
-                        html += '<span class="dot"></span>'
-                    }
-                });
+                html += dotMarkers(collection, daycounter);
+
             } else {
                 html += '<span class="box" data-day="' + daycounter + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
                     daycounter;
 
-                collection.forEach(data => {
-                    if (data.dueDate.day == daycounter &&
-                        data.dueDate.year == manipulate.year &&
-                        data.dueDate.month == manipulate.month + 1) {
-                        html += '<span class="dot"></span>'
-                    }
-                });
+                html += dotMarkers(collection, daycounter);
             }
-
 
             html += "</span>";
             if (br == 7) {
@@ -370,13 +362,7 @@ function renderBoxes_week(weeks_to_render) {
             html += '<span class="long_box current_day" data-day="' + current[index] + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
                 current[index];
 
-            collection.forEach(data => {
-                if (data.dueDate.day == current[index] &&
-                    data.dueDate.year == manipulate.year &&
-                    data.dueDate.month == manipulate.month + 1) {
-                    html += '<span class="dot"></span>'
-                }
-            });
+            html += dotMarkers(collection, current[index]);
 
             html += '</span>';
 
@@ -384,13 +370,7 @@ function renderBoxes_week(weeks_to_render) {
             html += '<span class="long_box" data-day="' + current[index] + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
                 current[index];
 
-            collection.forEach(data => {
-                if (data.dueDate.day == current[index] &&
-                    data.dueDate.year == manipulate.year &&
-                    data.dueDate.month == manipulate.month + 1) {
-                    html += '<span class="dot"></span>'
-                }
-            });
+            html += dotMarkers(collection, current[index]);
 
             html += '</span>';
         }

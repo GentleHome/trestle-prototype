@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <div class="row">
+            <div id='close_modal'>&#10006;</div>
+        </div>
+        <div class="row">
+            <div class="column">
+                <p><strong>Tasks</strong></p>
+                <task_preview></task_preview>            
+            </div>
+
+            <div class="column">
+                <p id="clicked_date"></p>
+                <form action="" method="post" name="schedule">
+                    Title: <input type="text" name="title" /> <br>
+                    Description: <br /><textarea name="description" cols="30" rows="5"></textarea>
+                    <br />
+                    Start: <input type="date" name="start_date" />
+                    <input type="time" name="start_time" /> <br />
+                    End: <input type="date" name="end_date" />
+                    <input type="time" name="end_time"/> <br />
+                    <button type="button" id="submit_btn">submit</button>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

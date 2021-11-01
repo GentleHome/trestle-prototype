@@ -217,7 +217,15 @@ function setActive() {
 }
 // fetch for getting dummy data
 async function getDummyData() {
-    return (await fetch('process/dummy_source.php')).json();
+    const response = await fetch('../process/get_data.php');
+    const data = await response.text();
+    let data_parse = await JSON.parse(data);
+    for (let index = 0; index < data_parse.length; index++) {
+        if (("oauthURL" in data_parse[index])) {
+            return null;
+        }
+    }
+    return data_parse;
 }
 // clicking a date in month and week view triggers the modal that allows you to add schedule
 function trigger_modal() {
@@ -271,7 +279,7 @@ async function addShedule_view() {
     formdata.append("date", clicked_date);
 
     submit_btn.addEventListener("mouseup", async () => {
-        let post_response = await fetchPOSTData('process/add_schedule.php', formdata);
+        let post_response = await fetchPOSTData('../process/stubs/add_schedule.php', formdata);
         console.log(post_response);
     });
 }
@@ -290,30 +298,29 @@ async function fetchPOSTData(src, formData) {
 // This is where the tasks came from
 async function arrangeData(mydate) {
     let html = "";
-    collection.forEach((element) => {
-        let dueDate = element.dueDate;
-        let dueTime = element.dueTime;
-        // https://stackoverflow.com/questions/6525538/convert-utc-date-time-to-local-date-time
-        var date = new Date(dueDate.month.toString() + "/" + dueDate.day.toString() + "/" + dueDate.year.toString() + " " +
-            (dueTime.hours == null ? "00" : dueTime.hours.toString()) + ":" +
-            (dueTime.minutes == null ? "00" : dueTime.minutes.toString()) + " UTC");
-
-        let hours = date.getHours() == "0" ? "00" : date.getHours();
-        let minutes = date.getMinutes() == "0" ? "00" : date.getMinutes();
-
-        if (dueDate.day == mydate.getDate() && dueDate.month == mydate.getMonth() + 1 && dueDate.year == mydate.getFullYear()) {
-            html += "<b>" + element.courseName + "</b><br>";
-            html += element.title + "| Due date: " + dueDate.month + "/" + dueDate.day + "/" + dueDate.year +
-                " | Due time: " + timeConvert(hours + ":" + minutes) +
-                "<br>" +
-                "Description: " + element.description +
-                "<br>" +
-                "Link: " + "<a href=" + element.alternateLink + ">course work link</a>" +
-                "<br><br>";
+    for (let index = 0; index < collection[0][0].courseworks.length; index++) {
+        let courseworks = collection[0][0].courseworks[index];
+        for (let index = 0; index < courseworks.length; index++) {
+            let element = courseworks[index];
+            if (element.dueDate) {
+                let dueDate = element.dueDate;
+                if (dueDate.day == mydate.getDate() && dueDate.month == mydate.getMonth() + 1 && dueDate.year == mydate.getFullYear()) {
+                    html += "<b>" + element.title + "</b><br>";
+                    html += "| Due date: " + dueDate.month + "/" + dueDate.day + "/" + dueDate.year +
+                        "<br>" +
+                        "Description: " + element.description +
+                        "<br>" +
+                        "Link: " + "<a href=" + element.link + ">course work link</a>" +
+                        "<br>" +
+                        "Source: " + "<b>" + element.source +
+                        "</b>" +
+                        "<br><br>";
+                    html += 'note: only show EDIT and DELETE on custom tasks <br> <button class="edit_task">edit</button>';
+                    html += '<button class="delete_task">delete</button> <br><br>';
+                }
+            }
         }
-        html += 'note: only show EDIT and DELETE on custom tasks <br> <button class="edit_task">edit</button>';
-        html += '<button class="delete_task">delete</button> <br><br>';
-    });
+    }
     document.querySelector('task_preview').innerHTML = html;
     edit_delete();
 }
@@ -340,7 +347,7 @@ async function edit_schedule() {
     formdata.append("date", clicked_date);
 
     edit_submit_btn.addEventListener("mouseup", async () => {
-        let post_response = await fetchPOSTData('process/edit_schedule.php', formdata)
+        let post_response = await fetchPOSTData('../process/stubs/edit_schedule.php', formdata)
         console.log(post_response);
         arrangeData(mydate);
     });
@@ -360,7 +367,7 @@ function edit_delete() {
 
     delete_task.forEach(btn => {
         btn.addEventListener('mouseup', async () => {
-            console.log(await fetchGETData('process/delete_schedule.php'));
+            console.log(await fetchGETData('../process/stubs/delete_schedule.php'));
         });
     });
 }
@@ -394,4 +401,24 @@ function timeConvert(time) {
         time[0] = +time[0] % 12 || 12; // Adjust hours
     }
     return time.join(""); // return adjusted time or original string
+}
+
+function dotMarkers(collection, daycounter) {
+    // only gets courseworks not announcements
+    if (collection) {
+        for (let index = 0; index < collection[0][0].courseworks.length; index++) {
+            let courseworks = collection[0][0].courseworks[index];
+            for (let index = 0; index < courseworks.length; index++) {
+                let coursework = courseworks[index];
+                if (coursework.dueDate) {
+                    if (coursework.dueDate.day == daycounter &&
+                        coursework.dueDate.year == manipulate.year &&
+                        coursework.dueDate.month == manipulate.month + 1) {
+                        return '<span class="dot"></span>';
+                    }
+                }
+            }
+        }
+    }
+    return '';
 }

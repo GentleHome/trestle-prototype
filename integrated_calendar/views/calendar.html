@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../static/script/utils.js" defer></script>
+    <script src="../static/script/script.js" defer></script>
+    <link rel="stylesheet" href="../static/styles/style.css" />
+    <title>Trestle - Calendar</title>
+</head>
+
+<body>
+    <div class='add_sched_modal'>
+        <div class='modal_content'>
+        </div>
+    </div>
+
+    <span class=dot></span>
+    <div id='date'></div>
+    <button>Task</button> <button>Calendar</button> <a href="../index.php"><button>Connect</button></a>
+    <br>
+    <br>
+
+    <div class="date_navigation">
+        <select class="choose_view">
+            <option value="0">Year</option>
+            <option value="1" selected>Month</option>
+            <option value="2">Week</option>
+        </select>
+
+        <button id="prev">
+            < </button>
+                <button id="today">Today</button>
+                <button id="next">></button>
+    </div>
+    <br>
+    <p id="date_indication"></p>
+    <div class="container"></div>
+</body>
+
+</html>
