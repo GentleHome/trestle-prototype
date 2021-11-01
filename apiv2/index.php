@@ -20,7 +20,7 @@
     </br>
     </br>
 
-    <div id="get-data-response"></div>
+    <textarea id="get-data-response" cols="100" rows="20"></textarea>
 </body>
 
 </html>

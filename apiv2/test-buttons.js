@@ -8,27 +8,29 @@ documentReady();
 
 async function documentReady() {
     connectCanvas.addEventListener("mouseup", () => {
-        console.log(canvasToken.value);
+        dataResponse.innerHTML = "waiting for data...";
         const req = new Request(
             `get_data.php?canvas_token=${canvasToken.value}`
         );
 
         fetch(req)
             .then((res) => res.text())
-            .then((data) => {
-                console.log(data);
-                checkData(data);
+            .then(async (data) => {
+                try {
+                    await checkData(data);
+                } catch (error) {
+                    dataResponse.innerHTML = "encountered errors...";
+                }
+
             });
     });
 
+    dataResponse.innerHTML = "waiting for data...";
+
     let data = await get_google_data();
-    console.log(data);
     checkData(data);
 
     console.log(collection);
-    dataResponse.innerHTML = "<pre>" + JSON.stringify(collection) + "</pre>";
-
-
 }
 
 async function get_google_data() {
@@ -42,8 +44,9 @@ async function get_canvas_data() {
 }
 
 async function checkData(data) {
-    data = JSON.parse(data);
+    data = await JSON.parse(data);
     collection = data;
+    dataResponse.innerHTML = JSON.stringify(collection);
     for (let index = 0; index < collection.length; index++) {
         if (("oauthURL" in collection[index])) {
             connectGoogle.addEventListener("mouseup", () => {
@@ -52,5 +55,8 @@ async function checkData(data) {
             return;
         }
     }
-    connectGoogle.style.display = "none";
+    connectGoogle.innerHTML = "Revoke Access";
+    connectGoogle.addEventListener("mouseup", () => {
+        window.location.href = "revoke.php";
+    });
 };
