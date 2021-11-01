@@ -50,6 +50,7 @@ function get_canvas_data()
             $course_id = $course->id;
             $course_code = $course->course_code;
             $assignments_response = Requests::get('https://canvas.instructure.com/api/v1/courses/' . $course_id . '/assignments', $headers);
+            echo 'https://canvas.instructure.com/api/v1/courses/' . $course_id . '/assignments', $headers;
             echo var_dump($course);
             // get canvas announcements
             // $announcements_response = Requests::get('https://canvas.instructure.com/api/v1/announcements?context_codes[]=' . $course_code, $headers);

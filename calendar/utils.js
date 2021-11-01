@@ -164,7 +164,7 @@ function getWeeksToRender_today() {
     manipulate.month = date.getMonth();
     manipulate.weekNumber = week_number;
     let weekNumber_before = week_number - 1;
-    let month_before = date.getMonth() - 1;
+    let month_before = date.getMonth();
     let weekNumber_after = week_number + 1;
     let month_after = date.getMonth();
 
