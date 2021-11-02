@@ -9,7 +9,7 @@ if (isset($_GET['code'])) {
         $client->setAccessToken($token['access_token']);
         $_SESSION['access_token'] = $token['access_token'];
 
-        header("Location: ./index.php");
+        header("Location: ../index.php");
         exit;
     } else {
         echo $token['error'];

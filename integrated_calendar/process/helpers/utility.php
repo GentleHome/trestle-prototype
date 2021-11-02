@@ -74,7 +74,13 @@ function parse_coursework($object, $source, $service, $google_courseId, $google_
         $coursework["title"]        = $object->name;
         $coursework["description"]  = $object->description;
         $coursework["datePosted"]   = $object->created_at;
-        $coursework["dueDate"]      = $object->due_at;
+        $dueDate = $object->due_at;
+        if ($dueDate === null) {
+            $coursework["dueDate"]  = $object->due_at;
+        } else {
+            $coursework["dueDate"]  = date_parse($object->due_at);
+        }
+
         $coursework["unlockDate"]   = $object->unlock_at;
         $coursework["link"]         = $object->html_url;
         $coursework["isQuiz"]       = (bool)$object->is_quiz_assignment;

@@ -298,25 +298,29 @@ async function fetchPOSTData(src, formData) {
 // This is where the tasks came from
 async function arrangeData(mydate) {
     let html = "";
-    for (let index = 0; index < collection[0][0].courseworks.length; index++) {
-        let courseworks = collection[0][0].courseworks[index];
-        for (let index = 0; index < courseworks.length; index++) {
-            let element = courseworks[index];
-            if (element.dueDate) {
-                let dueDate = element.dueDate;
-                if (dueDate.day == mydate.getDate() && dueDate.month == mydate.getMonth() + 1 && dueDate.year == mydate.getFullYear()) {
-                    html += "<b>" + element.title + "</b><br>";
-                    html += "| Due date: " + dueDate.month + "/" + dueDate.day + "/" + dueDate.year +
-                        "<br>" +
-                        "Description: " + element.description +
-                        "<br>" +
-                        "Link: " + "<a href=" + element.link + ">course work link</a>" +
-                        "<br>" +
-                        "Source: " + "<b>" + element.source +
-                        "</b>" +
-                        "<br><br>";
-                    html += 'note: only show EDIT and DELETE on custom tasks <br> <button class="edit_task">edit</button>';
-                    html += '<button class="delete_task">delete</button> <br><br>';
+    for (let x = 0; x < collection.length; x++) {
+        for (let y = 0; y < collection[x][0].courseworks.length; y++) {
+            let courseworks = collection[x][0].courseworks[y];
+
+            for (let z = 0; z < courseworks.length; z++) {
+                let element = courseworks[z];
+
+                if (element.dueDate) {
+                    let dueDate = element.dueDate;
+                    if (dueDate.day == mydate.getDate() && dueDate.month == mydate.getMonth() + 1 && dueDate.year == mydate.getFullYear()) {
+                        html += "<b>" + element.title + "</b><br>";
+                        html += "| Due date: " + dueDate.month + "/" + dueDate.day + "/" + dueDate.year +
+                            "<br>" +
+                            "Description: " + element.description +
+                            "<br>" +
+                            "Link: " + "<a href=" + element.link + ">course work link</a>" +
+                            "<br>" +
+                            "Source: " + "<b>" + element.source +
+                            "</b>" +
+                            "<br><br>";
+                        html += 'note: only show EDIT and DELETE on custom tasks <br> <button class="edit_task">edit</button>';
+                        html += '<button class="delete_task">delete</button> <br><br>';
+                    }
                 }
             }
         }
@@ -405,20 +409,26 @@ function timeConvert(time) {
 
 function dotMarkers(collection, daycounter) {
     // only gets courseworks not announcements
+    let html = "";
     if (collection) {
-        for (let index = 0; index < collection[0][0].courseworks.length; index++) {
-            let courseworks = collection[0][0].courseworks[index];
-            for (let index = 0; index < courseworks.length; index++) {
-                let coursework = courseworks[index];
-                if (coursework.dueDate) {
-                    if (coursework.dueDate.day == daycounter &&
-                        coursework.dueDate.year == manipulate.year &&
-                        coursework.dueDate.month == manipulate.month + 1) {
-                        return '<span class="dot"></span>';
+        for (let x = 0; x < collection.length; x++) {
+            for (let y = 0; y < collection[x][0].courseworks.length; y++) {
+                let courseworks = collection[x][0].courseworks[y];
+
+                for (let z = 0; z < courseworks.length; z++) {
+                    let coursework = courseworks[z];
+
+                    if (coursework.dueDate) {
+                        if (coursework.dueDate.day == daycounter &&
+                            coursework.dueDate.year == manipulate.year &&
+                            coursework.dueDate.month == manipulate.month + 1) {
+                            html += '<span class="dot"></span>';
+                        }
                     }
                 }
             }
         }
+        return html;
     }
     return '';
 }

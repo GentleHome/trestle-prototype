@@ -2,6 +2,9 @@
 require_once dirname(__FILE__) . './setup.php';
 $collection = [];
 
+// imma just set it here cause we dont have any storage for it yet
+$_GET['canvas_token'] = "7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H";
+
 array_push($collection, get_google_data());
 array_push($collection, get_canvas_data());
 
