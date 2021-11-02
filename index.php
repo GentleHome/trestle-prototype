@@ -1,11 +1,3 @@
-<?php
-$sample_date = "2021-10-01T05:59:59Z";
-$sample = null;
-if ($sample === null) {
-    echo 'by';
-}
-// echo print_r(date_parse(()));
-?>
 <!DOCTYPE html>
 <html>
 
