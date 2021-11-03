@@ -25,8 +25,8 @@ function get_google_data()
         $announcements = [];
 
         foreach ($courses as $course) {
-            array_push($courseworks, get_google_assignments($course["id"], $service, SOURCE_GOOGLE_CLASSROOM));
-            array_push($announcements, get_google_announcements($course["id"], $service, SOURCE_GOOGLE_CLASSROOM));
+            array_push($courseworks, get_google_assignments($course["id"], $course["name"], $service, SOURCE_GOOGLE_CLASSROOM));
+            array_push($announcements, get_google_announcements($course["id"], $course["name"], $service, SOURCE_GOOGLE_CLASSROOM));
         }
         array_push($google_collection, array("courseworks" => $courseworks));
         array_push($google_collection, array("announcements" => $announcements));
@@ -53,9 +53,8 @@ function get_canvas_data()
         $announcements = [];
 
         foreach ($courses as $course) {
-            $course_id = $course->id;
-            array_push($courseworks, get_canvas_assignments($course_id, $headers, SOURCE_CANVAS));
-            array_push($announcements, get_canvas_announcements($course_id, $headers, SOURCE_CANVAS));
+            array_push($courseworks, get_canvas_assignments($course->id, $course->name, $headers, SOURCE_CANVAS));
+            array_push($announcements, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
         }
         array_push($canvas_collection, array("courseworks" => $courseworks));
         array_push($canvas_collection, array("announcements" => $announcements));
