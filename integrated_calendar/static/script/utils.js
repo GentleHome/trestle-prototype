@@ -220,10 +220,8 @@ async function getDummyData() {
     const response = await fetch('../process/get_data.php');
     const data = await response.text();
     let data_parse = await JSON.parse(data);
-    for (let index = 0; index < data_parse.length; index++) {
-        if (("oauthURL" in data_parse[index])) {
-            return null;
-        }
+    if (("oauthURL" in data_parse[0]) && ("error" in data_parse[1])) {
+        return null;
     }
     return data_parse;
 }
@@ -299,6 +297,11 @@ async function fetchPOSTData(src, formData) {
 async function arrangeData(mydate) {
     let html = "";
     for (let x = 0; x < collection.length; x++) {
+
+        if (collection[x][0] === undefined) {
+            continue;
+        }
+
         for (let y = 0; y < collection[x][0].courseworks.length; y++) {
             let courseworks = collection[x][0].courseworks[y];
 
@@ -414,6 +417,11 @@ function dotMarkers(collection, daycounter) {
     let html = "";
     if (collection) {
         for (let x = 0; x < collection.length; x++) {
+
+            if (collection[x][0] === undefined) {
+                continue;
+            }
+
             for (let y = 0; y < collection[x][0].courseworks.length; y++) {
                 let courseworks = collection[x][0].courseworks[y];
 
