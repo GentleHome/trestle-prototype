@@ -308,7 +308,9 @@ async function arrangeData(mydate) {
                 if (element.dueDate) {
                     let dueDate = element.dueDate;
                     if (dueDate.day == mydate.getDate() && dueDate.month == mydate.getMonth() + 1 && dueDate.year == mydate.getFullYear()) {
-                        html += "<b>" + element.title + "</b><br>";
+                        console.log(element);
+                        html += "<b>Course name: " + element.courseName + "</b><br>";
+                        html += "<b> Assignment name: " + element.title + "</b><br>";
                         html += "| Due date: " + dueDate.month + "/" + dueDate.day + "/" + dueDate.year +
                             "<br>" +
                             "Description: " + element.description +
