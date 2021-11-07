@@ -15,7 +15,7 @@
     <br>
     <br>
     (Student Token: 7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H) <br>
-    <em>I've already set the token on <strong>get_data.php</strong></em> <br>
+    <em>I've already set the token on <strong>get_data.php</strong> remove it if you want</em> <br>
     <input type="text" id="canvas-token" placeholder="Canvas Token Here">
     <button id="connect-canvas">Connect to Canvas Instructure API</button>
 
