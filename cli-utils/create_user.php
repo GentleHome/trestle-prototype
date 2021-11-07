@@ -6,7 +6,7 @@ $newPassword = $argv[2];
 
 $user = new User();
 $user->set_username($newUsername);
-$user->set_password($newPassword, function($password):string {return $password;});
+$user->set_password($newPassword);
 $entityManager->persist($user);
 $entityManager->flush();
 

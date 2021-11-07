@@ -78,9 +78,9 @@ class User
     /**
      * Takes in the password string, and hashes it with the callable hasher
      */
-    public function set_password(string $password, callable $hasher): void
+    public function set_password(string $password): void
     {
-        $this->password_hash = $hasher($password);
+        $this->password_hash = password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
