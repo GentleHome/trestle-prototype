@@ -50,6 +50,12 @@ if ($_SESSION['messages']) {
 
     <button id="get-announcements-button">Get Announcements</button> = <textarea id="get-announcements-response" disabled placeholder="Response"></textarea></br></br>
 
+    <!-- Get Tasks -->
+    <button id="get-tasks-button">Get Tasks</button> = <textarea id="get-tasks-response" disabled placeholder="Response"></textarea></br></br>
+
+    <!-- Get Reminders -->
+    <button id="get-reminders-button">Get Reminders</button> = <textarea id="get-reminders-response" disabled placeholder="Response"></textarea></br></br>
+
 </body>
 
 </html>
