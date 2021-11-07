@@ -18,6 +18,7 @@ $reminder->set_user($user);
 $reminder->set_title($title);
 $reminder->set_message($message);
 
+// I'm being lazy for now, this should be the date set by the user.
 $reminder->set_remind_date(new DateTime($datetime="now", new DateTimeZone('Asia/Manila')));
 
 $entityManager->persist($reminder);
