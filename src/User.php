@@ -11,32 +11,32 @@ class User
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="integer", nullable="false")
+     * @ORM\Column(type="integer", nullable=false)
      * @ORM\GeneratedValue
      * @var int
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=32, unique=true, nullable="false")
+     * @ORM\Column(type="string", length=32, unique=true, nullable=false)
      * @var string
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string",  nullable="false")
+     * @ORM\Column(type="string",  nullable=false)
      * @var string
      */
     private $password_hash;
 
     /**
-     * @ORM\Column(type="string", nullable="true")
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $google_token;
 
     /**
-     * @ORM\Column(type="string", nullable="true")
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $canvas_token;
