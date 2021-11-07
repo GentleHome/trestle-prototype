@@ -1,6 +1,7 @@
 {
-    "require": {
-        "rmccue/requests": "^1.8",
-        "google/apiclient": "2.11"
-    }
+  "require": {
+    "rmccue/requests": "^1.8",
+    "google/apiclient": "2.11",
+    "gabordemooij/redbean": "dev-master"
+  }
 }
