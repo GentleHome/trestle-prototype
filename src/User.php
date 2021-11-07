@@ -128,16 +128,16 @@ class User
     /**
      * Gets the reminders list lol
      */
-    public function get_reminders(): string
+    public function get_reminders()
     {
-        return $this->reminders_list;
+        return $this->reminders;
     }
 
     /**
      * Sets the reminders list lol
      */
-    public function set_reminders(ArrayCollection $reminders_list): void
+    public function set_reminders(ArrayCollection $reminders): void
     {
-        $this->reminders_list = $reminders_list;
+        $this->reminders = $reminders;
     }
 }
