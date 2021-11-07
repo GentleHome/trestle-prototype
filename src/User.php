@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +41,15 @@ class User
      */
     private $canvas_token;
 
+    /**
+     * @OneToMany(targetEntity="Reminder", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     */
+    private $reminders;
+
+    public function __construct()
+    {
+        $this->reminders_list = new ArrayCollection();
+    }
 
     // Class Methods
 
@@ -113,5 +123,21 @@ class User
     public function set_canvas_token(string $canvas_token): void
     {
         $this->canvas_token = $canvas_token;
+    }
+
+    /**
+     * Gets the reminders list lol
+     */
+    public function get_reminders(): string
+    {
+        return $this->reminders_list;
+    }
+
+    /**
+     * Sets the reminders list lol
+     */
+    public function set_reminders(ArrayCollection $reminders_list): void
+    {
+        $this->reminders_list = $reminders_list;
     }
 }
