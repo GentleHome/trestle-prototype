@@ -27,19 +27,23 @@ if(!count($errors) === 0){
 $user = $entityManager->getRepository('User')->findOneBy(array('username' => $username));
 
 if (!$user) {
+
     array_push($errors, "User not found");
-    $_SESSION['errors'] = $errors;
-    header("Location: ./forms.php");
 
 } else if ($user->authenticate($password)) {
 
     $_SESSION['user_id'] = $user->get_id();
+
     array_push($messages, "Login Successful!");
     $_SESSION['messages'] = $messages;
+
     header("Location: ./api/tests.php");
+    exit();
 
 } else {
+
     array_push($errors, "Authentication Error");
-    $_SESSION['errors'] = $errors;
-    header("Location: ./forms.php");
 }
+
+$_SESSION['errors'] = $errors;
+header("Location: ./forms.php");
