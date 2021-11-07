@@ -80,9 +80,9 @@ class User
     /**
      * Takes a hash_checker to hash and check if the current password hash matches with the inputed password
      */
-    public function authenticate(string $input_password, callable $hash_checker): bool
+    public function authenticate(string $input_password): bool
     {
-        return $hash_checker($input_password, $this->password_hash);
+        return password_verify($input_password, $this->password_hash);
     }
 
     /**
