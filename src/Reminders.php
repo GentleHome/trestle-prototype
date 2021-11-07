@@ -17,7 +17,7 @@ class Reminder
     private $id;
 
     /**
-     * @ManyToOne(targetEntity="User", fetch="EAGER", inversedBy="reminders")
+     * @ORM\ManyToOne(targetEntity="User", fetch="EAGER", inversedBy="reminders")
      */
     private $user;
 

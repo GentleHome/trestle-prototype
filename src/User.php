@@ -42,7 +42,7 @@ class User
     private $canvas_token;
 
     /**
-     * @OneToMany(targetEntity="Reminder", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Reminder", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)
      */
     private $reminders;
 
