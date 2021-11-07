@@ -52,18 +52,21 @@ class Reminder
     private $remind_date;
 
     /**
+     * Experimental, and self explanatory
      * @ORM\Column(type="boolean", nullable=true)
      * @var bool
      */
     private $is_checked;
 
     /**
+     * Experimental, stores the id of the course that's related to this reminder
      * @ORM\Column(type="integer", nullable=true)
      * @var int
      */
     private $target_course;
 
     /**
+     * Experimental, 0 means not recurring, 1 - 7 refers to the day of the week where it is recurring
      * @ORM\Column(type="integer", nullable=true)
      * @var int
      */
@@ -101,17 +104,17 @@ class Reminder
         return $this->type;
     }
 
-    public function set_type($type): void
+    public function set_type(string $type): void
     {
         $this->type = $type;
     }
 
-    public function get_title(): int
+    public function get_title(): string
     {
         return $this->title;
     }
 
-    public function set_title($title): void
+    public function set_title(string $title): void
     {
         $this->title = $title;
     }
@@ -121,7 +124,7 @@ class Reminder
         return $this->message;
     }
 
-    public function set_message($message): void
+    public function set_message(string $message): void
     {
         $this->message = $message;
     }
@@ -136,7 +139,7 @@ class Reminder
         return $this->remind_date;
     }
 
-    public function set_remind_date($remind_date): void
+    public function set_remind_date(DateTime $remind_date): void
     {
         $this->remind_date = $remind_date;
     }
@@ -146,8 +149,29 @@ class Reminder
         return $this->is_checked;
     }
 
-    public function set_is_checked($is_checked): void
+    public function set_is_checked(bool $is_checked): void
     {
         $this->is_checked = $is_checked;
+    }
+
+    public function get_target_course(): int
+    {
+        return $this->target_course;
+    }
+
+    public function set_target_course(int $target_course): void
+    {
+        $this->target_course = $target_course;
+    }
+
+
+    public function get_is_recurring(): int
+    {
+        return $this->is_recurring;
+    }
+
+    public function set_is_recurring(int $is_recurring): void
+    {
+        $this->is_recurring = $is_recurring;
     }
 }
