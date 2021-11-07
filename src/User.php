@@ -17,7 +17,7 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string",  nullable="false")
+     * @ORM\Column(type="string", length=32, unique=true, nullable="false")
      * @var string
      */
     private $username;
