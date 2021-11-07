@@ -1,6 +1,13 @@
 {
-    "require": {
-        "rmccue/requests": "^1.8",
-        "google/apiclient": "2.11"
-    }
+  "require": {
+    "rmccue/requests": "^1.8",
+    "google/apiclient": "2.11",
+    "doctrine/orm": "^2.10.2",
+    "doctrine/dbal": "^3.1.1",
+    "symfony/yaml": "2.*",
+    "symfony/cache": "^5.3"
+  },
+  "autoload": {
+      "psr-0": {"": "src/"}
+  }
 }

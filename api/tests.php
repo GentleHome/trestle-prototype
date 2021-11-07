@@ -1,3 +1,17 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../forms.php");
+    exit;
+}
+
+if ($_SESSION['messages']) {
+    foreach ($_SESSION['messages'] as $message) {
+        echo $message;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -12,7 +26,7 @@
     <!-- Get Courses -->
     <button id="get-courses-button">Get Courses</button> = <textarea id="get-courses-response" disabled placeholder="Response"></textarea></br></br>
     </br></br>
-    
+
     <!-- Get Course -->
     <input type="text" id="get-course-id" placeholder="Course ID">
     <select id="get-source-option">
