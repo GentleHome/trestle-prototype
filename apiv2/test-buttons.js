@@ -47,13 +47,11 @@ async function checkData(data) {
     data = await JSON.parse(data);
     collection = data;
     dataResponse.innerHTML = JSON.stringify(collection);
-    for (let index = 0; index < collection.length; index++) {
-        if (("oauthURL" in collection[index])) {
-            connectGoogle.addEventListener("mouseup", () => {
-                window.location.href = collection[index].oauthURL;
-            });
-            return;
-        }
+    if (("oauthURL" in collection)) {
+        connectGoogle.addEventListener("mouseup", () => {
+            window.location.href = collection.oauthURL;
+        });
+        return;
     }
     connectGoogle.innerHTML = "Revoke Access";
     connectGoogle.addEventListener("mouseup", () => {

@@ -220,7 +220,7 @@ async function getDummyData() {
     const response = await fetch('../process/get_data.php');
     const data = await response.text();
     let data_parse = await JSON.parse(data);
-    if (("oauthURL" in data_parse[0]) && ("error" in data_parse[1])) {
+    if (("oauthURL" in data_parse) && ("error" in data_parse)) {
         return null;
     }
     return data_parse;
