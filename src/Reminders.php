@@ -164,7 +164,6 @@ class Reminder
         $this->target_course = $target_course;
     }
 
-
     public function get_is_recurring(): int
     {
         return $this->is_recurring;
