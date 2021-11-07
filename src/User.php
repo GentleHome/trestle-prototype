@@ -43,6 +43,9 @@ class User
 
     // Class Methods
 
+    /**
+     * Take a guess on what this does.
+     */
     public function get_id(): int
     {
         return $this->id;
