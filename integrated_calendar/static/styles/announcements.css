@@ -1,0 +1,23 @@
+.notification {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    border: 1px solid black;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+.contents {
+    display: block;
+}
+
+.source_image {
+    margin-right: 10px;
+}
+
+.title {
+    margin-right: 5px;
+    font-weight: bold;
+}
