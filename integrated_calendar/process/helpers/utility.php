@@ -46,6 +46,7 @@ function parse_coursework($object, $source, $course_name, $service, $google_cour
 {
     $coursework = [];
     if ($source === SOURCE_GOOGLE_CLASSROOM) {
+        $coursework["type"]         = "COURSEWORK";
         $coursework["source"]       = SOURCE_GOOGLE_CLASSROOM;
         $coursework["courseName"]   = $course_name;
         $coursework["id"]           = (int)$object["id"];
@@ -69,6 +70,7 @@ function parse_coursework($object, $source, $course_name, $service, $google_cour
     }
 
     if ($source === SOURCE_CANVAS) {
+        $coursework["type"]         = "COURSEWORK";
         $coursework["source"]       = SOURCE_CANVAS;
         $coursework["courseName"]   = $course_name;
         $coursework["id"]           = (int)$object->id;
@@ -97,6 +99,7 @@ function parse_announcements($object, $course_name, $course_id, $source)
 {
     $announcement = [];
     if ($source === SOURCE_GOOGLE_CLASSROOM) {
+        $announcement["type"]       = "ANNOUNCEMENT";
         $announcement["source"]     = SOURCE_GOOGLE_CLASSROOM;
         $announcement["courseName"] = $course_name;
         $announcement["id"]         = $object["id"];
@@ -108,6 +111,7 @@ function parse_announcements($object, $course_name, $course_id, $source)
     }
 
     if ($source === SOURCE_CANVAS) {
+        $announcement["type"]       = "ANNOUNCEMENT";
         $announcement["source"]     = SOURCE_CANVAS;
         $announcement["courseName"] = $course_name;
         $announcement["id"]         = $object->id;
