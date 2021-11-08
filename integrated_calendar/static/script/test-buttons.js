@@ -34,7 +34,7 @@ async function documentReady() {
 }
 
 async function get_google_data() {
-    const response = await fetch('process/get_data.php')
+    const response = await fetch('process/grant_access.php')
     const data = await response.text();
     return data;
 }

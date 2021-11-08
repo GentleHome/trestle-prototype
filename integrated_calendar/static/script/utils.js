@@ -216,13 +216,15 @@ function setActive() {
     document.querySelector('#date').innerHTML = mydate;
 }
 // fetch for getting dummy data
-async function getDummyData() {
-    const response = await fetch('../process/get_data.php');
+async function getCourseWorks() {
+    const response = await fetch('../process/get_courseworks.php');
     const data = await response.text();
     let data_parse = await JSON.parse(data);
+    console.log(data_parse);
     if (("oauthURL" in data_parse) && ("error" in data_parse)) {
         return null;
     }
+
     return data_parse;
 }
 // clicking a date in month and week view triggers the modal that allows you to add schedule
@@ -404,8 +406,10 @@ function dotMarkers(collection, daycounter) {
     // will only take data that have due dates
     let html = "";
     if (collection) {
+
         for (let x = 0; x < collection.length; x++) {
             let coursework = collection[x];
+            console.log(coursework.dueDate);
             if (coursework.dueDate) {
                 if (coursework.dueDate.day == daycounter &&
                     coursework.dueDate.year == manipulate.year &&
