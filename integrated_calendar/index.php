@@ -10,7 +10,9 @@
 </head>
 
 <body>
-    <a href="views/calendar.html"><button>Calendar</button></a> <br> <br>
+    <a href="views/calendar.html"><button>Calendar</button></a>
+    <a href="views/announcements.html"><button>Announcements</button></a>
+    <br> <br>
     <button id="connect-google">Connect to Google Classroom API</button>
     <br>
     <br>
