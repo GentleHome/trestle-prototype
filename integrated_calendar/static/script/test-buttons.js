@@ -10,7 +10,7 @@ async function documentReady() {
     connectCanvas.addEventListener("mouseup", () => {
         dataResponse.innerHTML = "waiting for data...";
         const req = new Request(
-            `process/get_data.php?canvas_token=${canvasToken.value}`
+            `process/grant_access.php?canvas_token=${canvasToken.value}`
         );
 
         fetch(req)
