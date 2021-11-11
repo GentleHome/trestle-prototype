@@ -53,8 +53,13 @@ function parse_coursework($object, $source, $course_name, $service, $google_cour
         $coursework["courseId"]     = (int)$object["courseId"];
         $coursework["title"]        = $object["title"];
         $coursework["description"]  = $object["description"];
-        $coursework["datePosted"]   = $object["creationTime"];
-        $coursework["dueDate"]      = $object["dueDate"];
+        $coursework["datePosted"]   = date_parse($object["creationTime"]);
+        $dueDate = $object["dueDate"];
+        if ($dueDate === null) {
+            $coursework["dueDate"]      =  $object["dueDate"];
+        } else {
+            $coursework["dueDate"]      =  (object) array_merge((array) $object["dueDate"], (array) $object["dueTime"]);
+        }
         $coursework["unlockDate"]   = null;
         $coursework["link"]         = $object["alternateLink"];
         $coursework["isQuiz"]       = (bool)false;
@@ -77,7 +82,7 @@ function parse_coursework($object, $source, $course_name, $service, $google_cour
         $coursework["courseId"]     = (int)$object->course_id;
         $coursework["title"]        = $object->name;
         $coursework["description"]  = $object->description;
-        $coursework["datePosted"]   = $object->created_at;
+        $coursework["datePosted"]   = date_parse($object->created_at);
         $dueDate = $object->due_at;
         if ($dueDate === null) {
             $coursework["dueDate"]  = $object->due_at;
@@ -107,7 +112,7 @@ function parse_announcements($object, $course_name, $course_id, $source)
         $announcement["title"]      = null;
         $announcement["message"]    = $object["text"];
         $announcement["link"]       = $object["alternateLink"];
-        $announcement["datePosted"] = $object["creationTime"];
+        $announcement["datePosted"] = date_parse($object["creationTime"]);
     }
 
     if ($source === SOURCE_CANVAS) {
@@ -119,7 +124,7 @@ function parse_announcements($object, $course_name, $course_id, $source)
         $announcement["title"]      = $object->title;
         $announcement["message"]    = $object->message;
         $announcement["link"]       = $object->html_url;
-        $announcement["datePosted"] = $object->posted_at;
+        $announcement["datePosted"] = date_parse($object->posted_at);
     }
     return $announcement;
 }
