@@ -10,10 +10,12 @@
 </head>
 
 <body>
+    <a href="views/task_checklist.html"><button>Task</button></a>
     <a href="views/calendar.html"><button>Calendar</button></a>
     <a href="views/announcements.html"><button>Announcements</button></a>
     <br> <br>
     <button id="connect-google">Connect to Google Classroom API</button>
+    <a href="process/revoke.php"><button>revoke access</button></a>
     <br>
     <br>
     (Student Token: 7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H) <br>
