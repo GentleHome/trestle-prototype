@@ -25,7 +25,7 @@ if (empty($errors['errors'])) {
     $user = $entityManager->find("User", $user_id);
 
 
-    $reminders = $entityManager->getRepository("User")->findBy(array('user' => $user, "type" => $type));
+    $reminders = $entityManager->getRepository("Reminder")->findBy(array('user' => $user, "type" => $type));
 
     $response = [];
     foreach ($reminders as $reminder) {
