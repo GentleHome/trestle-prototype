@@ -9,12 +9,15 @@ if (!isset($_SESSION[USER_ID])) {
     array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
 }
 
-if (!isset($_POST['type'])) {
+if (!isset($_GET['type'])) {
 
     array_push($errors["errors"], ERROR_MISSING_VALUE . ": Type");
 }
 
 if (empty($errors['errors'])) {
+    $type = $_GET['type'];
+    $user_id = $_SESSION[USER_ID];
+    
     if ($type != TYPE_TASK && $type != TYPE_REMINDER) {
 
         array_push($errors["errors"], ERROR_INVALID_VALUE . ": Type");
