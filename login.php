@@ -14,7 +14,7 @@ if (!isset($_POST['password'])) {
 
 if(!count($errors) === 0){
     
-    $_SESSION['errors'] = $errors;
+    $_SESSION[ERRORS] = $errors;
     header("Location: ./forms.php");
     exit();
 
@@ -32,10 +32,10 @@ if (!$user) {
 
 } else if ($user->authenticate($password)) {
 
-    $_SESSION['user_id'] = $user->get_id();
+    $_SESSION[USER_ID] = $user->get_id();
 
     array_push($messages, "Login Successful!");
-    $_SESSION['messages'] = $messages;
+    $_SESSION[MESSAGES] = $messages;
 
     header("Location: ./api/tests.php");
     exit();
@@ -43,7 +43,8 @@ if (!$user) {
 } else {
 
     array_push($errors, "Authentication Error");
+    
 }
 
-$_SESSION['errors'] = $errors;
+$_SESSION[ERRORS] = $errors;
 header("Location: ./forms.php");

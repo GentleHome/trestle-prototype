@@ -34,6 +34,6 @@ if($password1 === $password2){
     }
 }
 
-$_SESSION["messages"] = $messages;
-$_SESSION["errors"] = $errors;
+$_SESSION[MESSAGES] = $messages;
+$_SESSION[ERRORS] = $errors;
 
