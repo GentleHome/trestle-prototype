@@ -10,7 +10,7 @@ async function documentReady() {
     connectCanvas.addEventListener("mouseup", () => {
         dataResponse.innerHTML = "waiting for data...";
         const req = new Request(
-            `process/get_data.php?canvas_token=${canvasToken.value}`
+            `process/grant_access.php?canvas_token=${canvasToken.value}`
         );
 
         fetch(req)
@@ -34,7 +34,7 @@ async function documentReady() {
 }
 
 async function get_google_data() {
-    const response = await fetch('process/get_data.php')
+    const response = await fetch('process/grant_access.php')
     const data = await response.text();
     return data;
 }
@@ -43,13 +43,11 @@ async function checkData(data) {
     data = await JSON.parse(data);
     collection = data;
     dataResponse.innerHTML = JSON.stringify(collection);
-    for (let index = 0; index < collection.length; index++) {
-        if (("oauthURL" in collection[index])) {
-            connectGoogle.addEventListener("mouseup", () => {
-                window.location.href = collection[index].oauthURL;
-            });
-            return;
-        }
+    if (("oauthURL" in collection)) {
+        connectGoogle.addEventListener("mouseup", () => {
+            window.location.href = collection.oauthURL;
+        });
+        return;
     }
     connectGoogle.innerHTML = "Revoke Access";
     connectGoogle.addEventListener("mouseup", () => {

@@ -29,7 +29,7 @@ let manipulate = {
 // initial load out
 getData();
 async function getData() {
-    collection = await getDummyData();
+    collection = await getCourseWorks();
     view_state_holder = choose_view.value;
     renderer(view_state_holder);
 }

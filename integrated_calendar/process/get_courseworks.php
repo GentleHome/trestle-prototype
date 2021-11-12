@@ -3,7 +3,7 @@ require_once dirname(__FILE__) . './setup.php';
 $collection = [];
 
 // imma just set it here cause we dont have any storage for it yet
-// $_GET['canvas_token'] = "7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H";
+$_GET['canvas_token'] = "7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H";
 
 get_google_data();
 get_canvas_data();
@@ -14,16 +14,14 @@ function get_google_data()
     global $collection;
     $client = get_client();
 
-    if (!isset($_SESSION['access_token'])) {
-        array_push($collection, array("oauthURL" => $client->createAuthUrl()));
-    } else {
+    if (isset($_SESSION['access_token'])) {
+
         $client->setAccessToken(($_SESSION['access_token']));
         $service = new Google\Service\Classroom($client);
         $courses = $service->courses->listCourses()->getCourses();
 
         foreach ($courses as $course) {
             array_push($collection, get_google_assignments($course["id"], $course["name"], $service, SOURCE_GOOGLE_CLASSROOM));
-            array_push($collection, get_google_announcements($course["id"], $course["name"], $service, SOURCE_GOOGLE_CLASSROOM));
         }
     }
 }
@@ -32,10 +30,8 @@ function get_canvas_data()
 {
     global $collection;
 
-    if (!isset($_GET['canvas_token'])) {
-        // return array("error" => null);
-        array_push($collection, array("error" => null));
-    } else {
+    if (isset($_GET['canvas_token'])) {
+
         $canvas_token = $_GET['canvas_token'];
         $headers = array(
             'Content-Type' => 'application/json',
@@ -47,7 +43,6 @@ function get_canvas_data()
 
         foreach ($courses as $course) {
             array_push($collection, get_canvas_assignments($course->id, $course->name, $headers, SOURCE_CANVAS));
-            array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
         }
     }
 }
