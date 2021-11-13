@@ -1,5 +1,5 @@
 <?php
-define("TEST_MODE", true);
+define("TEST_MODE", false);
 
 // Sources and types
 define("SOURCE_GOOGLE_CLASSROOM", "GCLASS");
