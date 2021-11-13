@@ -2,8 +2,8 @@
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
-require_once "vendor/autoload.php";
-require_once "./api/helpers/constants.php";
+require_once dirname(__FILE__) . "/vendor/autoload.php";
+require_once dirname(__FILE__) . "/./api/helpers/constants.php";
 
 // Create a simple "default" Doctrine ORM configuration for Annotations
 $isDevMode = true;

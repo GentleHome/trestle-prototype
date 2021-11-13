@@ -1,10 +1,10 @@
 <?php
-require_once "bootstrap.php";
-require_once "./helpers/parsers.php";
+require_once dirname(__FILE__) . "/../bootstrap.php";
+require_once dirname(__FILE__) . "/./helpers/parsers.php";
 
 $errors = array("errors" => []);
 
-if (!isset($_SESSION[USER_ID])) {
+if (!isset($_SESSION[USER_ID]) && !TEST_MODE) {
 
     array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
 }
@@ -15,7 +15,7 @@ if (!isset($_GET['reminder_id'])) {
 }
 
 if (empty($errors['errors'])) {
-    $user_id = $_SESSION[USER_ID];
+    $user_id = !TEST_MODE ? $_SESSION[USER_ID] : 2;
     $reminder_id = $_GET['reminder_id'];
     
     $user = $entityManager->find("User", $user_id);
@@ -23,6 +23,9 @@ if (empty($errors['errors'])) {
 
     if($reminder->get_user() == $user){
         echo json_encode(parse_reminder($reminder));
+    } else {
+        array_push($errors["errors"], ERROR_INVALID_ACCESS);
+        echo json_encode($errors);
     }
 
 } else {

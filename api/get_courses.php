@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . './setup.php';
+require_once dirname(__FILE__) . '/./setup.php';
 
 $google_courses = get_google_courses();
 $canvas_courses = get_canvas_courses();

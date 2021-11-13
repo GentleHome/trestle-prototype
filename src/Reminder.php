@@ -186,7 +186,7 @@ class Reminder
     /**
      * Gets the value on whether the reminder is checked or not.
      */
-    public function get_is_checked(): bool
+    public function get_is_checked()
     {
         return $this->is_checked;
     }
@@ -202,7 +202,7 @@ class Reminder
     /**
      * Gets the target course of the reminder.
      */
-    public function get_target_course(): int
+    public function get_target_course()
     {
         return $this->target_course;
     }
@@ -218,7 +218,7 @@ class Reminder
     /**
      * Gets the value on whether the reminder is recurring or not.
      */
-    public function get_is_recurring(): int
+    public function get_is_recurring()
     {
         return $this->is_recurring;
     }

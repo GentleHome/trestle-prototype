@@ -1,4 +1,5 @@
 <?php
+define("TEST_MODE", true);
 
 // Sources and types
 define("SOURCE_GOOGLE_CLASSROOM", "GCLASS");
@@ -22,4 +23,5 @@ define("ERROR_MISSING_COURSEWORK_ID", "Coursework ID missing or cannot be found.
 define("ERROR_MISSING_ANNOUNCEMENT_ID", "Announcement ID missing or cannot be found.");
 define("ERROR_MISSING_REMINDER_ID", "Task or Reminder ID missing or cannot be found.");
 define("ERROR_MISSING_VALUE", "Value missing or cannot be found");
+define("ERROR_INVALID_ACCESS", "Currently logged in user cannot access this resource.");
 define("ERROR_INVALID_VALUE", "Value invalid");

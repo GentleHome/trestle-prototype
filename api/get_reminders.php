@@ -1,34 +1,33 @@
 <?php
-require_once "bootstrap.php";
-require_once "./helpers/parsers.php";
+require_once dirname(__FILE__) . "/../bootstrap.php";
+require_once dirname(__FILE__) . "/./helpers/parsers.php";
 
 $errors = array("errors" => []);
 
-if (!isset($_SESSION[USER_ID])) {
+if (!isset($_SESSION[USER_ID]) && !TEST_MODE) {
 
     array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
 }
 
-if (!isset($_GET['type'])) {
-
-    array_push($errors["errors"], ERROR_MISSING_VALUE . ": Type");
-}
-
 if (empty($errors['errors'])) {
-    $type = $_GET['type'];
-    $user_id = $_SESSION[USER_ID];
-    
-    if ($type != TYPE_TASK && $type != TYPE_REMINDER) {
-
-        array_push($errors["errors"], ERROR_INVALID_VALUE . ": Type");
-        exit;
-
-    }
+    $type = null;
+    $user_id = !TEST_MODE ? $_SESSION[USER_ID] : 1;
 
     $user = $entityManager->find("User", $user_id);
 
+    if(isset($_GET['type'])){
 
-    $reminders = $entityManager->getRepository("Reminder")->findBy(array('user' => $user, "type" => $type));
+        $type = $_GET['type'];
+
+    }
+
+    if ($type == TYPE_TASK || $type == TYPE_REMINDER) {
+
+        $reminders = $entityManager->getRepository("Reminder")->findBy(array('user' => $user, "type" => $type));
+    } else {
+
+        $reminders = $entityManager->getRepository("Reminder")->findBy(array('user' => $user));
+    }
 
     $response = [];
     foreach ($reminders as $reminder) {

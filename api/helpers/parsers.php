@@ -105,12 +105,12 @@ function parse_reminder(Reminder $object){
     $user = $object->get_user();
     $reminder["id"] = $object->get_id();
     $reminder["userId"] = $user->get_id();
-    $reminder["type"] = $object()->get_type();
-    $reminder["dateCreated"] = $object()->get_date_created();
-    $reminder["remindDate"] = $object()->get_remind_date();
-    $reminder["targetCourse"] = $object()->get_target_course();
-    $reminder["isChecked"] = $object()->get_is_checked();
-    $reminder["isRecurring"] = $object()->get_is_recurring();
+    $reminder["type"] = $object->get_type();
+    $reminder["dateCreated"] = $object->get_date_created();
+    $reminder["remindDate"] = $object->get_remind_date();
+    $reminder["targetCourse"] = $object->get_target_course();
+    $reminder["isChecked"] = $object->get_is_checked();
+    $reminder["isRecurring"] = $object->get_is_recurring();
 
     return $reminder;
 }

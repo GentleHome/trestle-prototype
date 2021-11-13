@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . './setup.php';
+require_once dirname(__FILE__) . '/./setup.php';
 
 if (!isset($_GET['course_id'])) {
     echo "No course ID!";
