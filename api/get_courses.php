@@ -1,8 +1,16 @@
 <?php
-require_once dirname(__FILE__) . '/./setup.php';
+require_once dirname(__FILE__) . "/../bootstrap.php";
+require_once dirname(__FILE__) . './setup.php';
+require_once dirname(__FILE__) . './helpers/getters.php';
 
-$google_courses = get_google_courses();
-$canvas_courses = get_canvas_courses();
+$user = get_logged_in_user($entityManager);
+
+if (is_null($user)) {
+    echo ERROR_MISSING_LOGGED_IN_USER;
+}
+
+$google_courses = get_google_courses($user);
+$canvas_courses = get_canvas_courses($user);
 
 $courses = [];
 
@@ -23,44 +31,41 @@ echo json_encode($courses);
 exit;
 
 
-function get_google_courses()
+function get_google_courses(User $user)
 {
-
     $client = get_client();
+    $token = $user->get_google_token();
 
-    if (!isset($_SESSION['access_token'])) {
-
-        echo $client->createAuthUrl();
+    if (is_null($token)) {
+        echo ERROR_GOOGLE_TOKEN_NOT_SET;
         exit;
-    } else {
-
-        $client->setAccessToken($_SESSION['access_token']);
-        $service = new Google\Service\Classroom($client);
-        $courses = $service->courses->listCourses()->getCourses();
-
-        return $courses;
     }
+
+    $client->setAccessToken($token);
+    $service = new Google\Service\Classroom($client);
+    $courses = $service->courses->listCourses()->getCourses();
+
+    return $courses;
 }
 
-function get_canvas_courses()
+function get_canvas_courses(User $user)
 {
 
-    if (!isset($_GET['canvas_token'])) {
+    $token = $user->get_canvas_token();
 
-        return null;
-        
-    } else {
-
-        $canvas_token = $_GET['canvas_token'];
-
-        $headers = array(
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $canvas_token
-        );
-
-        $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
-        $courses = json_decode($response->body);
-
-        return $courses;
+    if (is_null($token)) {
+        echo ERROR_CANVAS_TOKEN_NOT_SET;
+        exit;
     }
+
+    $headers = array(
+        'Content-Type' => 'application/json',
+        'Authorization' => 'Bearer ' . $token
+    );
+
+    $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
+    $courses = json_decode($response->body);
+
+    return $courses;
+    
 }

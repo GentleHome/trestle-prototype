@@ -17,6 +17,8 @@ define("MESSAGES", "messages");
 define("ERRORS", "errors");
 
 // Error Messages
+define("ERROR_CANVAS_TOKEN_NOT_SET", "Canvas Access Token is not set for the current user.");
+define("ERROR_GOOGLE_TOKEN_NOT_SET", "Google Access Token is not set for the current user.");
 define("ERROR_MISSING_LOGGED_IN_USER", "User is not currently logged in.");
 define("ERROR_MISSING_COURSE_ID", "Course ID missing or cannot be found.");
 define("ERROR_MISSING_COURSEWORK_ID", "Coursework ID missing or cannot be found.");
