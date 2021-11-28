@@ -64,6 +64,14 @@ function get_google_courseworks(User $user, $course_id)
     }
 
     $client->setAccessToken($token);
+
+    if ($client->isAccessTokenExpired()) {
+        if ($client->getRefreshToken()) {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+        }
+    }
+    
+    $client->setAccessToken($token);
     $service = new Google\Service\Classroom($client);
     $courseworks = $service->courses_courseWork->listCoursesCourseWork($course_id);
 

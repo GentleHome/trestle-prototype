@@ -42,6 +42,13 @@ function get_google_courses(User $user)
     }
 
     $client->setAccessToken($token);
+
+    if ($client->isAccessTokenExpired()) {
+        if ($client->getRefreshToken()) {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+        }
+    }
+    
     $service = new Google\Service\Classroom($client);
     $courses = $service->courses->listCourses()->getCourses();
 
