@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . './helpers/getters.php';
 $collection = [];
 
 // imma just set it here cause we dont have any storage for it yet
-$_GET['canvas_token'] = "7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H";
+// $_GET['canvas_token'] = "7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H";
 
 $user = get_logged_in_user($entityManager);
 
