@@ -20,7 +20,7 @@ function get_client()
     $client->addScope(Google\Service\Classroom::CLASSROOM_ANNOUNCEMENTS_READONLY);
 
     $client->setAccessType('offline');
-    $client->setApprovalPrompt('consent');
+    $client->setPrompt('consent');
 
     $client->setIncludeGrantedScopes(true);
 
