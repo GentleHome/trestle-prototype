@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . '../setup.php';
 require_once dirname(__FILE__) . './helpers/getters.php';
+require_once dirname(__FILE__) . "/./helpers/parsers.php";
 
 if(!isset($_GET['course_id'])){
     echo ERROR_MISSING_VALUE . ': Course ID';

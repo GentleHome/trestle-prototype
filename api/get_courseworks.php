@@ -4,6 +4,7 @@
 // - The structure of the JSON output must be properly determined
 // - The output must contain info about the source, what type of coursework it is, and a link to the coursework
 require_once dirname(__FILE__) . '../setup.php';
+require_once dirname(__FILE__) . "/./helpers/parsers.php";
 
 if (!isset($_GET['course_id'])) {
     echo ERROR_MISSING_VALUE . ': Course ID';

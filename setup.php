@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/./vendor/autoload.php';
 require_once dirname(__FILE__) . '/./api/helpers/constants.php';
-include dirname(__FILE__) . '/./api/helpers/parsers.php';
 
 session_start();
 
