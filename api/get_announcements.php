@@ -58,6 +58,14 @@ function get_google_announcements(User $user, $course_id)
     }
 
     $client->setAccessToken($token);
+
+    if ($client->isAccessTokenExpired()) {
+        if ($client->getRefreshToken()) {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $user->set_google_token($client->getAccessToken());
+        }
+    }
+
     $service = new Google\Service\Classroom($client);
     $announcements = $service->courses_announcements->listCoursesAnnouncements($course_id);
 

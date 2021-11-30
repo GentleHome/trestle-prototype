@@ -37,6 +37,7 @@ function new_get_google_data(User $user)
     if ($client->isAccessTokenExpired()) {
         if ($client->getRefreshToken()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $user->set_google_token($client->getAccessToken());
         }
     }
     // try to construct the service object

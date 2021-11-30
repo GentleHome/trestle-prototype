@@ -47,6 +47,7 @@ function get_google_courses(User $user)
     if ($client->isAccessTokenExpired()) {
         if ($client->getRefreshToken()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $user->set_google_token($client->getAccessToken());
         }
     }
     

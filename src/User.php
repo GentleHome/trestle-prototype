@@ -94,19 +94,19 @@ class User
     }
 
     /**
-     * Gets the Google Classroom token lol
+     * Gets the Google token lol
      */
-    public function get_google_token(): string
+    public function get_google_token(): array
     {
-        return $this->google_token;
+        return json_decode($this->google_token);
     }
 
     /**
-     * Sets the Google Classroom token lol
+     * Sets the Google token lol
      */
-    public function set_google_token(string $google_token): void
+    public function set_google_token(array $google_token): void
     {
-        $this->google_token = $google_token;
+        $this->google_token = json_encode($google_token);
     }
 
     /**

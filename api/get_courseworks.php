@@ -69,6 +69,7 @@ function get_google_courseworks(User $user, $course_id)
     if ($client->isAccessTokenExpired()) {
         if ($client->getRefreshToken()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $user->set_google_token($client->getAccessToken());
         }
     }
     
