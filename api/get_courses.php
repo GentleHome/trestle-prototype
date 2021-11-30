@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . "/../bootstrap.php";
-require_once dirname(__FILE__) . './setup.php';
+require_once dirname(__FILE__) . '../setup.php';
 require_once dirname(__FILE__) . './helpers/getters.php';
 
 $user = get_logged_in_user($entityManager);
