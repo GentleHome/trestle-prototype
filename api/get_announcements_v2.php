@@ -70,24 +70,3 @@ function get_canvas_data(User $user)
     }
     
 }
-
-function get_canvas_announcements($course_id, $course_name, $headers, $source)
-{
-    $announcements = [];
-    $response = Requests::get('https://canvas.instructure.com/api/v1/announcements?context_codes[]=course_' . $course_id, $headers);
-    $announcements_response = json_decode($response->body);
-    foreach ($announcements_response as $announcement) {
-        array_push($announcements, parse_announcements($announcement, $course_name, $course_id, $source));
-    }
-    return $announcements;
-}
-
-function get_google_announcements($course_id, $course_name, $service, $source)
-{
-    $announcements = [];
-    $response = $service->courses_announcements;
-    foreach ($response->listCoursesAnnouncements($course_id) as $announcement) {
-        array_push($announcements, parse_announcements($announcement, $course_name, $course_id, $source));
-    }
-    return $announcements;
-}
