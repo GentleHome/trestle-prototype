@@ -1,4 +1,5 @@
 <?php
+// Sample comment
 require_once dirname(__FILE__) . '/./setup.php';
 
 if (!isset($_GET['course_id'])) {
