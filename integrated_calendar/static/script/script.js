@@ -221,18 +221,18 @@ function renderBoxes_year(range, year) {
                 daycounter += 1;
                 if (daycounter == date.getDate() && year == date.getFullYear() && month == date.getMonth()) {
                     if (the_date.innerHTML != '' && daycounter == selected_date.getDate() && year == selected_date.getFullYear() && month == selected_date.getMonth()) {
-                        html += '<span class="small_box active" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
+                        html += '<span class="small_box active" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '" data-dayOfWeek = "' + day[br2 - 1] + '">' +
                             daycounter + "</span>";
                     } else {
-                        html += '<span class="small_box-2" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
+                        html += '<span class="small_box-2" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '" data-dayOfWeek = "' + day[br2 - 1] + '">' +
                             daycounter + "</span>";
                     }
                 } else {
                     if (the_date.innerHTML != '' && daycounter == selected_date.getDate() && year == selected_date.getFullYear() && month == selected_date.getMonth()) {
-                        html += '<span class="small_box active" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
+                        html += '<span class="small_box active" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '" data-dayOfWeek = "' + day[br2 - 1] + '">' +
                             daycounter + "</span>";
                     } else {
-                        html += '<span class="small_box" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '">' +
+                        html += '<span class="small_box" data-day="' + daycounter + '" data-month="' + month + '" data-year="' + year + '" data-dayOfWeek = "' + day[br2 - 1] + '">' +
                             daycounter + "</span>";
                     }
 
@@ -299,13 +299,13 @@ function renderBoxes_month(range, month, year) {
             daycounter += 1;
             // checks if this is the current date and marks it light green
             if (daycounter == date.getDate() && year == date.getFullYear() && month == date.getMonth()) {
-                html += '<span class="box current_day" data-day="' + daycounter + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
+                html += '<span class="box current_day" data-day="' + daycounter + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week" data-dayOfWeek = "' + day[br - 1] + '">' +
                     daycounter;
 
                 html += dotMarkers(collection, daycounter);
 
             } else {
-                html += '<span class="box" data-day="' + daycounter + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
+                html += '<span class="box" data-day="' + daycounter + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week" data-dayOfWeek = "' + day[br - 1] + '">' +
                     daycounter;
 
                 html += dotMarkers(collection, daycounter);
@@ -359,7 +359,7 @@ function renderBoxes_week(weeks_to_render) {
     index = 0;
     while (index != current_size) {
         if (current[index] == date.getDate() && manipulate.month == date.getMonth() && manipulate.year == date.getFullYear()) {
-            html += '<span class="long_box current_day" data-day="' + current[index] + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
+            html += '<span class="long_box current_day" data-day="' + current[index] + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week" data-dayOfWeek = "' + day[index] + '">' +
                 current[index];
 
             html += dotMarkers(collection, current[index]);
@@ -367,7 +367,7 @@ function renderBoxes_week(weeks_to_render) {
             html += '</span>';
 
         } else {
-            html += '<span class="long_box" data-day="' + current[index] + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week">' +
+            html += '<span class="long_box" data-day="' + current[index] + '" data-month="' + (manipulate.month + 1) + '" data-year="' + manipulate.year + '" data-view="week" data-dayOfWeek = "' + day[index] + '">' +
                 current[index];
 
             html += dotMarkers(collection, current[index]);
