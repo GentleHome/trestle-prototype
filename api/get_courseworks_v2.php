@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . './setup.php';
-include dirname(__FILE__) . './helpers/utility.php';
+include dirname(__FILE__) . './helpers/parsers_v2.php';
 
 $collection = [];
 
@@ -68,4 +68,25 @@ function get_canvas_data(User $user)
     foreach ($courses as $course) {
         array_push($collection, get_canvas_assignments($course->id, $course->name, $headers, SOURCE_CANVAS));
     }
+}
+
+function get_canvas_assignments($course_id, $course_name, $headers, $source)
+{
+    $courseworks = [];
+    $response = Requests::get('https://canvas.instructure.com/api/v1/courses/' . $course_id . '/assignments', $headers);
+    $courseworks_response = json_decode($response->body);
+    foreach ($courseworks_response as $coursework) {
+        array_push($courseworks, parse_coursework($coursework, $source, $course_name, null, null, null));
+    }
+    return $courseworks;
+}
+
+function get_google_assignments($course_id, $course_name, $service, $source)
+{
+    $courseworks = [];
+    $response = $service->courses_courseWork;
+    foreach ($response->listCoursesCourseWork($course_id) as $coursework) {
+        array_push($courseworks, parse_coursework($coursework, $source, $course_name, $service, $course_id, $coursework["id"]));
+    }
+    return $courseworks;
 }

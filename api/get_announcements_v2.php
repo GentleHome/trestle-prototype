@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . './setup.php';
 require_once dirname(__FILE__) . './helpers/db_utils.php';
-include dirname(__FILE__) . './helpers/utility.php';
+include dirname(__FILE__) . './helpers/parsers_v2.php';
 
 $collection = [];
 
@@ -69,4 +69,25 @@ function get_canvas_data(User $user)
         array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
     }
     
+}
+
+function get_canvas_announcements($course_id, $course_name, $headers, $source)
+{
+    $announcements = [];
+    $response = Requests::get('https://canvas.instructure.com/api/v1/announcements?context_codes[]=course_' . $course_id, $headers);
+    $announcements_response = json_decode($response->body);
+    foreach ($announcements_response as $announcement) {
+        array_push($announcements, parse_announcements($announcement, $course_name, $course_id, $source));
+    }
+    return $announcements;
+}
+
+function get_google_announcements($course_id, $course_name, $service, $source)
+{
+    $announcements = [];
+    $response = $service->courses_announcements;
+    foreach ($response->listCoursesAnnouncements($course_id) as $announcement) {
+        array_push($announcements, parse_announcements($announcement, $course_name, $course_id, $source));
+    }
+    return $announcements;
 }

@@ -1,47 +1,5 @@
 <?php
 
-function get_canvas_assignments($course_id, $course_name, $headers, $source)
-{
-    $courseworks = [];
-    $response = Requests::get('https://canvas.instructure.com/api/v1/courses/' . $course_id . '/assignments', $headers);
-    $courseworks_response = json_decode($response->body);
-    foreach ($courseworks_response as $coursework) {
-        array_push($courseworks, parse_coursework($coursework, $source, $course_name, null, null, null));
-    }
-    return $courseworks;
-}
-
-function get_google_assignments($course_id, $course_name, $service, $source)
-{
-    $courseworks = [];
-    $response = $service->courses_courseWork;
-    foreach ($response->listCoursesCourseWork($course_id) as $coursework) {
-        array_push($courseworks, parse_coursework($coursework, $source, $course_name, $service, $course_id, $coursework["id"]));
-    }
-    return $courseworks;
-}
-
-function get_canvas_announcements($course_id, $course_name, $headers, $source)
-{
-    $announcements = [];
-    $response = Requests::get('https://canvas.instructure.com/api/v1/announcements?context_codes[]=course_' . $course_id, $headers);
-    $announcements_response = json_decode($response->body);
-    foreach ($announcements_response as $announcement) {
-        array_push($announcements, parse_announcements($announcement, $course_name, $course_id, $source));
-    }
-    return $announcements;
-}
-
-function get_google_announcements($course_id, $course_name, $service, $source)
-{
-    $announcements = [];
-    $response = $service->courses_announcements;
-    foreach ($response->listCoursesAnnouncements($course_id) as $announcement) {
-        array_push($announcements, parse_announcements($announcement, $course_name, $course_id, $source));
-    }
-    return $announcements;
-}
-
 function parse_coursework($object, $source, $course_name, $service, $google_courseId, $google_courseworkId)
 {
     $coursework = [];
