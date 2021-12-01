@@ -106,6 +106,8 @@ function parse_reminder(Reminder $object){
     $reminder["id"] = $object->get_id();
     $reminder["userId"] = $user->get_id();
     $reminder["type"] = $object->get_type();
+    $reminder["title"] = $object->get_title();
+    $reminder["message"] = $object->get_message();
     $reminder["dateCreated"] = $object->get_date_created();
     $reminder["remindDate"] = $object->get_remind_date();
     $reminder["targetCourse"] = $object->get_target_course();
