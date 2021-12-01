@@ -203,6 +203,7 @@ function highlightstuff() {
 
 function setActive() {
     let activated = document.querySelectorAll('.active');
+    // if there are more than one .active it will remove the .active on the previously selected boxes
     if (activated.length > 0) {
         activated.forEach(active => {
             active.className = active.className.replace(" active", "");
@@ -296,23 +297,15 @@ async function arrangeData(mydate) {
     let html = "";
     for (let x = 0; x < collection.length; x++) {
         let element = collection[x];
-        if (element.dueDate) {
+        if (element.type == 'COURSEWORK' && element.dueDate) {
             let dueDate = element.dueDate;
             if (dueDate.day == mydate.getDate() && dueDate.month == mydate.getMonth() + 1 && dueDate.year == mydate.getFullYear()) {
-                console.log(element);
-                html += "<b>Course name: " + element.courseName + "</b><br>";
-                html += "<b> Assignment name: " + element.title + "</b><br>";
-                html += "| Due date: " + dueDate.month + "/" + dueDate.day + "/" + dueDate.year +
-                    "<br>" +
-                    "Description: " + element.description +
-                    "<br>" +
-                    "Link: " + "<a href=" + element.link + ">course work link</a>" +
-                    "<br>" +
-                    "Source: " + "<b>" + element.source +
-                    "</b>" +
-                    "<br><br>";
-                html += 'note: only show EDIT and DELETE on custom tasks <br> <button class="edit_task">edit</button>';
-                html += '<button class="delete_task">delete</button> <br><br>';
+                html += `<b>Course name: ${element.courseName} </b><br>
+                    <b> Assignment name: ${element.title} </b><br>
+                    | Due date: ${dueDate.month} / ${dueDate.day} / ${dueDate.year} <br>
+                    Description: ${element.description} <br>
+                    Link: <a href="${element.link}">course work link</a> <br>
+                    Source: <b> ${element.source} </b> <br><br>`
             }
         }
     }
@@ -398,22 +391,57 @@ function timeConvert(time) {
     return time.join(""); // return adjusted time or original string
 }
 
-function dotMarkers(collection, daycounter) {
-    // will only take data that have due dates
+function dotMarkers(collection, daycounter, dayOfWeek) {
     let html = "";
     if (collection) {
 
         for (let x = 0; x < collection.length; x++) {
-            let coursework = collection[x];
-            if (coursework.dueDate) {
-                if (coursework.dueDate.day == daycounter &&
-                    coursework.dueDate.year == manipulate.year &&
-                    coursework.dueDate.month == manipulate.month + 1) {
+            // take courseworks that have that have due dates
+            let element = collection[x];
+            if (element.type == 'COURSEWORK' && element.dueDate) {
+                if (element.dueDate.day == daycounter &&
+                    element.dueDate.year == manipulate.year &&
+                    element.dueDate.month == manipulate.month + 1) {
                     html += '<span class="dot"></span>';
+                }
+            }
+
+            // take tasks
+            if (element.type == 'TASK') {
+                let d = new Date(element.remindDate.date);
+                if (element.isRecurring) {
+                    // FOR 0,1
+                    // if (d.getDate() <= daycounter && d.getDay() == dayOfWeek) {
+                    //     html += '<span class="dot-recurring"></span>';
+                    // }
+                    // FOR 0-6
+                    if (element.isRecurring == dayOfWeek) {
+                        html += '<span class="dot-recurring"></span>';
+                    }
+                } else {
+                    if (d.getDate() == daycounter && d.getMonth() == manipulate.month && d.getFullYear() == manipulate.year) {
+                        html += '<span class="dot-recurring"></span>';
+                    }
                 }
             }
         }
         return html;
     }
     return '';
+}
+
+function detailsHTML(user_created) {
+    let html = '';
+    html += `<b>Target Course: ${user_created.targetCourse} </b><br>
+    <b> Task Title: ${user_created.title} </b><br>
+    Description: ${user_created.description}<br>`
+    if (!user_created.isRecurring) {
+        html += `Remind date: ${user_created.remindDate.date}<br>`
+    } else {
+        html += `Recurring every: ${day[user_created.isRecurring]} <br>`
+    }
+    html += `<button class="edit_task">edit</button>
+    <button class="delete_task">delete</button> <br><br>`
+
+    return html;
 }

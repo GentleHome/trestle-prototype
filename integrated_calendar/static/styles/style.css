@@ -2,18 +2,18 @@
     box-sizing: border-box;
 }
 
-body{
+body {
     margin: 0;
 }
-.date_navigation{
+.date_navigation {
     margin-bottom: 50px;
 }
 
-.container{
+.container {
     margin: 10px;
 }
 
-.box-day{
+.box-day {
     display: inline-block;
     border: 1px solid lightgray;
     width: 100px;
@@ -41,12 +41,12 @@ body{
     padding: 5px;
 }
 
-.box:hover{
+.box:hover {
     cursor: pointer;
     border: 1px solid blue;
 }
 
-.box-4{
+.box-4 {
     display: inline-block;
     border: 1px solid lightgray;
     width: 250px;
@@ -56,7 +56,7 @@ body{
     text-align: center;
 }
 
-.small_box{
+.small_box {
     display: inline-block;
     border: 1px solid lightgray;
     width: 27px;
@@ -66,7 +66,7 @@ body{
     text-align: center;
 }
 
-.small_box-2{
+.small_box-2 {
     display: inline-block;
     border: 1px solid lightgray;
     width: 27px;
@@ -76,7 +76,7 @@ body{
     text-align: center;
 }
 
-.small_box-3{
+.small_box-3 {
     cursor: default;
     display: inline-block;
     border: 1px solid lightgray;
@@ -87,16 +87,17 @@ body{
     text-align: center;
 }
 
-.small_box:hover, .small_box-2:hover{
+.small_box:hover,
+.small_box-2:hover {
     cursor: pointer;
     border: 1px solid blue;
 }
 
-.active{
+.active {
     background-color: blueviolet;
 }
 
-.small_box-no-outline{
+.small_box-no-outline {
     display: inline-block;
     border: 1px solid white;
     width: 27px;
@@ -105,14 +106,14 @@ body{
     text-align: center;
 }
 
-.month_name{
+.month_name {
     display: block;
     width: 100%;
     border-bottom: 1px solid lightgray;
     margin-bottom: 2%;
 }
 
-.long_box{
+.long_box {
     display: inline-flex;
     border: 1px solid lightgray;
     width: 150px;
@@ -122,7 +123,7 @@ body{
     padding: 5px;
 }
 
-.long_box-day{
+.long_box-day {
     display: inline-block;
     border: 1px solid lightgray;
     width: 150px;
@@ -132,17 +133,16 @@ body{
     text-align: center;
 }
 
-
-.current_day{
+.current_day {
     background-color: lightgreen;
 }
 
-.long_box:hover{
+.long_box:hover {
     cursor: pointer;
     border: 1px solid blue;
 }
 
-.long_box-3{
+.long_box-3 {
     display: inline-flex;
     border: 1px solid lightgray;
     width: 150px;
@@ -152,7 +152,7 @@ body{
     padding: 5px;
 }
 
-.dot{
+.dot {
     height: 25px;
     width: 25px;
     background-color: cornflowerblue;
@@ -161,11 +161,25 @@ body{
     text-align: center;
 }
 
-.text_div{
+.dot-recurring {
+    height: 25px;
+    width: 25px;
+    background: rgb(110, 11, 128);
+    background: linear-gradient(
+        112deg,
+        rgba(110, 11, 128, 1) 0%,
+        rgba(229, 19, 121, 1) 100%
+    );
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+
+.text_div {
     display: block;
 }
 
-.add_sched_modal{
+.add_sched_modal {
     display: none;
     position: absolute;
     margin: auto;
@@ -189,7 +203,7 @@ body{
     clear: both;
 }
 
-.modal_content{
+.modal_content {
     padding: 10px 0px 0px 20px;
     margin: 10px auto auto auto;
     overflow: auto;
@@ -199,7 +213,7 @@ body{
     border-radius: 10px;
 }
 
-#close_modal{
+#close_modal {
     cursor: pointer;
     float: right;
     color: red;
