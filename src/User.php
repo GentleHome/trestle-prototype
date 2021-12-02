@@ -96,7 +96,7 @@ class User
     /**
      * Gets the Google token lol
      */
-    public function get_google_token(): array
+    public function get_google_token(): ?array
     {
         if($this->google_token){
             return json_decode($this->google_token, true);

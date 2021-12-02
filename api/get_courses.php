@@ -4,12 +4,17 @@ require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . '/../setup.php';
 require_once dirname(__FILE__) . '/./helpers/db_utils.php';
 require_once dirname(__FILE__) . "/./helpers/parsers.php";
+
 session_start();
+
+$errors = array("errors" => []);
 
 $user = get_logged_in_user($entityManager);
 
 if (is_null($user)) {
-    echo ERROR_MISSING_LOGGED_IN_USER;
+    array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
+    echo json_encode($errors);
+    exit;
 }
 
 $google_courses = get_google_courses($user);
@@ -39,8 +44,10 @@ function get_google_courses(User $user)
     $client = get_client();
     $token = $user->get_google_token();
 
+    global $errors;
     if (is_null($token)) {
-        echo ERROR_GOOGLE_TOKEN_NOT_SET;
+        array_push($errors["errors"], ERROR_GOOGLE_TOKEN_NOT_SET . ": Reminder");
+        echo json_encode($errors);
         exit;
     }
 
@@ -64,8 +71,10 @@ function get_canvas_courses(User $user)
 
     $token = $user->get_canvas_token();
 
+    global $errors;
     if (is_null($token)) {
-        echo ERROR_CANVAS_TOKEN_NOT_SET;
+        array_push($errors["errors"], ERROR_CANVAS_TOKEN_NOT_SET . ": Reminder");
+        echo json_encode($errors);
         exit;
     }
 

@@ -4,10 +4,14 @@ require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . '/../setup.php';
 require_once dirname(__FILE__) . '/./helpers/db_utils.php';
 require_once dirname(__FILE__) . "/./helpers/parsers.php";
+
 session_start();
 
+$errors = array("errors" => []);
+
 if (!isset($_GET['course_id'])) {
-    echo ERROR_MISSING_VALUE . ': Course ID';
+    array_push($errors["errors"], ERROR_MISSING_VALUE . ': Course ID');
+    echo json_encode($errors);
     exit;
 }
 
@@ -17,12 +21,14 @@ if (!isset($_GET['coursework_id'])) {
 }
 
 if (!isset($_GET['source'])) {
-    echo ERROR_MISSING_VALUE . ': Source';
+    array_push($errors["errors"], ERROR_MISSING_VALUE . ': Source');
+    echo json_encode($errors);
     exit;
 }
 
 if (!isset($_GET['type'])) {
-    echo ERROR_MISSING_VALUE . ': Type';
+    array_push($errors["errors"], ERROR_MISSING_VALUE . ': Type');
+    echo json_encode($errors);
     exit;
 }
 
@@ -34,13 +40,16 @@ $type = $_GET['type'];
 $user = get_logged_in_user($entityManager);
 
 if (is_null($user)) {
-    echo ERROR_MISSING_LOGGED_IN_USER;
+    array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
+    echo json_encode($errors);
+    exit;
 }
 
 if ($source === SOURCE_GOOGLE_CLASSROOM) {
 
     $google_coursework = get_google_coursework($user, $course_id, $coursework_id);
     $coursework = parse_coursework($google_coursework, SOURCE_GOOGLE_CLASSROOM, TYPE_COURSEWORK);
+    
 } else if ($source === SOURCE_CANVAS) {
 
     if ($type === TYPE_ASSIGNMENT) {
@@ -64,8 +73,10 @@ function get_google_coursework(User $user, $course_id, $coursework_id)
     $client = get_client();
     $token = $user->get_google_token();
 
+    global $errors;
     if (is_null($token)) {
-        echo ERROR_GOOGLE_TOKEN_NOT_SET;
+        array_push($errors["errors"], ERROR_GOOGLE_TOKEN_NOT_SET . ": Reminder");
+        echo json_encode($errors);
         exit;
     }
 
@@ -89,8 +100,10 @@ function get_canvas_assignment(User $user, $course_id, $coursework_id)
 {
     $token = $user->get_canvas_token();
 
+    global $errors;
     if (is_null($token)) {
-        echo ERROR_CANVAS_TOKEN_NOT_SET;
+        array_push($errors["errors"], ERROR_CANVAS_TOKEN_NOT_SET . ": Reminder");
+        echo json_encode($errors);
         exit;
     }
 

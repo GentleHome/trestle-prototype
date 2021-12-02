@@ -4,17 +4,18 @@ require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . '/../setup.php';
 require_once dirname(__FILE__) . '/./helpers/db_utils.php';
 require_once dirname(__FILE__) . '/./helpers/parsers_v2.php';
+
 session_start();
 
 $collection = [];
-
-// imma just set it here cause we dont have any storage for it yet
-// $_GET['canvas_token'] = "7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H";
+$errors = array("errors" => []);
 
 $user = get_logged_in_user($entityManager);
 
 if (is_null($user)) {
-    echo ERROR_MISSING_LOGGED_IN_USER;
+    array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
+    echo json_encode($errors);
+    exit;
 }
 
 get_google_data($user);
@@ -24,11 +25,14 @@ echo json_encode(array_merge(...array_filter($collection)));
 function get_google_data(User $user)
 {
     global $collection;
+
     $client = get_client();
     $token = $user->get_google_token();
 
+    global $errors;
     if (is_null($token)) {
-        echo ERROR_GOOGLE_TOKEN_NOT_SET;
+        array_push($errors["errors"], ERROR_GOOGLE_TOKEN_NOT_SET . ": Reminder");
+        echo json_encode($errors);
         exit;
     }
 
@@ -54,8 +58,10 @@ function get_canvas_data(User $user)
 
     $token = $user->get_canvas_token();
 
+    global $errors;
     if (is_null($token)) {
-        echo ERROR_CANVAS_TOKEN_NOT_SET;
+        array_push($errors["errors"], ERROR_CANVAS_TOKEN_NOT_SET . ": Reminder");
+        echo json_encode($errors);
         exit;
     }
 
