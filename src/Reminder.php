@@ -146,7 +146,7 @@ class Reminder
     /**
      * Sets the message of the reminder.
      */
-    public function set_message(string $message): void
+    public function set_message(?string $message): void
     {
         $this->message = $message;
     }
