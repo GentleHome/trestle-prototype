@@ -4,22 +4,29 @@ require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . './helpers/db_utils.php';
 require_once dirname(__FILE__) . '/../setup.php';
 require_once dirname(__FILE__) . "/./helpers/parsers.php";
+
 session_start();
 
+$errors = array("errors" => []);
+
 if (!isset($_GET['course_id'])) {
-    echo ERROR_MISSING_VALUE . ': Course ID';
+    array_push($errors["errors"], ERROR_MISSING_VALUE . ': Course ID');
+    echo json_encode($errors);
     exit;
 }
 
 if (!isset($_GET['source'])) {
-    echo ERROR_MISSING_VALUE . ': Source';
+    array_push($errors["errors"], ERROR_MISSING_VALUE . ': Source');
+    echo json_encode($errors);
     exit;
 }
 
 $user = get_logged_in_user($entityManager);
 
 if (is_null($user)) {
-    echo ERROR_MISSING_LOGGED_IN_USER;
+    array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
+    echo json_encode($errors);
+    exit;
 }
 
 $course_id = $_GET['course_id'];
@@ -38,15 +45,40 @@ if ($source === SOURCE_GOOGLE_CLASSROOM) {
 } else if ($source === SOURCE_CANVAS) {
 
     $canvas_assignments = get_canvas_assignments($user, $course_id);
-    foreach ($canvas_assignments as $canvas_assignment) {
-        $coursework = parse_coursework($canvas_assignment, SOURCE_CANVAS, TYPE_ASSIGNMENT);
-        array_push($courseworks, $coursework);
+    if(isset($canvas_assignments->message)){
+
+        array_push($courseworks,
+            array_merge(
+                json_decode(json_encode($canvas_assignments), true), 
+                array("source" => SOURCE_CANVAS, "type" => TYPE_ASSIGNMENT)
+            )
+        );
+
+    } else {
+
+        foreach ($canvas_assignments as $canvas_assignment) {
+            $coursework = parse_coursework($canvas_assignment, SOURCE_CANVAS, TYPE_ASSIGNMENT);
+            array_push($courseworks, $coursework);
+        }
     }
+    
 
     $canvas_quizzes = get_canvas_quizzes($user, $course_id);
-    foreach ($canvas_quizzes as $canvas_quiz) {
-        $coursework = parse_coursework($canvas_quiz, SOURCE_CANVAS, TYPE_QUIZ);
-        array_push($courseworks, $coursework);
+    if (isset($canvas_quizzes->message)) {
+
+        array_push($courseworks, 
+            array_merge(
+                json_decode(json_encode($canvas_quizzes), true), 
+                array("source" => SOURCE_CANVAS, "type" => TYPE_QUIZ)
+            )
+        );
+
+    } else {
+
+        foreach ($canvas_quizzes as $canvas_quiz) {
+            $coursework = parse_coursework($canvas_quiz, SOURCE_CANVAS, TYPE_QUIZ);
+            array_push($courseworks, $coursework);
+        }
     }
 
 }
@@ -59,8 +91,10 @@ function get_google_courseworks(User $user, $course_id)
     $client = get_client();
     $token = $user->get_google_token();
 
+    global $errors;
     if (is_null($token)) {
-        echo ERROR_GOOGLE_TOKEN_NOT_SET;
+        array_push($errors["errors"], ERROR_GOOGLE_TOKEN_NOT_SET . ": Reminder");
+        echo json_encode($errors);
         exit;
     }
 
@@ -88,8 +122,10 @@ function get_canvas_assignments(User $user, $course_id)
 {
     $token = $user->get_canvas_token();
 
+    global $errors;
     if (is_null($token)) {
-        echo ERROR_CANVAS_TOKEN_NOT_SET;
+        array_push($errors["errors"], ERROR_CANVAS_TOKEN_NOT_SET . ": Reminder");
+        echo json_encode($errors);
         exit;
     }
 
@@ -108,8 +144,10 @@ function get_canvas_quizzes(User $user, $course_id)
 {
     $token = $user->get_canvas_token();
 
+    global $errors;
     if (is_null($token)) {
-        echo ERROR_CANVAS_TOKEN_NOT_SET;
+        array_push($errors["errors"], ERROR_CANVAS_TOKEN_NOT_SET . ": Reminder");
+        echo json_encode($errors);
         exit;
     }
 
