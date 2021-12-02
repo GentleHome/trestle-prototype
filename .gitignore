@@ -1,3 +1,4 @@
 .prettierrc
 /vendor
 client_secret.json
+db.sqlite
