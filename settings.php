@@ -1,14 +1,13 @@
+<?php require_once dirname(__FILE__) . "./setup.php" ?>
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title></title>
+    <title>Settings</title>
 </head>
 
 <body>
-    <form action="">
-
-    </form>
+    
 </body>
 
 </html>

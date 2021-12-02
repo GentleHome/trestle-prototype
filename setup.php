@@ -1,8 +1,5 @@
 <?php
 require_once dirname(__FILE__) . '/./vendor/autoload.php';
-require_once dirname(__FILE__) . '/./api/helpers/constants.php';
-
-session_start();
 
 /**
  * Returns an authorized API client.

@@ -1,6 +1,8 @@
 <?php
+require_once dirname(__FILE__) . "/./helpers/constants.php";
 require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . "/./helpers/parsers.php";
+session_start();
 
 $errors = array("errors" => []);
 
