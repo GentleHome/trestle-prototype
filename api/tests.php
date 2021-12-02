@@ -7,17 +7,18 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-if ($_SESSION[MESSAGES]) {
+if (isset($_SESSION[MESSAGES])) {
     foreach ($_SESSION[MESSAGES] as $message) {
         echo $message;
     }
 }
 
-if ($_SESSION[ERRORS]) {
+if (isset($_SESSION[ERRORS])) {
     foreach ($_SESSION[ERRORS] as $message) {
         echo $message;
     }
 }
+
 ?>
 
 <!DOCTYPE html>
