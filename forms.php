@@ -62,10 +62,8 @@
             <!--registration-->
             <form id="register" class="inputgroup" action="./register.php" method="POST">
                 <input type="text" name="username" class="inputfield" required><span class="placeholder">Username</span>
-                <input type="email" name="email" class="inputfield" required><span class="placeholder">Email</span>
                 <input type="password" name="password1" class="inputfield" required><span class="placeholder">Password</span>
                 <input type="password" name="password2" class="inputfield" required><span class="placeholder">Confirm Password</span>
-                <input type="checkbox" class="checkbox"><span class="box">I Agree to the Terms & Conditions</span>
                 <button type="submit" name="register" class="submitbtn">REGISTER</button>
             </form>
             <!--end of registration-->

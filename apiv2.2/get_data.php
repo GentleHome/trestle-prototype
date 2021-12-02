@@ -1,29 +1,38 @@
 <?php
+require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . './setup.php';
+require_once dirname(__FILE__) . './helpers/db_utils.php';
 $collection = [];
 
 // imma just set it here cause we dont have any storage for it yet
 // $_GET['canvas_token'] = "7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H";
 
+
+$user = get_logged_in_user($entityManager);
+
+if (is_null($user)) {
+    echo ERROR_MISSING_LOGGED_IN_USER;
+}
+
 // get_google_data();
 // get_canvas_data();
-new_get_google_data();
+new_get_google_data($user);
 echo json_encode(array_merge(...array_filter($collection)));
 
-function new_get_google_data()
+function new_get_google_data(User $user)
 {
     global $collection;
     $client = get_client();
-    //  check 'token.json' for access token
-    // note: @DB pov, else if can refer to the column for our
-    // stored token on DB
-    if (file_exists('./token.json')) {
-        $accessToken = json_decode(file_get_contents('./token.json'), true);
-        $client->setAccessToken($accessToken);
+    $token = $user->get_google_token();
+
+    if (is_null($token)) {
+        echo ERROR_GOOGLE_TOKEN_NOT_SET;
+        exit;
     }
-    // will check if access token is expired
+
+    $client->setAccessToken($token);
+
     if ($client->isAccessTokenExpired()) {
-        // if refresh token is possible
         if ($client->getRefreshToken()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
         }
@@ -63,26 +72,27 @@ function get_google_data()
     }
 }
 
-function get_canvas_data()
+function get_canvas_data(User $user)
 {
     global $collection;
 
-    if (!isset($_GET['canvas_token'])) {
-        // return array("error" => null);
-        array_push($collection, array("error" => null));
-    } else {
-        $canvas_token = $_GET['canvas_token'];
-        $headers = array(
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $canvas_token
-        );
+    $token = $user->get_canvas_token();
 
-        $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
-        $courses = json_decode($response->body);
+    if (is_null($token)) {
+        echo ERROR_CANVAS_TOKEN_NOT_SET;
+        exit;
+    }
 
-        foreach ($courses as $course) {
-            array_push($collection, get_canvas_assignments($course->id, $course->name, $headers, SOURCE_CANVAS));
-            array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
-        }
+    $headers = array(
+        'Content-Type' => 'application/json',
+        'Authorization' => 'Bearer ' . $token
+    );
+
+    $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
+    $courses = json_decode($response->body);
+
+    foreach ($courses as $course) {
+        array_push($collection, get_canvas_assignments($course->id, $course->name, $headers, SOURCE_CANVAS));
+        array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
     }
 }

@@ -1,5 +1,11 @@
 <?php
-require_once dirname(__FILE__) . './setup.php';
+require_once dirname(__FILE__) . "/./helpers/constants.php";
+require_once dirname(__FILE__) . "/../bootstrap.php";
+require_once dirname(__FILE__) . '/../setup.php';
+require_once dirname(__FILE__) . '/./helpers/db_utils.php';
+require_once dirname(__FILE__) . '/./helpers/parsers_v2.php';
+session_start();
+
 $collection = [];
 
 // imma just set it here cause we dont have any storage for it yet
@@ -31,6 +37,7 @@ function get_google_data(User $user)
     if ($client->isAccessTokenExpired()) {
         if ($client->getRefreshToken()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $user->set_google_token($client->getAccessToken());
         }
     }
 
@@ -65,4 +72,25 @@ function get_canvas_data(User $user)
     foreach ($courses as $course) {
         array_push($collection, get_canvas_assignments($course->id, $course->name, $headers, SOURCE_CANVAS));
     }
+}
+
+function get_canvas_assignments($course_id, $course_name, $headers, $source)
+{
+    $courseworks = [];
+    $response = Requests::get('https://canvas.instructure.com/api/v1/courses/' . $course_id . '/assignments', $headers);
+    $courseworks_response = json_decode($response->body);
+    foreach ($courseworks_response as $coursework) {
+        array_push($courseworks, parse_coursework($coursework, $source, $course_name, null, null, null));
+    }
+    return $courseworks;
+}
+
+function get_google_assignments($course_id, $course_name, $service, $source)
+{
+    $courseworks = [];
+    $response = $service->courses_courseWork;
+    foreach ($response->listCoursesCourseWork($course_id) as $coursework) {
+        array_push($courseworks, parse_coursework($coursework, $source, $course_name, $service, $course_id, $coursework["id"]));
+    }
+    return $courseworks;
 }

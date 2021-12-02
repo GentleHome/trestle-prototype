@@ -1,6 +1,8 @@
 <?php
+require_once dirname(__FILE__) . "/./helpers/constants.php";
 require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . "/./helpers/parsers.php";
+session_start();
 
 $errors = array("errors" => []);
 
@@ -28,8 +30,9 @@ if (!isset($_POST['remind-date'])) {
 }
 
 if (empty($errors['errors'])) {
-
+    
     $user_id = !TEST_MODE ? $_SESSION[USER_ID] : 1;
+    $reminder_id = 
     $title = $_POST['title'];
     $type = $_POST['type'];
     $remind_date = new DateTime($_POST['remind-date'], new DateTimeZone('Asia/Manila'));

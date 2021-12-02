@@ -1,48 +1,70 @@
 <?php
+require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . './setup.php';
+require_once dirname(__FILE__) . './helpers/db_utils.php';
 $collection = [];
 
 // imma just set it here cause we dont have any storage for it yet
-$_GET['canvas_token'] = "7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H";
+// $_GET['canvas_token'] = "7~98HJbrfWCTrgFHs6w02X40O5Zskjg9RGgidbVyNpC0uqIXS6RVVVALEojjn3xd6H";
 
-get_google_data();
-get_canvas_data();
+$user = get_logged_in_user($entityManager);
+
+if (is_null($user)) {
+    echo ERROR_MISSING_LOGGED_IN_USER;
+}
+
+get_google_data($user);
+get_canvas_data($user);
 echo json_encode(array_merge(...array_filter($collection)));
 
-function get_google_data()
+function get_google_data(User $user)
 {
     global $collection;
     $client = get_client();
+    $token = $user->get_google_token();
 
-    if (isset($_SESSION['access_token'])) {
+    if (is_null($token)) {
+        echo ERROR_GOOGLE_TOKEN_NOT_SET;
+        exit;
+    }
 
-        $client->setAccessToken(($_SESSION['access_token']));
-        $service = new Google\Service\Classroom($client);
-        $courses = $service->courses->listCourses()->getCourses();
+    $client->setAccessToken($token);
 
-        foreach ($courses as $course) {
-            array_push($collection, get_google_announcements($course["id"], $course["name"], $service, SOURCE_GOOGLE_CLASSROOM));
+    if ($client->isAccessTokenExpired()) {
+        if ($client->getRefreshToken()) {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
         }
+    }
+    
+    $service = new Google\Service\Classroom($client);
+    $courses = $service->courses->listCourses()->getCourses();
+
+    foreach ($courses as $course) {
+        array_push($collection, get_google_announcements($course["id"], $course["name"], $service, SOURCE_GOOGLE_CLASSROOM));
     }
 }
 
-function get_canvas_data()
+function get_canvas_data(User $user)
 {
     global $collection;
 
-    if (isset($_GET['canvas_token'])) {
+    $token = $user->get_canvas_token();
 
-        $canvas_token = $_GET['canvas_token'];
-        $headers = array(
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . $canvas_token
-        );
-
-        $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
-        $courses = json_decode($response->body);
-
-        foreach ($courses as $course) {
-            array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
-        }
+    if (is_null($token)) {
+        echo ERROR_CANVAS_TOKEN_NOT_SET;
+        exit;
     }
+
+    $headers = array(
+        'Content-Type' => 'application/json',
+        'Authorization' => 'Bearer ' . $token
+    );
+
+    $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
+    $courses = json_decode($response->body);
+
+    foreach ($courses as $course) {
+        array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
+    }
+    
 }

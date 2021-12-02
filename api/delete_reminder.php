@@ -9,35 +9,30 @@ $errors = array("errors" => []);
 if (!isset($_SESSION[USER_ID]) && !TEST_MODE) {
 
     array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
-    
+}
+
+if (!isset($_POST['reminder_id'])) {
+
+    array_push($errors["errors"], ERROR_MISSING_VALUE . ": Reminder");
 }
 
 if (empty($errors['errors'])) {
 
-    $type = null;
-    $is_recurring = null;
     $lookups = array();
     $user_id = !TEST_MODE ? $_SESSION[USER_ID] : 1;
+    $reminder_id = $_POST['reminder_id'];
 
     $user = $entityManager->find("User", $user_id);
-    $lookups['user'] = $user;
 
-    if (isset($_GET['type'])) {
-        $lookups['type'] = $_GET['type'];
-    }
+    $lookups["id"] = $id;
+    $lookups["user"] = $user;
 
-    if (isset($_GET['is_recurring'])) {
-        $lookups['is_recurring'] = $_GET['is_recurring'];
-    }
+    $reminder = $entityManager->getRepository("Reminder")->findOneBy($lookups);
 
-    $reminders = $entityManager->getRepository("Reminder")->findBy($lookups);
+    echo json_encode(array("success" => "Reminder deleted for " . $remind_date->format("M-d-Y h:i"), "reminder" => parse_reminder($reminder)));
 
-    $response = [];
-    foreach ($reminders as $reminder) {
-        array_push($response, parse_reminder($reminder));
-    }
-
-    echo json_encode($response);
+    $entityManager->remove($reminder);
+    $entityManager->flush();
 
 } else {
 

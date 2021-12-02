@@ -1,5 +1,5 @@
 <?php
-require_once "bootstrap.php";
+require_once dirname(__FILE__) . "/../bootstrap.php";
 
 $newUsername = $argv[1];
 $newPassword = $argv[2];
