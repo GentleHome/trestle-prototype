@@ -152,24 +152,40 @@ body {
     padding: 5px;
 }
 
-.dot {
+.dot-google {
     height: 25px;
     width: 25px;
-    background-color: cornflowerblue;
+    border: 1px solid lightgreen;
+    /* background-color: cornflowerblue;
+     */
+    content: url(../icons/classroom_ico.png);
     border-radius: 50%;
     display: inline-block;
     text-align: center;
 }
 
-.dot-recurring {
+.dot-canvas {
     height: 25px;
     width: 25px;
-    background: rgb(110, 11, 128);
+    border: 1px solid red;
+    /* background-color: cornflowerblue; */
+    content: url(../icons/canvas_ico.png);
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+
+.dot-user {
+    height: 25px;
+    width: 25px;
+    border: 1px solid lightblue;
+    /* background: rgb(110, 11, 128);
     background: linear-gradient(
         112deg,
         rgba(110, 11, 128, 1) 0%,
         rgba(229, 19, 121, 1) 100%
-    );
+    ); */
+    content: url(../icons/user_ico.png);
     border-radius: 50%;
     display: inline-block;
     text-align: center;

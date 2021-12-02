@@ -229,15 +229,15 @@ function trigger_modal() {
     let week_box = document.querySelectorAll('.long_box');
     let month_box = document.querySelectorAll('.box');
     week_box.forEach(box => {
-        box.addEventListener('mouseup', addShedule_view);
+        box.addEventListener('mouseup', () => { addShedule_view(box) });
     });
 
     month_box.forEach(box => {
-        box.addEventListener('mouseup', addShedule_view);
+        box.addEventListener('mouseup', () => { addShedule_view(box) });
     });
 }
 
-async function addShedule_view() {
+async function addShedule_view(element) {
     let modal = document.querySelector('.add_sched_modal');
     let modal_content = document.querySelector('.modal_content');
 
@@ -254,10 +254,10 @@ async function addShedule_view() {
         modal.style.display = 'none';
     });
 
-    clicked_date = this.getAttribute('data-month') + '-' + this.getAttribute('data-day') + '-' + this.getAttribute('data-year');
+    clicked_date = element.getAttribute('data-month') + '-' + element.getAttribute('data-day') + '-' + element.getAttribute('data-year');
     mydate = new Date(clicked_date);
     // fetching data from dummy_source and putting it on html
-    arrangeData(mydate);
+    detailView(element)
 
     document.querySelector("#clicked_date").innerHTML = clicked_date;
     let start_date = document.querySelector("form[name='schedule'] input[name='start_date']");
@@ -292,28 +292,63 @@ async function fetchPOSTData(src, formData) {
     let data = await res.text();
     return data;
 }
-// This is where the tasks came from
-async function arrangeData(mydate) {
-    let html = "";
-    for (let x = 0; x < collection.length; x++) {
-        let element = collection[x];
-        if (element.type == 'COURSEWORK' && element.dueDate) {
-            let dueDate = element.dueDate;
-            if (dueDate.day == mydate.getDate() && dueDate.month == mydate.getMonth() + 1 && dueDate.year == mydate.getFullYear()) {
-                html += `<b>Course name: ${element.courseName} </b><br>
-                    <b> Assignment name: ${element.title} </b><br>
-                    | Due date: ${dueDate.month} / ${dueDate.day} / ${dueDate.year} <br>
-                    Description: ${element.description} <br>
-                    Link: <a href="${element.link}">course work link</a> <br>
-                    Source: <b> ${element.source} </b> <br><br>`
+
+// will show the detail view of the tasks
+async function detailView(selected) {
+    var html = '';
+    // for recurring reminders(user_created)
+    var dayofweek = day.indexOf(selected.getAttribute('data-dayofweek'))
+    if (collection) {
+        for (let x = 0; x < collection.length; x++) {
+            let element = collection[x];
+            if (element.type == 'COURSEWORK' && element.dueDate) {
+                let dueDate = element.dueDate;
+                if (dueDate.day == selected.getAttribute('data-day') && dueDate.month == selected.getAttribute('data-month') && dueDate.year == selected.getAttribute('data-year')) {
+                    html += `<b>Course name: ${element.courseName} </b><br>
+                        <b> Assignment name: ${element.title} </b><br>
+                        | Due date: ${dueDate.month} / ${dueDate.day} / ${dueDate.year} <br>
+                        Description: ${element.description} <br>
+                        Link: <a href="${element.link}">course work link</a> <br>
+                        Source: <b> ${element.source} </b> <br><br>`
+                }
+            }
+
+            if (element.type == 'TASK') {
+                let d = new Date(element.remindDate.date);
+                if (element.isRecurring) {
+                    if (element.isRecurring == dayofweek) {
+                        html += detailsHTML(element);
+                    }
+                } else {
+                    if (d.getDate() == selected.getAttribute('data-day') && d.getMonth() + 1 == selected.getAttribute('data-month') && d.getFullYear() == selected.getAttribute('data-year')) {
+                        html += detailsHTML(element);
+                    }
+                }
             }
         }
     }
     document.querySelector('task_preview').innerHTML = html;
-    edit_delete();
+    edit_delete(selected);
+}
+// details of user created reminder
+async function detailsHTML(user_created) {
+    let html = '';
+    html += `<b>Target Course: ${user_created.targetCourse} </b><br>
+    <b> Task Title: ${user_created.title} </b><br>
+    Description: ${user_created.description}<br>`
+    if (!user_created.isRecurring) {
+        html += `Remind date: ${user_created.remindDate.date}<br>`
+    } else {
+        html += `Recurring every: ${day[user_created.isRecurring]} <br>`
+    }
+    html += `<button class="edit_task">edit</button>
+    <button class="delete_task">delete</button> <br><br>`
+
+    return html;
 }
 
-async function edit_schedule() {
+async function edit_schedule(selected) {
+    console.log(clicked_date);
     document.querySelector('task_preview').innerHTML = await fetchGETData('edit_schedule.html');
     document.querySelector("form[name='edit_schedule'] input[name='edit_start_date']").value = formatDate(clicked_date);
     document.querySelector("form[name='edit_schedule'] input[name='edit_end_date']").min = formatDate(clicked_date);
@@ -337,20 +372,20 @@ async function edit_schedule() {
     edit_submit_btn.addEventListener("mouseup", async () => {
         let post_response = await fetchPOSTData('../process/stubs/edit_schedule.php', formdata)
         console.log(post_response);
-        arrangeData(mydate);
+        detailView(element)
     });
 
     cancel_edit.addEventListener("mouseup", () => {
-        arrangeData(mydate);
+        detailView(selected)
     });
 }
 
-function edit_delete() {
+function edit_delete(selected) {
     let edit_task = document.querySelectorAll('.edit_task');
     let delete_task = document.querySelectorAll('.delete_task');
 
     edit_task.forEach(btn => {
-        btn.addEventListener('mouseup', edit_schedule);
+        btn.addEventListener('mouseup', () => { edit_schedule(selected) });
     });
 
     delete_task.forEach(btn => {
@@ -402,25 +437,33 @@ function dotMarkers(collection, daycounter, dayOfWeek) {
                 if (element.dueDate.day == daycounter &&
                     element.dueDate.year == manipulate.year &&
                     element.dueDate.month == manipulate.month + 1) {
-                    html += '<span class="dot"></span>';
+                    if (element.source == "CANVAS") {
+                        html += '<span class="dot-canvas"></span>';
+                    } else {
+                        html += '<span class="dot-google"></span>';
+                    }
                 }
             }
 
             // take tasks
             if (element.type == 'TASK') {
                 let d = new Date(element.remindDate.date);
+                // if element is recurring, will discard the remind date and just keep on
+                // putting dots on the said week we want the thing to reoccur
+                // else the element.isRecurring is null therefore we will prioritize the 
+                // exact date to know where to put the dot
                 if (element.isRecurring) {
                     // FOR 0,1
                     // if (d.getDate() <= daycounter && d.getDay() == dayOfWeek) {
-                    //     html += '<span class="dot-recurring"></span>';
+                    //     html += '<span class="dot-user"></span>';
                     // }
                     // FOR 0-6
                     if (element.isRecurring == dayOfWeek) {
-                        html += '<span class="dot-recurring"></span>';
+                        html += '<span class="dot-user"></span>';
                     }
                 } else {
                     if (d.getDate() == daycounter && d.getMonth() == manipulate.month && d.getFullYear() == manipulate.year) {
-                        html += '<span class="dot-recurring"></span>';
+                        html += '<span class="dot-user"></span>';
                     }
                 }
             }
@@ -428,20 +471,4 @@ function dotMarkers(collection, daycounter, dayOfWeek) {
         return html;
     }
     return '';
-}
-
-function detailsHTML(user_created) {
-    let html = '';
-    html += `<b>Target Course: ${user_created.targetCourse} </b><br>
-    <b> Task Title: ${user_created.title} </b><br>
-    Description: ${user_created.description}<br>`
-    if (!user_created.isRecurring) {
-        html += `Remind date: ${user_created.remindDate.date}<br>`
-    } else {
-        html += `Recurring every: ${day[user_created.isRecurring]} <br>`
-    }
-    html += `<button class="edit_task">edit</button>
-    <button class="delete_task">delete</button> <br><br>`
-
-    return html;
 }

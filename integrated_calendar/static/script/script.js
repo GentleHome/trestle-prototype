@@ -32,6 +32,22 @@ var user_created =
             'targetCourse': null,
             'isChecked': null,
             'isRecurring': null
+        },
+        {
+            'id': 18,
+            'userId': 2,
+            'type': 'TASK',
+            'dateCreated': {
+                'date': '2021-12-01',
+            },
+            'remindDate': {
+                'date': '2021-12-1'
+            },
+            'title': 'Sample task title ni user na HINDI nag rereocccur',
+            'description': 'I want to remind myself to do our capstone',
+            'targetCourse': null,
+            'isChecked': null,
+            'isRecurring': null
         }
 
     ]
