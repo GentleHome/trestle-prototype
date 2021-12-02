@@ -9,10 +9,9 @@ if (!isset($_SESSION[USER_ID]) && !TEST_MODE) {
     array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
 }
 
-if (!isset($_POST['type'])) {
+if (!isset($_POST['reminder_id'])) {
 
-    array_push($errors["errors"], ERROR_MISSING_VALUE . ": Type");
-
+    array_push($errors["errors"], ERROR_MISSING_VALUE . ": Reminder");
 }
 
 if (!isset($_POST['title'])) {
@@ -29,12 +28,17 @@ if (!isset($_POST['remind-date'])) {
 
 if (empty($errors['errors'])) {
 
+    $lookups = array();
     $user_id = !TEST_MODE ? $_SESSION[USER_ID] : 1;
+    $reminder_id = $_POST['reminder_id'];
     $title = $_POST['title'];
     $type = $_POST['type'];
     $remind_date = new DateTime($_POST['remind-date'], new DateTimeZone('Asia/Manila'));
 
     $user = $entityManager->find("User", $user_id);
+
+    $lookups["id"] = $id;
+    $lookups["user"] = $user;
 
     if ($type != TYPE_TASK && $type != TYPE_REMINDER) {
 
@@ -44,7 +48,7 @@ if (empty($errors['errors'])) {
 
     }
 
-    $reminder = new Reminder();
+    $reminder = $entityManager->getRepository("Reminder")->findOneBy($lookups);
 
     $reminder->set_type($type);
     $reminder->set_user($user);
@@ -58,7 +62,7 @@ if (empty($errors['errors'])) {
     $entityManager->persist($reminder);
     $entityManager->flush();
 
-    echo json_encode(array("success" => "Reminder Created for ". $remind_date->format("M-d-Y h:i"), "reminder" => parse_reminder($reminder)));
+    echo json_encode(array("success" => "Reminder edited for ". $remind_date->format("M-d-Y h:i"), "reminder" => parse_reminder($reminder)));
 
 
 } else {
