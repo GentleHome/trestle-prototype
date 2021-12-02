@@ -57,12 +57,6 @@ if ($_SESSION[ERRORS]) {
         <button id="get-courseworks-button">Get Courseworks</button> = <textarea id="get-courseworks-response" disabled placeholder="Response"></textarea></br></br>
 
         <!-- Get Coursework -->
-        <select id="get-coursework-type-option">
-            <option selected value="ASSIGNMENT">Assignment</option>
-            <option value="COURSEWORK">Coursework</option>
-            <option value="QUIZ">Quiz</option>
-        </select>
-
         <input type="text" id="get-coursework-id" placeholder="Coursework ID">
         <button id="get-coursework-button">Get Coursework</button> = <textarea id="get-coursework-response" disabled placeholder="Response"></textarea></br></br>
 
