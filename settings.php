@@ -27,14 +27,17 @@ $auth_url = $client->createAuthUrl();
 <body>
 
     <?php if (!is_null($current_canvas_token)) { ?>
-        <span> Current Canvas Token: <?php echo $current_canvas_token; ?> </span>
+        <span>Current Canvas Token: <?php echo $current_canvas_token; ?></span>
+        </br>
     <?php } ?>
-    </br>Teacher Token(sample): 7~eP0MHZP46nz5Y3oNNkLeCA7i4Zo5b2kojJI5V0gZeoN2RTmrNYyWIHtFI37Qou0q</br>
+    Teacher Token(sample): 7~eP0MHZP46nz5Y3oNNkLeCA7i4Zo5b2kojJI5V0gZeoN2RTmrNYyWIHtFI37Qou0q</br>
     <form action="./set_canvas_token.php" method="POST">
         <input type="text" name="code">
         <input type="submit" value="Set Canvas Token">
     </form>
     <?php if (!is_null($current_google_token)) { ?>
+        <span>Current Google Token: <?php echo $current_google_token["access_token"]; ?></span>
+        </br>
         <button>Revoke Access</button>
     <?php } else { ?>
         <a href="<?php echo $auth_url; ?>"><button>Grant Access</button></a>
