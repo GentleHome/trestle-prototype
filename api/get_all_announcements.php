@@ -1,9 +1,9 @@
 <?php
 require_once dirname(__FILE__) . "/./helpers/constants.php";
 require_once dirname(__FILE__) . "/../bootstrap.php";
-require_once dirname(__FILE__) . './setup.php';
-require_once dirname(__FILE__) . './helpers/db_utils.php';
-require_once dirname(__FILE__) . './helpers/parsers_v2.php';
+require_once dirname(__FILE__) . '/../setup.php';
+require_once dirname(__FILE__) . '/./helpers/db_utils.php';
+require_once dirname(__FILE__) . '/./helpers/parsers_v2.php';
 session_start();
 
 $collection = [];

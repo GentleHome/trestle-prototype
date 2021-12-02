@@ -1,6 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/./setup.php';
 require_once dirname(__FILE__) . "/./bootstrap.php";
+require_once dirname(__FILE__) . './api/helpers/constants.php';
+session_start();
 
 $errors = array("errors" => []);
 if (isset($_POST['code'])) {
@@ -12,9 +14,9 @@ if (isset($_POST['code'])) {
     $user_id = !TEST_MODE ? $_SESSION[USER_ID] : 1;
     $user = $entityManager->find("User", $user_id);
 
-    $user->set_canvas_token($_POST['code']);
+    $user->set_canvas_token(trim($_POST['code']));
     $entityManager->flush();
 
-    header("Location: ./tests.php");
+    header("Location: ./settings.php");
     exit;
 }

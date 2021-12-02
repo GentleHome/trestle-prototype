@@ -98,7 +98,10 @@ class User
      */
     public function get_google_token(): array
     {
-        return json_decode($this->google_token);
+        if($this->google_token){
+            return json_decode($this->google_token, true);
+        }
+        return null;
     }
 
     /**
@@ -112,7 +115,7 @@ class User
     /**
      * Gets the Canvas LMS token lol
      */
-    public function get_canvas_token(): string
+    public function get_canvas_token(): ?string
     {
         return $this->canvas_token;
     }

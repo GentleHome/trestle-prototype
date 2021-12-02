@@ -122,7 +122,7 @@ class Reminder
     /**
      * Gets the title of the reminder.
      */
-    public function get_title(): string
+    public function get_title(): ?string
     {
         return $this->title;
     }
@@ -138,7 +138,7 @@ class Reminder
     /**
      * Gets the message of the reminder.
      */
-    public function get_message(): string
+    public function get_message(): ?string
     {
         return $this->message;
     }
@@ -186,7 +186,7 @@ class Reminder
     /**
      * Gets the value on whether the reminder is checked or not.
      */
-    public function get_is_checked()
+    public function get_is_checked(): ?bool
     {
         return $this->is_checked;
     }
@@ -194,7 +194,7 @@ class Reminder
     /**
      * Sets the value on whether the reminder is checked or not.
      */
-    public function set_is_checked(bool $is_checked): void
+    public function set_is_checked(bool $is_checked) : void
     {
         $this->is_checked = $is_checked;
     }
@@ -202,7 +202,7 @@ class Reminder
     /**
      * Gets the target course of the reminder.
      */
-    public function get_target_course()
+    public function get_target_course() : ?int
     {
         return $this->target_course;
     }
@@ -218,7 +218,7 @@ class Reminder
     /**
      * Gets the value on whether the reminder is recurring or not.
      */
-    public function get_is_recurring()
+    public function get_is_recurring() : ?int
     {
         return $this->is_recurring;
     }

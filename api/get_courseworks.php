@@ -2,7 +2,7 @@
 require_once dirname(__FILE__) . "/./helpers/constants.php";
 require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . './helpers/db_utils.php';
-require_once dirname(__FILE__) . '../setup.php';
+require_once dirname(__FILE__) . '/../setup.php';
 require_once dirname(__FILE__) . "/./helpers/parsers.php";
 session_start();
 
@@ -70,6 +70,9 @@ function get_google_courseworks(User $user, $course_id)
         if ($client->getRefreshToken()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
             $user->set_google_token($client->getAccessToken());
+        }
+        else{
+            echo "wooo";
         }
     }
     

@@ -1,7 +1,8 @@
 <?php
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
-require_once dirname(__FILE__) . "bootstrap.php";
+require_once dirname(__FILE__) . "/./bootstrap.php";
+require_once dirname(__FILE__) . './api/helpers/constants.php';
 session_start();
 
 $errors = [];
@@ -37,4 +38,7 @@ if($password1 === $password2){
 
 $_SESSION[MESSAGES] = $messages;
 $_SESSION[ERRORS] = $errors;
+
+
+header("Location: ./forms.php");
 

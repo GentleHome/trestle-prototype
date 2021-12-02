@@ -1,5 +1,5 @@
 <?php
-require_once "bootstrap.php";
+require_once dirname(__FILE__) . "/../bootstrap.php";
 
 $user_id = $argv[1];
 $title = $argv[2];
