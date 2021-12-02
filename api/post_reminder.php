@@ -32,7 +32,6 @@ if (!isset($_POST['remind-date'])) {
 if (empty($errors['errors'])) {
     
     $user_id = !TEST_MODE ? $_SESSION[USER_ID] : 1;
-    $reminder_id = 
     $title = $_POST['title'];
     $type = $_POST['type'];
     $remind_date = new DateTime($_POST['remind-date'], new DateTimeZone('Asia/Manila'));
@@ -53,7 +52,14 @@ if (empty($errors['errors'])) {
     $reminder->set_user($user);
     $reminder->set_title($title);
 
-    if(isset($_POST['message'])){ $reminder->set_message($_POST['message']); }
+    if (isset($_POST['message'])){ 
+        $message = $_POST['message'];
+        if (!empty($message)) { $reminder->set_message($message); }
+    }
+
+    if (isset($_POST['is-recurring'])) {
+        $reminder->set_is_recurring(date('w', strtotime($_POST['remind-date'])));
+    }
 
     // I'm stupid and I have no idea what kind of data the form input of type date will give.
     $reminder->set_remind_date($remind_date);
