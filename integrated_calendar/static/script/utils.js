@@ -1,5 +1,5 @@
 var clicked_date;
-var mydate;
+
 // date proccessing
 function daysInMonth(month, year) {
     return new Date(year, month + 1, 0).getDate();
@@ -255,7 +255,7 @@ async function addShedule_view(element) {
     });
 
     clicked_date = element.getAttribute('data-month') + '-' + element.getAttribute('data-day') + '-' + element.getAttribute('data-year');
-    mydate = new Date(clicked_date);
+
     // fetching data from dummy_source and putting it on html
     detailView(element)
 
@@ -294,7 +294,7 @@ async function fetchPOSTData(src, formData) {
 }
 
 // will show the detail view of the tasks
-async function detailView(selected) {
+function detailView(selected) {
     var html = '';
     // for recurring reminders(user_created)
     var dayofweek = day.indexOf(selected.getAttribute('data-dayofweek'))
@@ -331,7 +331,7 @@ async function detailView(selected) {
     edit_delete(selected);
 }
 // details of user created reminder
-async function detailsHTML(user_created) {
+function detailsHTML(user_created) {
     let html = '';
     html += `<b>Target Course: ${user_created.targetCourse} </b><br>
     <b> Task Title: ${user_created.title} </b><br>

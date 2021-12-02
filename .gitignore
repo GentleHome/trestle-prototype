@@ -1,5 +1,3 @@
 .prettierrc
 /vendor
 client_secret.json
-.eslintrc.json
-package.json

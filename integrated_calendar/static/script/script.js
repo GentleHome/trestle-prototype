@@ -58,7 +58,6 @@ var collection = [];
 // year, month, week
 const date = new Date();
 const box_range = [12, 42, 7, 1];
-let range_holder;
 const choose_view = document.querySelector(".choose_view");
 const prev = document.querySelector("#prev");
 const next = document.querySelector("#next");
