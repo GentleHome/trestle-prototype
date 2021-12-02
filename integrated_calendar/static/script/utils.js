@@ -307,6 +307,7 @@ function detailView(selected) {
                     html += `<b>Course name: ${element.courseName} </b><br>
                         <b> Assignment name: ${element.title} </b><br>
                         | Due date: ${dueDate.month} / ${dueDate.day} / ${dueDate.year} <br>
+                        | Submitted: ${element.hasSubmitted ? 'FINISHED' : 'UNFINISHED'} <br>
                         Description: ${element.description} <br>
                         Link: <a href="${element.link}">course work link</a> <br>
                         Source: <b> ${element.source} </b> <br><br>`
@@ -335,7 +336,7 @@ function detailsHTML(user_created) {
     let html = '';
     html += `<b>Target Course: ${user_created.targetCourse} </b><br>
     <b> Task Title: ${user_created.title} </b><br>
-    Description: ${user_created.description}<br>`
+    Message: ${user_created.message}<br>`
     if (!user_created.isRecurring) {
         html += `Remind date: ${user_created.remindDate.date}<br>`
     } else {
@@ -438,9 +439,18 @@ function dotMarkers(collection, daycounter, dayOfWeek) {
                     element.dueDate.year == manipulate.year &&
                     element.dueDate.month == manipulate.month + 1) {
                     if (element.source == "CANVAS") {
-                        html += '<span class="dot-canvas"></span>';
+                        if (element.hasSubmitted) {
+                            html += '<span class="dot-canvas-finished"></span>';
+                        } else {
+                            html += '<span class="dot-canvas-unfinished"></span>';
+                        }
+
                     } else {
-                        html += '<span class="dot-google"></span>';
+                        if (element.hasSubmitted) {
+                            html += '<span class="dot-google-finished"></span>';
+                        } else {
+                            html += '<span class="dot-google-unfinished"></span>';
+                        }
                     }
                 }
             }

@@ -12,7 +12,7 @@ var user_created =
                 'date': '2021-12-1'
             },
             'title': 'Sample task title ni user sa nag rereoccur',
-            'description': 'I want to remind myself to do our capstone',
+            'message': 'I want to remind myself to do our capstone',
             'targetCourse': null,
             'isChecked': null,
             'isRecurring': 1
@@ -28,7 +28,7 @@ var user_created =
                 'date': '2021-12-1'
             },
             'title': 'Sample task title ni user na HINDI nag rereocccur',
-            'description': 'I want to remind myself to do our capstone',
+            'message': 'I want to remind myself to do our capstone',
             'targetCourse': null,
             'isChecked': null,
             'isRecurring': null
@@ -44,7 +44,7 @@ var user_created =
                 'date': '2021-12-1'
             },
             'title': 'Sample task title ni user na HINDI nag rereocccur',
-            'description': 'I want to remind myself to do our capstone',
+            'message': 'I want to remind myself to do our capstone',
             'targetCourse': null,
             'isChecked': null,
             'isRecurring': null

@@ -152,10 +152,10 @@ body {
     padding: 5px;
 }
 
-.dot-google {
+.dot-google-unfinished {
     height: 25px;
     width: 25px;
-    border: 1px solid lightgreen;
+    border: 2px solid red;
     /* background-color: cornflowerblue;
      */
     content: url(../icons/classroom_ico.png);
@@ -164,10 +164,33 @@ body {
     text-align: center;
 }
 
-.dot-canvas {
+.dot-google-finished {
     height: 25px;
     width: 25px;
-    border: 1px solid red;
+    border: 2px solid lightgreen;
+    /* background-color: cornflowerblue;
+     */
+    content: url(../icons/classroom_ico.png);
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+
+.dot-canvas-unfinished {
+    height: 25px;
+    width: 25px;
+    border: 2px solid red;
+    /* background-color: cornflowerblue; */
+    content: url(../icons/canvas_ico.png);
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+}
+
+.dot-canvas-finished {
+    height: 25px;
+    width: 25px;
+    border: 2px solid lightgreen;
     /* background-color: cornflowerblue; */
     content: url(../icons/canvas_ico.png);
     border-radius: 50%;
