@@ -59,10 +59,9 @@ if (empty($errors['errors'])) {
 
     if (isset($_POST['is-recurring'])) {
         $reminder->set_is_recurring(date('w', strtotime($_POST['remind-date'])));
+    } else {
+        $reminder->set_remind_date($remind_date);
     }
-
-    // I'm stupid and I have no idea what kind of data the form input of type date will give.
-    $reminder->set_remind_date($remind_date);
 
     $entityManager->persist($reminder);
     $entityManager->flush();

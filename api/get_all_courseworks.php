@@ -86,7 +86,7 @@ function get_canvas_assignments($course_id, $course_name, $headers, $source)
     $response = Requests::get('https://canvas.instructure.com/api/v1/courses/' . $course_id . '/assignments', $headers);
     $courseworks_response = json_decode($response->body);
     foreach ($courseworks_response as $coursework) {
-        array_push($courseworks, parse_coursework($coursework, $source, $course_name, null, null, null));
+        array_push($courseworks, parse_coursework($coursework, $source, $course_name));
     }
     return $courseworks;
 }

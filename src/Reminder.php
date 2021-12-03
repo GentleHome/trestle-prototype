@@ -46,7 +46,7 @@ class Reminder
     private $date_created;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=true)
      * @var DateTime
      */
     private $remind_date;
@@ -170,7 +170,7 @@ class Reminder
     /**
      * Gets the date of the reminder for when it's supposed to remind.
      */
-    public function get_remind_date(): DateTime
+    public function get_remind_date(): ?DateTime
     {
         return $this->remind_date;
     }

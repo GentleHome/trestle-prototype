@@ -1,6 +1,6 @@
 <?php
 
-function parse_coursework($object, $source, $course_name, $service, $google_courseId, $google_courseworkId)
+function parse_coursework($object, $source, $course_name, $service = null, $google_courseId = null, $google_courseworkId = null)
 {
     $coursework = [];
     if ($source === SOURCE_GOOGLE_CLASSROOM) {
