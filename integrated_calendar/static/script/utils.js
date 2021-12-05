@@ -314,7 +314,7 @@ function detailView(selected) {
                 }
             }
 
-            if (element.type == 'TASK') {
+            if (element.type == 'REMINDER') {
                 let d = new Date(element.remindDate.date);
                 if (element.isRecurring) {
                     if (element.isRecurring == dayofweek) {
@@ -326,6 +326,13 @@ function detailView(selected) {
                     }
                 }
             }
+
+            if (element.type == 'TASK') {
+                let d = new Date(element.remindDate.date);
+                if (d.getDate() == selected.getAttribute('data-day') && d.getMonth() + 1 == selected.getAttribute('data-month') && d.getFullYear() == selected.getAttribute('data-year')) {
+                    html += detailsHTML(element);
+                }
+            }
         }
     }
     document.querySelector('task_preview').innerHTML = html;
@@ -335,10 +342,12 @@ function detailView(selected) {
 function detailsHTML(user_created) {
     let html = '';
     html += `<b>Target Course: ${user_created.targetCourse} </b><br>
-    <b> Task Title: ${user_created.title} </b><br>
-    Message: ${user_created.message}<br>`
+    <b>Title: ${user_created.title} </b><br>
+    Message: ${user_created.message}<br>
+    TYPE: ${user_created.type}<br>`
     if (!user_created.isRecurring) {
-        html += `Remind date: ${user_created.remindDate.date}<br>`
+        html += `Remind date: ${user_created.remindDate.date}<br>
+        isChecked: ${user_created.isChecked}<br>`
     } else {
         html += `Recurring every: ${day[user_created.isRecurring]} <br>`
     }
@@ -455,26 +464,34 @@ function dotMarkers(collection, daycounter, dayOfWeek) {
                 }
             }
 
-            // take tasks
-            if (element.type == 'TASK') {
+            // take reminders - can be set recurring and not recurring, cannot be checked
+            if (element.type == 'REMINDER') {
                 let d = new Date(element.remindDate.date);
                 // if element is recurring, will discard the remind date and just keep on
                 // putting dots on the said week we want the thing to reoccur
                 // else the element.isRecurring is null therefore we will prioritize the 
                 // exact date to know where to put the dot
                 if (element.isRecurring) {
-                    // FOR 0,1
-                    // if (d.getDate() <= daycounter && d.getDay() == dayOfWeek) {
-                    //     html += '<span class="dot-user"></span>';
-                    // }
-                    // FOR 0-6
+                    // FOR 0-6 [sunday to saturday]
                     if (element.isRecurring == dayOfWeek) {
-                        html += '<span class="dot-user"></span>';
+                        html += '<span class="dot-reminder"></span>';
                     }
                 } else {
                     if (d.getDate() == daycounter && d.getMonth() == manipulate.month && d.getFullYear() == manipulate.year) {
-                        html += '<span class="dot-user"></span>';
+                        html += '<span class="dot-reminder"></span>';
                     }
+                }
+            }
+            // take tasks - cannot be recurring, can be checked
+            if (element.type == 'TASK') {
+                let d = new Date(element.remindDate.date);
+                if (d.getDate() == daycounter && d.getMonth() == manipulate.month && d.getFullYear() == manipulate.year) {
+                    if (element.isChecked) {
+                        html += '<span class="dot-task-finished"></span>';
+                    } else {
+                        html += '<span class="dot-task-unfinished"></span>';
+                    }
+
                 }
             }
         }
