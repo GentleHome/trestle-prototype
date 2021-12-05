@@ -1,10 +1,28 @@
 // sample data
+// TASK - cannot be recurring, can be checked
+// REMINDER - can be set recurring and not recurring, cannot be checked
 var user_created =
     [
         {
+            'id': 15,
+            'userId': 1,
+            'type': 'REMINDER',
+            'dateCreated': {
+                'date': '2021-12-1',
+            },
+            'remindDate': {
+                'date': '2021-12-1'
+            },
+            'title': 'Sample task title ni user sa nag rereoccur',
+            'message': 'I want to remind myself to do our capstone',
+            'targetCourse': null,
+            'isChecked': null,
+            'isRecurring': null
+        },
+        {
             'id': 16,
             'userId': 1,
-            'type': 'TASK',
+            'type': 'REMINDER',
             'dateCreated': {
                 'date': '2021-12-1',
             },
@@ -46,7 +64,7 @@ var user_created =
             'title': 'Sample task title ni user na HINDI nag rereocccur',
             'message': 'I want to remind myself to do our capstone',
             'targetCourse': null,
-            'isChecked': null,
+            'isChecked': true,
             'isRecurring': null
         }
 
@@ -66,7 +84,7 @@ const date_indication = document.querySelector("#date_indication");
 const the_date = document.querySelector('#date');
 let selected_date = new Date(the_date.innerHTML);
 
-let view_state_holder;
+let view_state_holder = '1';
 const day = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday",];
 const small_day = ["Su", "M", "T", "W", "TH", "F", "Sa",];
 
@@ -80,10 +98,11 @@ let manipulate = {
 };
 
 // initial load out
+renderer(view_state_holder);
 getData();
 async function getData() {
     collection = await getCourseWorks();
-    // triple dot spreads the array good for adding stuff in object
+    // triple dot spreads the array good for adding stuff in object --will erase once the DB IS CONNECTED!!!
     collection.push(...user_created);
     view_state_holder = choose_view.value;
     renderer(view_state_holder);
