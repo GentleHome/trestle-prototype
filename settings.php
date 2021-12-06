@@ -38,7 +38,7 @@ $auth_url = $client->createAuthUrl();
     <?php if (!is_null($current_google_token)) { ?>
         <span>Current Google Token: <?php echo $current_google_token["access_token"]; ?></span>
         </br>
-        <button>Revoke Access</button>
+        <a href="./revoke.php"><button>Revoke Access</button></a>
     <?php } else { ?>
         <a href="<?php echo $auth_url; ?>"><button>Grant Access</button></a>
     <?php } ?>

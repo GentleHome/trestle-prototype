@@ -28,4 +28,7 @@ if (isset($_GET['code'])) {
     } else {
         echo $response['error'];
     }
+
+} else if (isset($_GET['error'])) {
+    echo $_GET['error'];
 }
