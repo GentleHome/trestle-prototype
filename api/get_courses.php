@@ -17,38 +17,32 @@ if (is_null($user)) {
     exit;
 }
 
-$google_courses = null;
-$canvas_courses = null;
+$courses = [];
 
 $google_token = $user->get_google_token();
 $canvas_token = $user->get_canvas_token();
 
 if (!is_null($google_token)) {
     $google_courses = get_google_courses($google_token);
+
+    foreach ($google_courses as $google_course) {
+        $course = parse_course($google_course, SOURCE_GOOGLE_CLASSROOM);
+        array_push($courses, $course);
+    }
 }
 
 if (!is_null($canvas_token)) {
     $canvas_courses = get_canvas_courses($canvas_token);
+
+    foreach ($canvas_courses as $canvas_course) {
+        $course = parse_course($canvas_course, SOURCE_CANVAS);
+        array_push($courses, $course);
+    }
 }
 
-$courses = [];
-
-foreach ($google_courses as $google_course) {
-
-    $course = parse_course($google_course, SOURCE_GOOGLE_CLASSROOM);
-
-    array_push($courses, $course);
-}
-
-foreach ($canvas_courses as $canvas_course) {
-
-    $course = parse_course($canvas_course, SOURCE_CANVAS);
-    array_push($courses, $course);
-}
 
 echo json_encode($courses);
 exit;
-
 
 function get_google_courses(array $token)
 {
