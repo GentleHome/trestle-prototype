@@ -107,7 +107,7 @@ class User
     /**
      * Sets the Google token lol
      */
-    public function set_google_token(array $google_token): void
+    public function set_google_token(?array $google_token): void
     {
         $this->google_token = json_encode($google_token);
     }
@@ -123,7 +123,7 @@ class User
     /**
      * Sets the Canvas LMS token lol
      */
-    public function set_canvas_token(string $canvas_token): void
+    public function set_canvas_token(?string $canvas_token): void
     {
         $this->canvas_token = $canvas_token;
     }

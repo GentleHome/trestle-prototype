@@ -17,46 +17,41 @@ if (is_null($user)) {
     exit;
 }
 
-$google_courses = get_google_courses($user);
-$canvas_courses = get_canvas_courses($user);
-
 $courses = [];
 
-foreach ($google_courses as $google_course) {
+$google_token = $user->get_google_token();
+$canvas_token = $user->get_canvas_token();
 
-    $course = parse_course($google_course, SOURCE_GOOGLE_CLASSROOM);
+if (!is_null($google_token)) {
+    $google_courses = get_google_courses($google_token);
 
-    array_push($courses, $course);
+    foreach ($google_courses as $google_course) {
+        $course = parse_course($google_course, SOURCE_GOOGLE_CLASSROOM);
+        array_push($courses, $course);
+    }
 }
 
-foreach ($canvas_courses as $canvas_course) {
+if (!is_null($canvas_token)) {
+    $canvas_courses = get_canvas_courses($canvas_token);
 
-    $course = parse_course($canvas_course, SOURCE_CANVAS);
-    array_push($courses, $course);
+    foreach ($canvas_courses as $canvas_course) {
+        $course = parse_course($canvas_course, SOURCE_CANVAS);
+        array_push($courses, $course);
+    }
 }
+
 
 echo json_encode($courses);
 exit;
 
-
-function get_google_courses(User $user)
+function get_google_courses(array $token)
 {
     $client = get_client();
-    $token = $user->get_google_token();
-
-    global $errors;
-    if (is_null($token)) {
-        array_push($errors["errors"], ERROR_GOOGLE_TOKEN_NOT_SET . ": Reminder");
-        echo json_encode($errors);
-        exit;
-    }
-
     $client->setAccessToken($token);
 
     if ($client->isAccessTokenExpired()) {
         if ($client->getRefreshToken()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-            $user->set_google_token($client->getAccessToken());
         }
     }
     
@@ -66,18 +61,8 @@ function get_google_courses(User $user)
     return $courses;
 }
 
-function get_canvas_courses(User $user)
+function get_canvas_courses(string $token)
 {
-
-    $token = $user->get_canvas_token();
-
-    global $errors;
-    if (is_null($token)) {
-        array_push($errors["errors"], ERROR_CANVAS_TOKEN_NOT_SET . ": Reminder");
-        echo json_encode($errors);
-        exit;
-    }
-
     $headers = array(
         'Content-Type' => 'application/json',
         'Authorization' => 'Bearer ' . $token
