@@ -11,10 +11,17 @@ if (isset($_POST['code'])) {
         array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
     }
 
+    $code = trim($_POST['code']);
+
     $user_id = !TEST_MODE ? $_SESSION[USER_ID] : 1;
     $user = $entityManager->find("User", $user_id);
 
-    $user->set_canvas_token(trim($_POST['code']));
+    if(empty($_POST['code'])){
+        $user->set_canvas_token(null);
+    } else {
+        $user->set_canvas_token($code);
+    }
+    
     $entityManager->flush();
 
     header("Location: ./settings.php");

@@ -107,7 +107,7 @@ class User
     /**
      * Sets the Google token lol
      */
-    public function set_google_token(array $google_token): void
+    public function set_google_token(?array $google_token): void
     {
         $this->google_token = json_encode($google_token);
     }
