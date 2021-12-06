@@ -18,30 +18,29 @@ if (is_null($user)) {
     exit;
 }
 
-get_google_data($user);
-get_canvas_data($user);
+$google_token = $user->get_google_token();
+$canvas_token = $user->get_canvas_token();
+
+if (!is_null($google_token)) {
+    get_google_data($google_token);
+}
+
+if (!is_null($canvas_token)) {
+    get_canvas_data($canvas_token);
+}
+
 echo json_encode(array_merge(...array_filter($collection)));
 
-function get_google_data(User $user)
+function get_google_data(array $token)
 {
     global $collection;
+
     $client = get_client();
-    $token = $user->get_google_token();
-
-    global $errors;
-    if (is_null($token)) {
-        array_push($errors["errors"], ERROR_GOOGLE_TOKEN_NOT_SET . ": Reminder");
-        echo json_encode($errors);
-        exit;
-    }
-
-
     $client->setAccessToken($token);
 
     if ($client->isAccessTokenExpired()) {
         if ($client->getRefreshToken()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-            $user->set_google_token($client->getAccessToken());
         }
     }
 
@@ -51,21 +50,11 @@ function get_google_data(User $user)
     foreach ($courses as $course) {
         array_push($collection, get_google_assignments($course["id"], $course["name"], $service, SOURCE_GOOGLE_CLASSROOM));
     }
-    
 }
 
-function get_canvas_data(User $user)
+function get_canvas_data(string $token)
 {
     global $collection;
-
-    $token = $user->get_canvas_token();
-
-    global $errors;
-    if (is_null($token)) {
-        array_push($errors["errors"], ERROR_CANVAS_TOKEN_NOT_SET . ": Reminder");
-        echo json_encode($errors);
-        exit;
-    }
 
     $headers = array(
         'Content-Type' => 'application/json',
