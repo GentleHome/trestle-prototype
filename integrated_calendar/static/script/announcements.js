@@ -1,14 +1,16 @@
-var collection = [];
+var collection;
 
 arrangeData();
 
 async function getAnnouncements() {
-    const response = await fetch('../process/get_announcements.php');
+    const response = await fetch('../../api/get_all_announcements.php');
     const data = await response.text();
     let data_parse = await JSON.parse(data);
-
-    collection = await data_parse;
-    console.log(collection);
+    if ('error' in data_parse) {
+        collection = null;
+    } else {
+        collection = await data_parse;
+    }
 }
 
 async function arrangeData() {

@@ -218,10 +218,12 @@ function setActive() {
 }
 // fetch for getting dummy data
 async function getCourseWorks() {
-    const response = await fetch('../process/get_courseworks.php');
+    const response = await fetch('../../api/get_all_courseworks.php');
     const data = await response.text();
     let data_parse = await JSON.parse(data);
-
+    if ('errors' in data_parse) {
+        return;
+    }
     return data_parse;
 }
 // clicking a date in month and week view triggers the modal that allows you to add schedule
@@ -256,29 +258,10 @@ async function addShedule_view(element) {
 
     clicked_date = element.getAttribute('data-month') + '-' + element.getAttribute('data-day') + '-' + element.getAttribute('data-year');
 
-    // fetching data from dummy_source and putting it on html
     detailView(element)
 
     document.querySelector("#clicked_date").innerHTML = clicked_date;
-    let start_date = document.querySelector("form[name='schedule'] input[name='start_date']");
-    let end_date = document.querySelector("form[name='schedule'] input[name='end_date']");
-
-    start_date.value = formatDate(clicked_date);
-    end_date.min = start_date.value;
-
-    start_date.addEventListener('change', () => {
-        end_date.min = start_date.value;
-    });
-
-    let myform = document.querySelector("form[name='schedule']");
-    let submit_btn = document.querySelector("#submit_btn");
-    let formdata = new FormData(myform);
-    formdata.append("date", clicked_date);
-
-    submit_btn.addEventListener("mouseup", async () => {
-        let post_response = await fetchPOSTData('../process/stubs/add_schedule.php', formdata);
-        console.log(post_response);
-    });
+    POSTreminder();
 }
 
 async function fetchGETData(src) {
@@ -314,15 +297,15 @@ function detailView(selected) {
                 }
             }
 
-            if (element.type == 'REMINDER') {
-                let d = new Date(element.remindDate.date);
-                if (element.isRecurring) {
-                    if (element.isRecurring == dayofweek) {
-                        html += detailsHTML(element);
+            if (element.type == 'RMDR') {
+                if (element.remindDate) {
+                    let d = new Date(element.remindDate.date);
+                    if (d.getDate() == selected.getAttribute('data-day') && d.getMonth() + 1 == selected.getAttribute('data-month') && d.getFullYear() == selected.getAttribute('data-year')) {
+                        html += detailsHTML(element, element.id);
                     }
                 } else {
-                    if (d.getDate() == selected.getAttribute('data-day') && d.getMonth() + 1 == selected.getAttribute('data-month') && d.getFullYear() == selected.getAttribute('data-year')) {
-                        html += detailsHTML(element);
+                    if (element.isRecurring == dayofweek) {
+                        html += detailsHTML(element, element.id);
                     }
                 }
             }
@@ -330,7 +313,7 @@ function detailView(selected) {
             if (element.type == 'TASK') {
                 let d = new Date(element.remindDate.date);
                 if (d.getDate() == selected.getAttribute('data-day') && d.getMonth() + 1 == selected.getAttribute('data-month') && d.getFullYear() == selected.getAttribute('data-year')) {
-                    html += detailsHTML(element);
+                    html += detailsHTML(element, element.id);
                 }
             }
         }
@@ -339,7 +322,7 @@ function detailView(selected) {
     edit_delete(selected);
 }
 // details of user created reminder
-function detailsHTML(user_created) {
+function detailsHTML(user_created, reminderID) {
     let html = '';
     html += `<b>Target Course: ${user_created.targetCourse} </b><br>
     <b>Title: ${user_created.title} </b><br>
@@ -351,39 +334,16 @@ function detailsHTML(user_created) {
     } else {
         html += `Recurring every: ${day[user_created.isRecurring]} <br>`
     }
-    html += `<button class="edit_task">edit</button>
-    <button class="delete_task">delete</button> <br><br>`
-
+    html += `<button class="edit_task" reminderID = ${reminderID}>edit</button>
+    <button class="delete_task" reminderID = ${reminderID}>delete</button> <br><br>`
     return html;
 }
 
-async function edit_schedule(selected) {
+async function edit_schedule(selected, reminderID) {
     console.log(clicked_date);
     document.querySelector('task_preview').innerHTML = await fetchGETData('edit_schedule.html');
-    document.querySelector("form[name='edit_schedule'] input[name='edit_start_date']").value = formatDate(clicked_date);
-    document.querySelector("form[name='edit_schedule'] input[name='edit_end_date']").min = formatDate(clicked_date);
 
-    let edit_start_date = document.querySelector("form[name='edit_schedule'] input[name='edit_start_date']");
-    let edit_end_date = document.querySelector("form[name='edit_schedule'] input[name='edit_end_date']");
-
-    edit_start_date.value = formatDate(clicked_date);
-    edit_end_date.min = edit_start_date.value;
-
-    edit_start_date.addEventListener('change', () => {
-        edit_end_date.min = edit_start_date.value;
-    });
-
-    let myform = document.querySelector("form[name='edit_schedule']");
-    let edit_submit_btn = document.querySelector("#edit_submit_btn");
-    let cancel_edit = document.querySelector('#cancel_edit');
-    let formdata = new FormData(myform);
-    formdata.append("date", clicked_date);
-
-    edit_submit_btn.addEventListener("mouseup", async () => {
-        let post_response = await fetchPOSTData('../process/stubs/edit_schedule.php', formdata)
-        console.log(post_response);
-        detailView(element)
-    });
+    UPDATEreminder(reminderID);
 
     cancel_edit.addEventListener("mouseup", () => {
         detailView(selected)
@@ -395,12 +355,12 @@ function edit_delete(selected) {
     let delete_task = document.querySelectorAll('.delete_task');
 
     edit_task.forEach(btn => {
-        btn.addEventListener('mouseup', () => { edit_schedule(selected) });
+        btn.addEventListener('mouseup', () => { edit_schedule(selected, btn.getAttribute('reminderID')) });
     });
 
     delete_task.forEach(btn => {
         btn.addEventListener('mouseup', async () => {
-            console.log(await fetchGETData('../process/stubs/delete_schedule.php'));
+            DELETEreminder(btn.getAttribute('reminderID'));
         });
     });
 }
@@ -465,19 +425,14 @@ function dotMarkers(collection, daycounter, dayOfWeek) {
             }
 
             // take reminders - can be set recurring and not recurring, cannot be checked
-            if (element.type == 'REMINDER') {
-                let d = new Date(element.remindDate.date);
-                // if element is recurring, will discard the remind date and just keep on
-                // putting dots on the said week we want the thing to reoccur
-                // else the element.isRecurring is null therefore we will prioritize the 
-                // exact date to know where to put the dot
-                if (element.isRecurring) {
-                    // FOR 0-6 [sunday to saturday]
-                    if (element.isRecurring == dayOfWeek) {
+            if (element.type == 'RMDR') {
+                if (element.remindDate) {
+                    let d = new Date(element.remindDate.date);
+                    if (d.getDate() == daycounter && d.getMonth() == manipulate.month && d.getFullYear() == manipulate.year) {
                         html += '<span class="dot-reminder"></span>';
                     }
                 } else {
-                    if (d.getDate() == daycounter && d.getMonth() == manipulate.month && d.getFullYear() == manipulate.year) {
+                    if (element.isRecurring == dayOfWeek) {
                         html += '<span class="dot-reminder"></span>';
                     }
                 }
@@ -498,4 +453,118 @@ function dotMarkers(collection, daycounter, dayOfWeek) {
         return html;
     }
     return '';
+}
+
+function POSTreminder() {
+    // Post Reminder
+    const postReminder = document.querySelector('#post-reminder-button');
+    postReminder.addEventListener('click', () => {
+        const textArea = document.querySelector('#post-reminder-response');
+        var req;
+
+        const form = document.querySelector("#post-reminder-form");
+        const formData = new URLSearchParams();
+
+        for (const pair of new FormData(form)) {
+            formData.append(pair[0], pair[1]);
+        }
+
+        var data = {
+            method: 'POST',
+            body: formData
+        };
+
+        req = new Request('../../api/post_reminder.php', data);
+
+        fetch(req)
+            .then((res) => res.text())
+            .then((data) => {
+                textArea.value = data;
+                var parsed = JSON.parse(data);
+                console.log(parsed);
+            });
+    });
+}
+
+async function GETreminder() {
+    // Get Reminders
+    var req;
+
+    req = new Request(
+        `../../api/get_reminders.php?type=ALL`
+    );
+
+    const response = await fetch(req);
+    const data = await response.text();
+    let data_parse = await JSON.parse(data);
+    if ('errors' in data_parse) {
+        return;
+    }
+    console.log(data_parse);
+    return data_parse;
+}
+
+function DELETEreminder(reminderID) {
+    // Delete Reminder
+    var req;
+
+    const formData = new URLSearchParams();
+
+    formData.append('reminder-id', reminderID);
+
+    var data = {
+        method: 'POST',
+        body: formData
+    };
+
+    req = new Request('../../api/delete_reminder.php', data);
+
+    fetch(req)
+        .then((res) => res.text())
+        .then((data) => {
+            var parsed = JSON.parse(data);
+            console.log(parsed);
+        });
+}
+
+function UPDATEreminder(reminderID) {
+    // Edit Reminder
+    const editReminder = document.querySelector('#edit-reminder-button');
+    const reminder_id = document.querySelector("input[name='reminder-id']");
+    reminder_id.value = reminderID;
+    editReminder.addEventListener('click', () => {
+        const textArea = document.querySelector('#edit-reminder-response');
+
+        var req;
+
+        const form = document.querySelector("#edit-reminder-form");
+        const formData = new URLSearchParams();
+
+        for (const pair of new FormData(form)) {
+            formData.append(pair[0], pair[1]);
+        }
+
+        var data = {
+            method: 'POST',
+            body: formData
+        };
+
+        req = new Request('edit_reminder.php', data);
+
+        fetch(req)
+            .then((res) => res.text())
+            .then((data) => {
+                textArea.value = data;
+                var parsed = JSON.parse(data);
+                console.log(parsed);
+            });
+    });
+}
+
+async function pushContents(data) {
+    if (data != null) {
+        console.log(data);
+        // triple dot spreads the array good for adding stuff in object --will erase once the DB IS CONNECTED!!!
+        collection.push(...data);
+    }
 }
