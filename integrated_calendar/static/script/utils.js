@@ -583,7 +583,7 @@ function UPDATEreminder(button) {
             body: formData
         };
 
-        req = new Request('edit_reminder.php', data);
+        req = new Request('../../api/edit_reminder.php', data);
 
         fetch(req)
             .then((res) => res.text())
