@@ -301,11 +301,11 @@ function detailView(selected) {
                 if (element.remindDate) {
                     let d = new Date(element.remindDate.date);
                     if (d.getDate() == selected.getAttribute('data-day') && d.getMonth() + 1 == selected.getAttribute('data-month') && d.getFullYear() == selected.getAttribute('data-year')) {
-                        html += detailsHTML(element, element.id);
+                        html += detailsHTML(element, d);
                     }
                 } else {
                     if (element.isRecurring == dayofweek) {
-                        html += detailsHTML(element, element.id);
+                        html += detailsHTML(element, null);
                     }
                 }
             }
@@ -313,7 +313,7 @@ function detailView(selected) {
             if (element.type == 'TASK') {
                 let d = new Date(element.remindDate.date);
                 if (d.getDate() == selected.getAttribute('data-day') && d.getMonth() + 1 == selected.getAttribute('data-month') && d.getFullYear() == selected.getAttribute('data-year')) {
-                    html += detailsHTML(element, element.id);
+                    html += detailsHTML(element, d.toString());
                 }
             }
         }
@@ -322,7 +322,7 @@ function detailView(selected) {
     edit_delete(selected);
 }
 // details of user created reminder
-function detailsHTML(user_created, reminderID) {
+function detailsHTML(user_created, remindDate) {
     let html = '';
     html += `<b>Target Course: ${user_created.targetCourse} </b><br>
     <b>Title: ${user_created.title} </b><br>
@@ -334,19 +334,27 @@ function detailsHTML(user_created, reminderID) {
     } else {
         html += `Recurring every: ${day[user_created.isRecurring]} <br>`
     }
-    html += `<button class="edit_task" reminderID = ${reminderID}>edit</button>
-    <button class="delete_task" reminderID = ${reminderID}>delete</button> <br><br>`
+    html += `<button 
+    class="edit_task" 
+    reminderID = ${user_created.id} 
+    type=${user_created.type} 
+    title="${user_created.title}"
+    message=${user_created.message} 
+    remindDate="${remindDate}" 
+    isRecurring=${user_created.isRecurring} 
+    >edit</button>
+    <button class="delete_task" reminderID = ${user_created.id}>delete</button> <br><br>`
+
     return html;
 }
 
 async function edit_schedule(selected, reminderID) {
-    console.log(clicked_date);
     document.querySelector('task_preview').innerHTML = await fetchGETData('edit_schedule.html');
 
     UPDATEreminder(reminderID);
 
     cancel_edit.addEventListener("mouseup", () => {
-        detailView(selected)
+        detailView(selected);
     });
 }
 
@@ -355,7 +363,7 @@ function edit_delete(selected) {
     let delete_task = document.querySelectorAll('.delete_task');
 
     edit_task.forEach(btn => {
-        btn.addEventListener('mouseup', () => { edit_schedule(selected, btn.getAttribute('reminderID')) });
+        btn.addEventListener('mouseup', () => { edit_schedule(selected, btn) });
     });
 
     delete_task.forEach(btn => {
@@ -527,11 +535,37 @@ function DELETEreminder(reminderID) {
         });
 }
 
-function UPDATEreminder(reminderID) {
+function UPDATEreminder(button) {
     // Edit Reminder
     const editReminder = document.querySelector('#edit-reminder-button');
+    // Get fields
     const reminder_id = document.querySelector("input[name='reminder-id']");
-    reminder_id.value = reminderID;
+    const reminder_type = document.querySelector('#edit-reminder-type-option');
+    const title = document.querySelector("input[name='title']");
+    const remind_date = document.querySelector("input[name='remind-date']");
+    const isRecurring = document.querySelector("input[name='is-recurring']");
+    const message = document.querySelector("textarea[name='message']");
+
+    // Assign values to fields
+    reminder_id.value = button.getAttribute('reminderID');
+    for (let index = 0; index < reminder_type.options.length; index++) {
+        if (reminder_type.options[index].value == button.getAttribute('type')) {
+            reminder_type.options[index].selected = true;
+        }
+    }
+    title.value = button.getAttribute('title');
+    if (button.getAttribute('remindDate')) {
+        var d = new Date(button.getAttribute('remindDate'));
+        remind_date.value = `${d.getFullYear()}-${d.getMonth()}-${d.getDate().toString().length <= 1 ? '0' + d.getDate() : d.getDate()}`;
+    }
+    if (button.getAttribute('isRecurring') != 'null') {
+        isRecurring.checked = true;
+    }
+    if (button.getAttribute('message')) {
+        message.value = button.getAttribute('message');
+    }
+
+    // Confirm edit
     editReminder.addEventListener('click', () => {
         const textArea = document.querySelector('#edit-reminder-response');
 
