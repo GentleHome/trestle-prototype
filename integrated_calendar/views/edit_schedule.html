@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Schedule</title>
+</head>
+
+<body>
+    <button id="cancel_edit">cancel edit</button>
+    <h3>Edit Schedule</h3>
+    <!-- Edit Reminders -->
+    <div class="edit-reminders-div" style="border: 1px solid black; padding: 15px; padding-top: 5px;">
+        <form id="edit-reminder-form">
+
+            Reminder ID:
+            <input type="text" name="reminder-id">
+
+            Reminder type:
+            <select id="edit-reminder-type-option" name="type">
+                <option selected value="RMDR">Reminders</option>
+                <option value="TASK">Task</option>
+            </select>
+
+            Title:
+            <input type="text" name="title">
+
+            Remind Date:
+            <input type="date" name="remind-date">
+
+            Is Recurring:
+            <input type="checkbox" name="is-recurring">
+
+            </br>
+
+            Message (Nullable):
+            <textarea name="message"></textarea>
+
+        </form>
+        <button id="edit-reminder-button">Edit Reminder</button> = <textarea id="edit-reminder-response" disabled placeholder="Response"></textarea></br></br>
+    </div>
+</body>
+
+</html>
