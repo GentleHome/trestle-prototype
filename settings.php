@@ -27,7 +27,7 @@ $auth_url = $client->createAuthUrl();
 <body>
 
     <?php if (!is_null($current_canvas_token)) { ?>
-        <span>Current Canvas Token: <?php echo $current_canvas_token; ?></span>
+        <span>Current Canvas Token: <?php echo htmlspecialchars($current_canvas_token, ENT_QUOTES, 'UTF-8'); ?></span>
         </br>
     <?php } ?>
     Teacher Token(sample): 7~eP0MHZP46nz5Y3oNNkLeCA7i4Zo5b2kojJI5V0gZeoN2RTmrNYyWIHtFI37Qou0q</br>

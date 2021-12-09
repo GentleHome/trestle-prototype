@@ -24,14 +24,21 @@ if (empty($errors['errors'])) {
     $user = $entityManager->find("User", $user_id);
     $reminder = $entityManager->find("Reminder", $reminder_id);
 
+    if (is_null($reminder)) {
+        array_push($errors["errors"], ERROR_MISSING_VALUE . ": Reminder");
+        echo json_encode($errors);
+        exit;
+    }
+
     if (!$reminder->get_user()->get_id() == $user->get_id()) {
         array_push($errors["errors"], ERROR_INVALID_ACCESS);
         echo json_encode($errors);
         exit;
     }
 
-    $entityManager->remove($reminder);
     echo json_encode(array("success" => "Reminder deleted for " . $reminder->get_remind_date()->format("M-d-Y h:i"), "reminder" => parse_reminder($reminder)));
+
+    $entityManager->remove($reminder);
     $entityManager->flush();
 
 
