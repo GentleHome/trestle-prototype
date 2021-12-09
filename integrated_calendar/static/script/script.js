@@ -1,74 +1,5 @@
-// sample data
 // TASK - cannot be recurring, can be checked
 // REMINDER - can be set recurring and not recurring, cannot be checked
-var user_created =
-    [
-        {
-            'id': 15,
-            'userId': 1,
-            'type': 'REMINDER',
-            'dateCreated': {
-                'date': '2021-12-1',
-            },
-            'remindDate': {
-                'date': '2021-12-1'
-            },
-            'title': 'Sample task title ni user sa nag rereoccur',
-            'message': 'I want to remind myself to do our capstone',
-            'targetCourse': null,
-            'isChecked': null,
-            'isRecurring': null
-        },
-        {
-            'id': 16,
-            'userId': 1,
-            'type': 'REMINDER',
-            'dateCreated': {
-                'date': '2021-12-1',
-            },
-            'remindDate': {
-                'date': '2021-12-1'
-            },
-            'title': 'Sample task title ni user sa nag rereoccur',
-            'message': 'I want to remind myself to do our capstone',
-            'targetCourse': null,
-            'isChecked': null,
-            'isRecurring': 1
-        },
-        {
-            'id': 17,
-            'userId': 2,
-            'type': 'TASK',
-            'dateCreated': {
-                'date': '2021-12-01',
-            },
-            'remindDate': {
-                'date': '2021-12-1'
-            },
-            'title': 'Sample task title ni user na HINDI nag rereocccur',
-            'message': 'I want to remind myself to do our capstone',
-            'targetCourse': null,
-            'isChecked': null,
-            'isRecurring': null
-        },
-        {
-            'id': 18,
-            'userId': 2,
-            'type': 'TASK',
-            'dateCreated': {
-                'date': '2021-12-01',
-            },
-            'remindDate': {
-                'date': '2021-12-1'
-            },
-            'title': 'Sample task title ni user na HINDI nag rereocccur',
-            'message': 'I want to remind myself to do our capstone',
-            'targetCourse': null,
-            'isChecked': true,
-            'isRecurring': null
-        }
-
-    ]
 
 // data variables
 var collection = [];
@@ -101,9 +32,10 @@ let manipulate = {
 renderer(view_state_holder);
 getData();
 async function getData() {
-    collection = await getCourseWorks();
-    // triple dot spreads the array good for adding stuff in object --will erase once the DB IS CONNECTED!!!
-    collection.push(...user_created);
+    let courseworks = await getCourseWorks();
+    pushContents(courseworks);
+    let user_created = await GETreminder();
+    pushContents(user_created);
     view_state_holder = choose_view.value;
     renderer(view_state_holder);
 }
