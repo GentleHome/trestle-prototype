@@ -44,7 +44,8 @@ if (empty($errors['errors'])) {
     $entityManager->flush();
 
     echo json_encode(array("success" => $type . " edited", "reminder" => parse_reminder($reminder)));
-    
+
 } else {
+    
     echo json_encode($errors);
 }

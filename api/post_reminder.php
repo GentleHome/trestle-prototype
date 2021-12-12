@@ -43,7 +43,6 @@ if (empty($errors['errors'])) {
         array_push($errors["errors"], ERROR_INVALID_VALUE . ": TYPE");
         echo json_encode($errors);
         exit;
-
     }
 
     $reminder = new Reminder();
@@ -53,17 +52,22 @@ if (empty($errors['errors'])) {
     $reminder->set_title($title);
 
     if (isset($_POST['message'])){ 
+
         $message = $_POST['message'];
         if (!empty($message)) { $reminder->set_message($message); }
     }
 
     if ($type == TYPE_REMINDER && isset($_POST['is-recurring'])) {
+
         $reminder->set_is_recurring(date('w', strtotime($_POST['remind-date'])));
+
     } else {
+
         $reminder->set_remind_date($remind_date);
     }
 
     if($type == TYPE_TASK){
+
         $reminder->set_is_checked(false);
     }
 
@@ -72,9 +76,7 @@ if (empty($errors['errors'])) {
 
     echo json_encode(array("success" => $type . " created for ". $remind_date->format("M-d-Y h:i"), "reminder" => parse_reminder($reminder)));
 
-
 } else {
 
     echo json_encode($errors);
-
 }

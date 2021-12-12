@@ -24,24 +24,26 @@ if (empty($errors['errors'])) {
     $reminder = $entityManager->find("Reminder", $reminder_id);
 
     if (!$reminder->get_user()->get_id() == $user->get_id()){
+
         array_push($errors["errors"], ERROR_INVALID_ACCESS);
         echo json_encode($errors);
         exit;
     }
 
     if (isset($_POST['remind-date'])) {
+
         $remind_date = new DateTime($_POST['remind-date'], new DateTimeZone('Asia/Manila'));
         $reminder->set_remind_date($remind_date);
     }
 
-
     if (isset($_POST['title'])) {
+
         $title = $_POST['title'];
         $reminder->set_title($title);
     }
 
-
     if (isset($_POST['message'])) {
+
         $message = $_POST['message'];
         $reminder->set_message(empty($message) ? null : $message);
     }
@@ -51,9 +53,7 @@ if (empty($errors['errors'])) {
 
     echo json_encode(array("success" => $type . " edited", "reminder" => parse_reminder($reminder)));
 
-
 } else {
 
     echo json_encode($errors);
-
 }
