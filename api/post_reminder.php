@@ -70,7 +70,7 @@ if (empty($errors['errors'])) {
     $entityManager->persist($reminder);
     $entityManager->flush();
 
-    echo json_encode(array("success" => "Reminder Created for ". $remind_date->format("M-d-Y h:i"), "reminder" => parse_reminder($reminder)));
+    echo json_encode(array("success" => $type . " created for ". $remind_date->format("M-d-Y h:i"), "reminder" => parse_reminder($reminder)));
 
 
 } else {
