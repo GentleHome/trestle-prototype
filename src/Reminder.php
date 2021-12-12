@@ -194,7 +194,7 @@ class Reminder
     /**
      * Sets the value on whether the reminder is checked or not.
      */
-    public function set_is_checked(bool $is_checked) : void
+    public function set_is_checked(?bool $is_checked) : void
     {
         $this->is_checked = $is_checked;
     }
@@ -226,7 +226,7 @@ class Reminder
     /**
      * Sets the value on whether the reminder is recurring or not.
      */
-    public function set_is_recurring(int $is_recurring): void
+    public function set_is_recurring(?int $is_recurring): void
     {
         $this->is_recurring = $is_recurring;
     }
