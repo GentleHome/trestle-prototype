@@ -27,7 +27,6 @@ if (empty($errors['errors'])) {
     $type = $reminder->get_type();
 
     if ($type != TYPE_TASK) {
-
         array_push($errors["errors"], ERROR_INVALID_VALUE . ": TYPE");
         echo json_encode($errors);
         exit;
@@ -45,7 +44,7 @@ if (empty($errors['errors'])) {
     $entityManager->flush();
 
     echo json_encode(array("success" => $type . " edited", "reminder" => parse_reminder($reminder)));
+    
 } else {
-
     echo json_encode($errors);
 }
