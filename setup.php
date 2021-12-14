@@ -8,7 +8,7 @@ require_once dirname(__FILE__) . '/./vendor/autoload.php';
 function get_client()
 {
     $client = new Google\Client();
-    $client->setAuthConfig(__DIR__ . './client_secret.json');
+    $client->setAuthConfig(__DIR__ . '/./client_secret.json');
 
     $client->addScope(Google\Service\Classroom::CLASSROOM_COURSES_READONLY);
     $client->addScope(Google\Service\Classroom::CLASSROOM_COURSEWORK_ME_READONLY);
