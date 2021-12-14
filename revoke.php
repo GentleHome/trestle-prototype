@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . "/./bootstrap.php";
 require_once dirname(__FILE__) . '/./setup.php';
-require_once dirname(__FILE__) . './api/helpers/db_utils.php';
+require_once dirname(__FILE__) . '/./api/helpers/db_utils.php';
 
 session_start();
 $client = get_client();
