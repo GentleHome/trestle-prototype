@@ -1,5 +1,6 @@
 var collection = [];
 arrangeData();
+add_edit_delete_check();
 async function GETreminder() {
     // Get Reminders
     var req;
@@ -71,6 +72,7 @@ function notification_section(image, task_id, type, title, description, date_pos
     let html = "";
     let datePosted = format_date_time(date_posted);
     let isChecked = is_checked ? "COMPLETED" : "";
+    let check_int = is_checked ? 1 : 0;
     let dueDate;
 
     if (due_date != null) {
@@ -88,9 +90,9 @@ function notification_section(image, task_id, type, title, description, date_pos
     html += '<span class="finish"><b>' + isChecked + '</b></span>';
     html += '<div class="description">' + description + '</div><br>';
     if (is_checked) {
-        html += `<button class="mark_as_done" reminderID = ${task_id} disabled>Set as Done</button> `;
+        html += `<button class="mark_as_done" reminderID = ${task_id} isChecked=${check_int}>Unsubmit</button> `;
     } else {
-        html += `<button class="mark_as_done" reminderID = ${task_id} >Set as Done</button> `;
+        html += `<button class="mark_as_done" reminderID = ${task_id} isChecked=${check_int}>Mark as Done</button> `;
     }
     html += `<button 
     class="edit_task" 
@@ -100,6 +102,7 @@ function notification_section(image, task_id, type, title, description, date_pos
     message="${description}"
     remindDate="${dueDate}" 
     isRecurring=${is_recurring} 
+    isChecked=${check_int} 
     >Edit</button>
     <button class="delete_task" reminderID = ${task_id}>Delete</button> <br><br>`
     html += '</div>';
@@ -124,14 +127,11 @@ async function addShedule_view() {
 
     modal.style.display = 'block';
 
-    let html = await fetchGETData('add_schedule.html');
+    let html = await fetchGETData('add_task.html');
     let parser = new DOMParser();
     let doc = parser.parseFromString(html, 'text/html');
 
     modal_content.innerHTML = doc.querySelector('body').innerHTML;
-    document.querySelector('#post-reminder-type-option').selectedIndex = 1;
-    document.querySelector('#post-reminder-type-option').disabled = true;
-    document.querySelector("input[name='is-recurring']").disabled = true;
     let close_modal = document.querySelector('#close_modal');
     close_modal.addEventListener('mouseup', () => {
         modal.style.display = 'none';
@@ -169,7 +169,7 @@ function add_edit_delete_check() {
     });
     done_btn.forEach(btn => {
         btn.addEventListener('mouseup', async () => {
-            CHECKreminder(btn.getAttribute('reminderID'));
+            CHECKreminder(btn.getAttribute('reminderID'), btn.getAttribute('isChecked'));
         });
     });
 }
@@ -180,7 +180,7 @@ async function edit_schedule(reminderID) {
 
     modal.style.display = 'block';
 
-    modal_content.innerHTML = await fetchGETData('edit_schedule.html');
+    modal_content.innerHTML = await fetchGETData('edit_task.html');
 
     UPDATEreminder(reminderID);
 
@@ -246,15 +246,21 @@ function DELETEreminder(reminderID) {
     }
 }
 
-function CHECKreminder(reminderID) {
+function CHECKreminder(reminderID, isChecked) {
     // Mark Reminder as Done
-    var verify = confirm('Mark this task as Done?');
+    let is_checked = isChecked == 0 ? 1 : 0;
+    let verify;
+    if (isChecked == 0) {
+        verify = confirm('Mark this task as DONE?');
+    } else {
+        verify = confirm('Are you sure you want to UNSUBMIT this task?');
+    }
     if (verify) {
         var req;
         const formData = new URLSearchParams();
 
         formData.append('reminder-id', reminderID);
-        formData.append('is-checked', 1);
+        formData.append('is-checked', is_checked);
 
         var data = {
             method: 'POST',
@@ -280,27 +286,16 @@ function UPDATEreminder(button) {
     const reminder_type = document.querySelector('#edit-reminder-type-option');
     const title = document.querySelector("input[name='title']");
     const remind_date = document.querySelector("input[name='remind-date']");
-    const isRecurring = document.querySelector("input[name='is-recurring']");
     const message = document.querySelector("textarea[name='message']");
-
-    document.querySelector('#edit-reminder-type-option').disabled = true;
-    document.querySelector("input[name='is-recurring']").disabled = true;
-    document.querySelector("input[name='reminder-id']").disabled = true;
 
     // Assign values to fields
     reminder_id.value = button.getAttribute('reminderID');
-    for (let index = 0; index < reminder_type.options.length; index++) {
-        if (reminder_type.options[index].value == button.getAttribute('type')) {
-            reminder_type.options[index].selected = true;
-        }
-    }
+    document.querySelector("input[name='reminder-id-field']").value = button.getAttribute('reminderID');
+
     title.value = button.getAttribute('title');
     if (button.getAttribute('remindDate')) {
         var d = new Date(button.getAttribute('remindDate'));
         remind_date.value = `${d.getFullYear()}-${d.getMonth()}-${d.getDate().toString().length <= 1 ? '0' + d.getDate() : d.getDate()}`;
-    }
-    if (button.getAttribute('isRecurring') != 'null') {
-        isRecurring.checked = true;
     }
     if (button.getAttribute('message')) {
         message.value = button.getAttribute('message');
