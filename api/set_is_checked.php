@@ -11,18 +11,18 @@ if (!isset($_SESSION[USER_ID]) && !TEST_MODE) {
     array_push($errors["errors"], ERROR_MISSING_LOGGED_IN_USER);
 }
 
-if (!isset($_GET['reminder-id'])) {
+if (!isset($_POST['reminder-id'])) {
     array_push($errors["errors"], ERROR_MISSING_VALUE . ": reminder-id");
 }
-if (!isset($_GET['is-checked'])) {
+if (!isset($_POST['is-checked'])) {
     array_push($errors["errors"], ERROR_MISSING_VALUE . ": is-checked");
 }
 
 if (empty($errors['errors'])) {
 
     $user_id = !TEST_MODE ? $_SESSION[USER_ID] : 1;
-    $reminder_id = $_GET['reminder-id'];
-    $is_checked = $_GET['is-checked'];
+    $reminder_id = $_POST['reminder-id'];
+    $is_checked = $_POST['is-checked'];
     $user = $entityManager->find("User", $user_id);
     $reminder = $entityManager->find("Reminder", $reminder_id);
 
