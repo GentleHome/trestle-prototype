@@ -23,6 +23,12 @@ if (empty($errors['errors'])) {
     $user = $entityManager->find("User", $user_id);
     $reminder = $entityManager->find("Reminder", $reminder_id);
 
+    if (!$reminder) {
+        array_push($errors["errors"], ERROR_INVALID_VALUE . ": Reminder ID");
+        echo json_encode($errors);
+        exit;
+    }
+
     if (!$reminder->get_user()->get_id() == $user->get_id()){
 
         array_push($errors["errors"], ERROR_INVALID_ACCESS);

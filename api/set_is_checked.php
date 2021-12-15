@@ -28,6 +28,12 @@ if (empty($errors['errors'])) {
 
     $type = $reminder->get_type();
 
+    if (!$reminder) {
+        array_push($errors["errors"], ERROR_INVALID_VALUE . ": Reminder ID");
+        echo json_encode($errors);
+        exit;
+    }
+
     if ($type != TYPE_TASK) {
         array_push($errors["errors"], ERROR_INVALID_VALUE . ": Type");
         echo json_encode($errors);
