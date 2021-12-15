@@ -46,7 +46,7 @@ if (empty($errors['errors'])) {
         exit;
     }
 
-    if ($is_checked === 1 || $is_checked === 0) { $is_checked = $is_checked == 1 ? true : false; } 
+    if ($is_checked == 1 || $is_checked == 0) { $is_checked = $is_checked == 1 ? true : false; } 
     else {
         array_push($errors["errors"], ERROR_INVALID_VALUE . ": is_checked");
         echo json_encode($errors);
