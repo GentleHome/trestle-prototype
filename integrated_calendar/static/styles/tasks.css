@@ -21,3 +21,32 @@
     margin-right: 5px;
     font-weight: bold;
 }
+
+.add_sched_modal {
+    display: none;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.493);
+    z-index: 1;
+    position:fixed;
+}
+
+.modal_content {
+    padding: 10px 0px 0px 20px;
+    margin: 10px auto auto auto;
+    overflow: auto;
+    background-color: white;
+    width: 95%;
+    height: fit-content;
+    border-radius: 10px;
+}
+
+#close_modal {
+    cursor: pointer;
+    float: right;
+    color: red;
+    margin-right: 20px;
+}
