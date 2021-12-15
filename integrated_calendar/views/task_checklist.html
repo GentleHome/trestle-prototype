@@ -6,11 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/styles/tasks.css">
-    <script src="../static/script/courseworks.js" async></script>
+    <script src="../static/script/task-checklist.js" async></script>
     <title>Task Checklist</title>
 </head>
 
 <body>
+    <div class='add_sched_modal'>
+        <div class='modal_content'>
+        </div>
+    </div>
+
     <h1>Task Checklist</h1>
 
     <a href="task_checklist.html"><button>Task</button></a>
@@ -19,7 +24,7 @@
     <a href="../../api/tests.php"><button>Connect</button></a>
     <br>
     <br>
-
+    <button id="add_task">Create Task</button>
     <div id="tasks_section">
     </div>
 </body>
