@@ -6,7 +6,7 @@ async function GETreminder() {
     var req;
 
     req = new Request(
-        `../../api/get_reminders.php?type=ALL`
+        `../../api/get_reminders.php?type=TASK`
     );
 
     const response = await fetch(req);
