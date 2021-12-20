@@ -163,16 +163,17 @@ function year_interface() {
                 excess++;
                 db.innerText = excess;
                 db.classList.add('disabled');
+                db.setAttribute('date', `${month + 1 == 1 ? year - 1 : year}-${month}-${d.innerText}`);
             } else if (day_counter != month_end) {
                 day_counter++;
                 db.innerText = day_counter;
+                db.setAttribute('date', `${year}-${month + 1}-${db.innerHTML}`);
             } else {
                 next_month_counter++;
                 db.innerText = next_month_counter;
                 db.classList.add('disabled');
-
+                db.setAttribute('date', `${month + 1 == 12 ? year + 1 : year}-${month + 2}-${d.innerText}`);
             }
-            db.setAttribute('date', `${year}-${month + 1}-${db.innerHTML}`);
 
             if (db.getAttribute('date') == `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`) {
                 db.classList.add('active');
@@ -234,7 +235,7 @@ async function month_interface() {
             excess++;
             d.innerText = excess
             d.classList.add('disabled');
-            d.setAttribute('date', `${month + 1 == 1 ? year - 1 : year}-${month + 1}-${d.innerText}`);
+            d.setAttribute('date', `${month + 1 == 1 ? year - 1 : year}-${month}-${d.innerText}`);
         } else if (day_counter != month_end) {
             day_counter++;
             d.innerText = day_counter;
@@ -313,8 +314,7 @@ async function modalInterface(d) {
                     }
 
                     delete_btn.addEventListener("mouseup", async () => {
-                        const form = document.querySelector('#post-reminder-form');
-                        const reminder = new Reminder(form, '../../api/delete_reminder.php', c.id);
+                        const reminder = new Reminder(null, c.id);
                         await reminder.delete();
                         task_preview.removeChild(div);
                     });
@@ -348,7 +348,7 @@ async function modalInterface(d) {
                                 type.options[index].selected = true;
                             }
                         }
-                        title.value = c.type;
+                        title.value = c.title;
                         if (c.remindDate) {
                             remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
                         }
@@ -359,6 +359,12 @@ async function modalInterface(d) {
                         if (c.message) {
                             message.value = c.message;
                         }
+
+                        edit_btn.addEventListener("mouseup", async () => {
+                            const form = document.querySelector("#edit-reminder-form");
+                            const reminder = new Reminder(form, null);
+                            await reminder.update();
+                        })
                     });
                 }
 
@@ -380,13 +386,13 @@ async function modalInterface(d) {
 
         postReminder.addEventListener("mouseup", async () => {
             const form = document.querySelector('#post-reminder-form');
-            const reminder = new Reminder(form, '../../api/post_reminder.php');
+            const reminder = new Reminder(form, null);
             await reminder.post();
         });
 
     }
 }
-
+// indicators for collection
 function collectionWidgets(d) {
     if (collection != null) {
         collection.forEach(c => {
@@ -399,6 +405,7 @@ function collectionWidgets(d) {
                 if (c.isRecurring) {
                     let week = new Date(d.getAttribute('date'))
                     if (week.getDay() == c.isRecurring) {
+                        console.log(week.getDay());
                         d.appendChild(div);
                     }
                 } else {

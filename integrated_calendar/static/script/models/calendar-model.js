@@ -33,15 +33,14 @@ class DataFetch {
 
 // CRUD of Reminders
 class Reminder {
-    constructor(form, endpoint, id) {
+    constructor(form, id) {
         this.form = form;
-        this.endpoint = endpoint;
         this.id = id;
     }
     // post, update, delete
 
     // get the form by querySelector or whatever
-    // set the form and endpoint;
+    // set the form;
     post = async () => {
         const formData = new URLSearchParams();
 
@@ -54,7 +53,7 @@ class Reminder {
             body: formData
         };
 
-        const req = new Request(this.endpoint, data);
+        const req = new Request('../../api/post_reminder.php', data);
         fetch(req)
             .then((res) => res.text())
             .then((data) => {
@@ -64,8 +63,27 @@ class Reminder {
             });
     }
 
-    update = () => {
+    update = async () => {
+        const formData = new URLSearchParams();
 
+        for (const pair of new FormData(this.form)) {
+            formData.append(pair[0], pair[1]);
+        }
+
+        const data = {
+            method: 'POST',
+            body: formData
+        };
+
+        const req = new Request('../../api/edit_reminder_test.php', data);
+        fetch(req)
+            .then((res) => res.text())
+            .then((data) => {
+                console.log(data);
+                let parsed = JSON.parse(data);
+                console.log(parsed);
+                reminders(); // render the reminders again
+            });
     }
 
     delete = async () => {
@@ -80,7 +98,7 @@ class Reminder {
             body: formData
         };
 
-        const req = new Request(this.endpoint, data);
+        const req = new Request('../../api/delete_reminder_test.php', data);
 
         fetch(req)
             .then((res) => res.text())
