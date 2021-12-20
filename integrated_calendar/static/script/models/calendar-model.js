@@ -75,7 +75,7 @@ class Reminder {
             body: formData
         };
 
-        const req = new Request('../../api/edit_reminder_test.php', data);
+        const req = new Request('../../api/edit_reminder.php', data);
         fetch(req)
             .then((res) => res.text())
             .then((data) => {
@@ -98,7 +98,7 @@ class Reminder {
             body: formData
         };
 
-        const req = new Request('../../api/delete_reminder_test.php', data);
+        const req = new Request('../../api/delete_reminder.php', data);
 
         fetch(req)
             .then((res) => res.text())
