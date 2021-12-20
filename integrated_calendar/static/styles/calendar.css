@@ -1,3 +1,4 @@
+/* use rem for parent elements */
 /* year */
 year {
     display: grid;
@@ -99,6 +100,12 @@ dates {
 /* based on source */
 .CANVAS {
     background-color: chocolate;
+    margin: 1px;
+}
+
+.GCLASS {
+    background-color: coral;
+    margin: 1px;
 }
 
 .disabled {

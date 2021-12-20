@@ -40,7 +40,9 @@ function get_canvas_data(string $token)
     $courses = json_decode($response->body);
 
     foreach ($courses as $course) {
-        array_push($collection, get_canvas_assignments($course->id, $course->name, $headers, SOURCE_CANVAS));
+        if (isset($course->account_id)) {
+            array_push($collection, get_canvas_assignments($course->id, $course->name, $headers, SOURCE_CANVAS));
+        }
     }
 }
 
