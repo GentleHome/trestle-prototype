@@ -1,0 +1,108 @@
+/* year */
+year {
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: 1fr;
+}
+
+.month-box {
+    border: 1px solid lightgray;
+    background-color: white;
+    padding: 5px;
+    text-align: center;
+}
+
+.month-name {
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 2%;
+}
+
+/* short week name container */
+.swn-container {
+    display: grid;
+    gap: 0px;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: 1fr;
+}
+
+.date-container {
+    display: grid;
+    gap: 0px;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+}
+
+.date-box {
+    cursor: default;
+    border: 1px solid lightgray;
+    padding: 5px;
+    text-align: center;
+}
+
+.active {
+    background-color: lightblue;
+}
+
+.current_date {
+    background-color: aqua;
+}
+
+/* month and week view uses these*/
+
+/* week in month */
+.wks {
+    display: grid;
+    gap: 0px;
+    grid-template-columns: repeat(7, 1fr);
+}
+.wk {
+    border: 1px solid lightgray;
+    background-color: white;
+    font-size: 0.9em;
+    color: gray;
+    text-align: center;
+}
+dates {
+    height: 100%;
+    display: grid;
+    gap: 0px;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(autofill, 1fr);
+}
+/* dates in month view */
+.date {
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+.container {
+    height: 100vh;
+}
+
+#close_modal {
+    cursor: pointer;
+}
+/* based on TYPE*/
+.TASK {
+    background-color: burlywood;
+    margin: 1px;
+}
+
+.RMDR {
+    background-color: green;
+    margin: 1px;
+}
+
+/* based on source */
+.CANVAS {
+    background-color: chocolate;
+}
+
+.disabled {
+    cursor: default;
+    border: 1px solid lightgray;
+    color: lightgray;
+}
