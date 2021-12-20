@@ -57,7 +57,7 @@ if (empty($errors['errors'])) {
     $entityManager->persist($reminder);
     $entityManager->flush();
 
-    echo json_encode(array("success" => $type . " edited", "reminder" => parse_reminder($reminder)));
+    echo json_encode(array("success" => $reminder->get_type() . " edited", "reminder" => parse_reminder($reminder)));
 
 } else {
 
