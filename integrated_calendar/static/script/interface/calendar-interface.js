@@ -405,7 +405,6 @@ function collectionWidgets(d) {
                 if (c.isRecurring) {
                     let week = new Date(d.getAttribute('date'))
                     if (week.getDay() == c.isRecurring) {
-                        console.log(week.getDay());
                         d.appendChild(div);
                     }
                 } else {

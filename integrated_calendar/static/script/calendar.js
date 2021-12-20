@@ -30,7 +30,8 @@ async function reminders() { // fetch reminders
 
     // checks if no data is fetched will return
     if (category_reminder == undefined || category_reminder.length <= 0) {
-        category_reminder = []; // bypassing the undefined value
+        renderer();
+        return // bypassing the undefined value
     }
 
     collection = [...category_reminder, ...category_canvas, ...category_google];
@@ -43,7 +44,8 @@ async function canvas() { // fetch canvas courseworks
 
     // checks if no data is fetched will return
     if (category_canvas === undefined || category_canvas.length <= 0) {
-        return
+        renderer();
+        return;
     }
 
     collection = [...category_reminder, ...category_canvas, ...category_google];
@@ -56,6 +58,7 @@ async function google() { // fetch google courseworks
 
     // checks if no data is fetched will return
     if (category_google === undefined || category_google.length <= 0) {
+        renderer();
         return;
     }
 
