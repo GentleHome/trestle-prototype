@@ -27,13 +27,6 @@ async function loadData() {
 async function reminders() { // fetch reminders
     dataFetch.endpoint = '../../api/get_reminders.php?type=ALL';
     category_reminder = await dataFetch.fetching();
-
-    // checks if no data is fetched will return
-    if (category_reminder == undefined || category_reminder.length <= 0) {
-        renderer();
-        return // bypassing the undefined value
-    }
-
     collection = [...category_reminder, ...category_canvas, ...category_google];
     renderer() // call the renderer
 }
@@ -44,7 +37,6 @@ async function canvas() { // fetch canvas courseworks
 
     // checks if no data is fetched will return
     if (category_canvas === undefined || category_canvas.length <= 0) {
-        renderer();
         return;
     }
 
@@ -58,7 +50,6 @@ async function google() { // fetch google courseworks
 
     // checks if no data is fetched will return
     if (category_google === undefined || category_google.length <= 0) {
-        renderer();
         return;
     }
 
