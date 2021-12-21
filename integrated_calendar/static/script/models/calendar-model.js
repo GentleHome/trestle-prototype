@@ -168,5 +168,132 @@ class Update {
 }
 
 class WeekControl {
+    // please put month without offset e.g january should be 1 not 0;
+    constructor(year, month, date) {
+        this.year = parseInt(year);
+        this.month = parseInt(month);
+        this.date = parseInt(date);
+        this.weeks = null;
+        this.week = null;
+    }
 
+    render = () => {
+        this.weeks = this.getWeeksInMonth(this.year, this.month);
+        let key = this.whatWeek();
+        switch (parseInt(key)) {
+            case 0:
+                this.week = [...this.prevMonth(), ...this.weeks[key]];
+                break;
+            case this.weeks.length - 1:
+                this.week = [...this.weeks[key], ...this.nextMonth()];
+                break;
+            default:
+                this.week = this.weeks[key];
+                break;
+        }
+    }
+
+    whatWeek = () => {
+        for (let i = 0; i < this.weeks.length; i++) {
+            if (this.weeks[i].includes(this.date)) {
+                return i;
+            }
+        }
+    }
+
+    prevMonth = () => {
+        let weeks = null;
+        if (this.month == 1) {
+            weeks = this.getWeeksInMonth(this.year - 1, 12);
+        } else {
+            weeks = this.getWeeksInMonth(this.year, this.month - 1);
+        }
+        return weeks.at(-1);
+    }
+
+    nextMonth = () => {
+        let weeks = null;
+        if (this.month == 12) {
+            weeks = this.getWeeksInMonth(this.year + 1, 1);
+        } else {
+            weeks = this.getWeeksInMonth(this.year, this.month + 1);
+        }
+        console.log(weeks);
+        return weeks[0];
+    }
+
+    // code from https://gist.github.com/markthiessen/3883242
+    getWeeksInMonth = (year, month) => {
+        const weeks = [],
+            firstDate = new Date(year, month - 1, 1),
+            lastDate = new Date(year, month, 0),
+            numDays = lastDate.getDate();
+
+        let dayOfWeekCounter = firstDate.getDay();
+
+        for (let date = 1; date <= numDays; date++) {
+            if (dayOfWeekCounter === 0 || weeks.length === 0) {
+                weeks.push([]);
+            }
+            weeks[weeks.length - 1].push(date);
+            dayOfWeekCounter = (dayOfWeekCounter + 1) % 7;
+        }
+
+        return weeks;
+    }
+}
+
+// test cases for week control
+weekControlTest = () => {
+    let weekcontrol = new WeekControl(2021, 1, 1);
+    console.log("First month first week");
+    weekcontrol.render();
+    let week = weekcontrol.week;
+    let expectedValue = [27, 28, 29, 30, 31, 1, 2]
+    for (let index = 0; index < expectedValue.length; index++) {
+        if (week[index] != expectedValue[index]) {
+            console.log("Failed");
+            break
+        }
+    }
+    console.log("Passed");
+
+    weekcontrol = new WeekControl(2021, 1, 3);
+    console.log("First month second week");
+    weekcontrol.render();
+    week = weekcontrol.week;
+    expectedValue = [3, 4, 5, 6, 7, 8, 9]
+    for (let index = 0; index < expectedValue.length; index++) {
+        if (week[index] != expectedValue[index]) {
+            console.log("Failed");
+            break
+        }
+    }
+    console.log("Passed");
+
+    weekcontrol = new WeekControl(2021, 12, 31);
+    console.log("last month last week");
+    weekcontrol.render();
+    week = weekcontrol.week;
+    expectedValue = [26, 27, 28, 29, 30, 31, 1]
+    for (let index = 0; index < expectedValue.length; index++) {
+        if (week[index] != expectedValue[index]) {
+            console.log("Failed");
+            break;
+        }
+    }
+    console.log("Passed");
+
+    weekcontrol = new WeekControl(2021, 12, 21);
+    console.log("last month fourth week");
+    weekcontrol.render();
+    week = weekcontrol.week;
+    expectedValue = [19, 20, 21, 22, 23, 24, 25];
+    for (let index = 0; index < expectedValue.length; index++) {
+        if (week[index] != expectedValue[index]) {
+            console.log("Failed");
+            break;
+        }
+    }
+    console.log("Passed");
 }
