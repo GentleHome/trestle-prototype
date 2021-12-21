@@ -43,7 +43,7 @@ function get_google_data(array $token)
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
         }
     }
-    
+
     $service = new Google\Service\Classroom($client);
     $courses = $service->courses->listCourses()->getCourses();
 
@@ -65,9 +65,10 @@ function get_canvas_data(string $token)
     $courses = json_decode($response->body);
 
     foreach ($courses as $course) {
-        array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
+        if (isset($course->account_id)) { //bypassing restricted courses
+            array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
+        }
     }
-    
 }
 
 function get_canvas_announcements($course_id, $course_name, $headers, $source)
