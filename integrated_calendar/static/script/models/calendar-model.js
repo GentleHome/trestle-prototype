@@ -117,7 +117,7 @@ class Update {
         this.date = date;
     }
 
-    pushState = async () => {
+    pushState = () => {
         let d = new Date(this.date);
         let date = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
 
@@ -125,7 +125,7 @@ class Update {
         window.history.replaceState({}, `${window.location.href}`, `?view=${this.view}&date=${date}`)
     }
     // check url if params exist
-    checkState = async () => {
+    checkState = () => {
         let url = new URL(window.location.href);
         if (url.searchParams.get('view')) {
             this.view = url.searchParams.get('view');
@@ -137,7 +137,7 @@ class Update {
         }
     }
 
-    set = async (paramName, paramValue) => {
+    set = (paramName, paramValue) => {
         let url = new URL(window.location.href);
         switch (paramName) {
             case 'view':
@@ -156,7 +156,7 @@ class Update {
         this.pushState();
     }
 
-    urlDate = async (date = this.date) => {
+    urlDate = (date = this.date) => { // no offset 1 = January
         let d = new Date(date);
         let urldate = {
             year: d.getFullYear(),
@@ -175,6 +175,7 @@ class WeekControl {
         this.date = parseInt(date);
         this.weeks = null;
         this.week = null;
+        this.index = null;
     }
 
     render = () => {
@@ -182,13 +183,13 @@ class WeekControl {
         let key = this.whatWeek();
         switch (parseInt(key)) {
             case 0:
-                this.week = [...this.prevMonth(), ...this.weeks[key]];
+                this.week = { prev: this.prevMonth(), current: this.weeks[key], next: [] }
                 break;
             case this.weeks.length - 1:
-                this.week = [...this.weeks[key], ...this.nextMonth()];
+                this.week = { prev: [], current: this.weeks[key], next: this.nextMonth() }
                 break;
             default:
-                this.week = this.weeks[key];
+                this.week = { prev: [], current: this.weeks[key], next: [] }
                 break;
         }
     }
@@ -196,6 +197,7 @@ class WeekControl {
     whatWeek = () => {
         for (let i = 0; i < this.weeks.length; i++) {
             if (this.weeks[i].includes(this.date)) {
+                this.index = i;
                 return i;
             }
         }

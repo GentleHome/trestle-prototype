@@ -36,6 +36,10 @@ calendar = async () => {
                 }
                 month_interface();
                 break;
+            case 2:
+
+
+                break;
 
             default:
                 break;
@@ -111,6 +115,7 @@ async function renderer() {
             const view_week = await dataFetch.fetchingHTML();
             container.replaceChildren(view_week.querySelector('weeks'));
 
+            week_interface();
             break;
 
         default:
@@ -256,7 +261,23 @@ async function month_interface() {
 
 // week
 function week_interface() {
+    let dates = document.querySelectorAll(".date");
+    let urldate = url.urlDate();
+    let weekcontrol = new WeekControl(urldate.year, urldate.month, urldate.date);
+    weekcontrol.render();
+    let week = weekcontrol.week;
 
+    week.prev.forEach((prev, i) => {
+        dates[i].innerHTML = prev;
+    });
+
+    week.current.forEach((current, i) => {
+        dates[i].innerHTML = current;
+    });
+
+    week.next.forEach((next, i) => {
+        dates[i].innerHTML = next;
+    });
 }
 
 // Modal interface

@@ -27,6 +27,9 @@ async function loadData() {
 async function reminders() { // fetch reminders
     dataFetch.endpoint = '../../api/get_reminders.php?type=ALL';
     category_reminder = await dataFetch.fetching();
+    if (category_reminder == undefined) { // if undefined user not logged in
+        return;
+    }
     collection = [...category_reminder, ...category_canvas, ...category_google];
     renderer() // call the renderer
 }
