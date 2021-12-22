@@ -79,7 +79,6 @@ class Reminder {
         fetch(req)
             .then((res) => res.text())
             .then((data) => {
-                console.log(data);
                 let parsed = JSON.parse(data);
                 console.log(parsed);
                 reminders(); // render the reminders again
