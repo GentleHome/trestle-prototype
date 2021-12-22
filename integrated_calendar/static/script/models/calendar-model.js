@@ -175,7 +175,6 @@ class WeekControl {
         this.date = parseInt(date);
         this.weeks = null;
         this.week = null;
-        this.index = null;
     }
 
     render = () => {
@@ -221,6 +220,17 @@ class WeekControl {
             weeks = this.getWeeksInMonth(this.year, this.month + 1);
         }
         return weeks[0];
+    }
+
+    prevWeek = (now) => {
+        let today = new Date(now);
+        let nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+        return nextweek;
+    }
+    nextWeek = (now) => {
+        let today = new Date(now);
+        let nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 7);
+        return nextweek;
     }
 
     // code from https://gist.github.com/markthiessen/3883242
