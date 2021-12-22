@@ -37,8 +37,36 @@ calendar = async () => {
                 month_interface();
                 break;
             case 2:
+                let weekcontrol = new WeekControl(d.getFullYear(), d.getMonth() + 1, d.getDate());
+                weekcontrol.render();
+                if (weekcontrol.index == 0) {
+                    let weeks;
+                    let year;
+                    let month;
+                    if (d.getMonth() <= 0) {
+                        year = d.getFullYear() - 1;
+                        month = 12
+                        weeks = weekcontrol.getWeeksInMonth(year, month);
+                    } else {
+                        year = d.getFullYear();
+                        month = d.getMonth();
+                        weeks = weekcontrol.getWeeksInMonth(year, month);
+                    }
 
+                    let date = weeks.at(-1).length != 7 ? weeks.at(-2)[d.getDay()] : weeks.at(-1)[d.getDay()];
+                    url.set('date', `${year}-${month}-${date}`);
+                } else {
+                    let weeks = weekcontrol.getWeeksInMonth(d.getFullYear(), d.getMonth());
+                    let date = null;
+                    if (weekcontrol.weeks[weekcontrol.index - 1].length != 7) {
+                        date = [...weeks.at(-1), ...weekcontrol.weeks[weekcontrol.index - 1]][d.getDay()];
+                    } else {
+                        date = weekcontrol.weeks[weekcontrol.index - 1][d.getDay()];
+                    }
+                    url.set('date', `${d.getFullYear()}-${d.getMonth() + 1}-${date}`);
+                }
 
+                week_interface();
                 break;
 
             default:
@@ -85,6 +113,9 @@ calendar = async () => {
                 break;
 
             default:
+                url.date = new Date();
+                url.pushState();
+                week_interface();
                 break;
         }
     }
@@ -263,21 +294,21 @@ async function month_interface() {
 function week_interface() {
     let dates = document.querySelectorAll(".date");
     let urldate = url.urlDate();
+    let d = new Date(url.date);
+    let month_name = d.toLocaleString('default', { month: 'long' });
+    date_indication.innerHTML = `${month_name}-${d.getFullYear()}`;
+
     let weekcontrol = new WeekControl(urldate.year, urldate.month, urldate.date);
     weekcontrol.render();
     let week = weekcontrol.week;
 
-    week.prev.forEach((prev, i) => {
-        dates[i].innerHTML = prev;
-    });
+    [...dates].forEach((d, i) => {
+        d.innerText = week[i];
+        d.setAttribute('date', `${urldate.year}-${urldate.month}-${d.innerText}`);
+        collectionWidgets(d);
 
-    week.current.forEach((current, i) => {
-        dates[i].innerHTML = current;
-    });
-
-    week.next.forEach((next, i) => {
-        dates[i].innerHTML = next;
-    });
+        d.addEventListener("mouseup", () => { modalInterface(d) });
+    })
 }
 
 // Modal interface

@@ -162,6 +162,7 @@ class Update {
             year: d.getFullYear(),
             month: (d.getMonth() + 1).toString().length <= 1 ? `0${d.getMonth() + 1}` : d.getMonth() + 1,
             date: d.getDate().toString().length <= 1 ? `0${d.getDate()}` : d.getDate(),
+            day: d.getDay(),
         }
         return urldate;
     }
@@ -183,13 +184,13 @@ class WeekControl {
         let key = this.whatWeek();
         switch (parseInt(key)) {
             case 0:
-                this.week = { prev: this.prevMonth(), current: this.weeks[key], next: [] }
+                this.week = [...this.prevMonth(), ...this.weeks[key]];
                 break;
             case this.weeks.length - 1:
-                this.week = { prev: [], current: this.weeks[key], next: this.nextMonth() }
+                this.week = [...this.weeks[key], ...this.nextMonth()];
                 break;
             default:
-                this.week = { prev: [], current: this.weeks[key], next: [] }
+                this.week = [...this.weeks[key]];
                 break;
         }
     }
@@ -220,12 +221,11 @@ class WeekControl {
         } else {
             weeks = this.getWeeksInMonth(this.year, this.month + 1);
         }
-        console.log(weeks);
         return weeks[0];
     }
 
     // code from https://gist.github.com/markthiessen/3883242
-    getWeeksInMonth = (year, month) => {
+    getWeeksInMonth = (year, month) => { // no offset must be 1 = january
         const weeks = [],
             firstDate = new Date(year, month - 1, 1),
             lastDate = new Date(year, month, 0),
