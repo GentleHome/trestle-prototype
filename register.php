@@ -2,7 +2,7 @@
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 require_once dirname(__FILE__) . "/./bootstrap.php";
-require_once dirname(__FILE__) . './api/helpers/constants.php';
+require_once dirname(__FILE__) . '/./api/helpers/constants.php';
 session_start();
 
 $errors = [];
