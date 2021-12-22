@@ -40,10 +40,7 @@ if (empty($errors['errors'])) {
 
     $entityManager->remove($reminder);
     $entityManager->flush();
-
-
 } else {
 
     echo json_encode($errors);
-
 }
