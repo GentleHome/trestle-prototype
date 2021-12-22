@@ -6,7 +6,7 @@ async function GETreminder() {
     var req;
 
     req = new Request(
-        `../../api/get_reminders.php?type=ALL`
+        `../../api/get_reminders.php?type=TASK`
     );
 
     const response = await fetch(req);
@@ -81,18 +81,19 @@ function notification_section(image, task_id, type, title, description, date_pos
         dueDate = "No due date."
     }
 
-    html += '<div class="task" id="' + task_id + '">';
+    html += '<div class="task reveal" id="' + task_id + '">';
     html += '<img src="' + image + '"" alt = "icon" width = "50" class="source_image"> ';
     html += '<div class="contents">';
     html += '<span class="title">' + title + '</span>';
     html += '<span class="dueDate"><b> | Date Posted: </b>' + datePosted + '</span>';
-    html += '<span class="dueDate"><b> | Due Date: </b>' + dueDate + '</span><br>';
+    html += '<span class="dueDate"><b> | Due Date: </b>' + dueDate + '</span>';
     html += '<span class="finish"><b>' + isChecked + '</b></span>';
-    html += '<div class="description">' + description + '</div><br>';
+    html += '<div class="description">' + description + '</div><br></div>';
+    html += '<div class="button-container">';
     if (is_checked) {
-        html += `<button class="mark_as_done" reminderID = ${task_id} isChecked=${check_int}>Unsubmit</button> `;
+        html += `<button class="mark_as_done" reminderID = ${task_id} isChecked=${check_int}>Unsubmit`;
     } else {
-        html += `<button class="mark_as_done" reminderID = ${task_id} isChecked=${check_int}>Mark as Done</button> `;
+        html += `<button class="mark_as_done" reminderID = ${task_id} isChecked=${check_int}>Mark as Done</button>`;
     }
     html += `<button 
     class="edit_task" 
@@ -107,6 +108,9 @@ function notification_section(image, task_id, type, title, description, date_pos
     <button class="delete_task" reminderID = ${task_id}>Delete</button> <br><br>`
     html += '</div>';
     html += '</div>';
+    html += '</div>';
+
+
 
     return html;
 }

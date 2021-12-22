@@ -59,14 +59,14 @@ function notification_section(image, course_name, title, message, date_posted, l
     let datePosted = date_posted.month + '-' + date_posted.day + '-' + date_posted.year + ' | ' +
         date_posted.hour + ':' + date_posted.minute;
 
-    html += '<div class="notification">';
-    html += '<img src="' + image + '"" alt = "icon" width = "50" class="source_image"> ';
+    html += '<div class="notification reveal">';
+    html += '<img src="' + image + '"" alt = "icon" width="10%" class="source_image"> ';
     html += '<div class="contents">';
     html += '<div class="courseName"><b>' + course_name + '</b></div>'
-    html += '<span class="title">' + title + '</span>';
-    html += '<span class="datePosted">' + datePosted + '</span>';
-    html += '<div class="message"><span>' + JSON.stringify(message) + '</span></div>';
-    html += '<br><a href="' + link + '">Open in site..</a>'
+    html += '<p class="title">' + title + '</p>';
+    html += '<p class="datePosted">' + datePosted + '</p>';
+    html += '<div class="message"><p>' + JSON.stringify(message) + '</p></div>';
+    html += '<br><button class="link"><a style="text-decoration: none;color: white;text-align: center;text-transform: uppercase;" href="' + link + '">Open in site..</a></button>'
     html += '</div>';
     html += '</div>';
 
