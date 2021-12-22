@@ -28,8 +28,9 @@ async function arrangeData() {
 
     await getAnnouncements();
     if (collection) {
-        for (let x = 0; x < collection.length; x++) {
-            let announcements = collection[x];
+        let sortedCollection = collection.sort((a, b) => { new Date(format_date_time(a.datePosted)) - new Date(format_date_time(b.datePosted)) });
+        for (let x = 0; x < sortedCollection.length; x++) {
+            let announcements = sortedCollection[x];
             switch (announcements.source) {
                 case "CANVAS":
                     image = CANVAS;
@@ -43,7 +44,6 @@ async function arrangeData() {
                     image = USER;
                     break;
             }
-
             title = announcements.title == null ? "" : announcements.title;
             message = announcements.message;
             date_posted = announcements.datePosted;
@@ -56,19 +56,54 @@ async function arrangeData() {
 
 function notification_section(image, course_name, title, message, date_posted, link) {
     let html = "";
-    let datePosted = date_posted.month + '-' + date_posted.day + '-' + date_posted.year + ' | ' +
-        date_posted.hour + ':' + date_posted.minute;
-
-    html += '<div class="notification">';
-    html += '<img src="' + image + '"" alt = "icon" width = "50" class="source_image"> ';
+    let datePosted = format_date_time(date_posted).toLocaleString('en-US', {
+        weekday: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        month: 'long',
+    });
+    message = message.replaceAll('\n', '<br>');
+    html += '<div class="notification reveal">';
+    html += '<img src="' + image + '"" alt = "icon" width="10%" class="source_image"> ';
     html += '<div class="contents">';
     html += '<div class="courseName"><b>' + course_name + '</b></div>'
-    html += '<span class="title">' + title + '</span>';
-    html += '<span class="datePosted">' + datePosted + '</span>';
-    html += '<div class="message"><span>' + JSON.stringify(message) + '</span></div>';
-    html += '<br><a href="' + link + '">Open in site..</a>'
+    html += '<p class="title">' + title + '</p>';
+    html += '<p class="datePosted"><b>Date Posted:</b> ' + datePosted + '</p>';
+    html += '<div class="message"><p>' + message + '</p></div>';
+    html += '<br><button class="link"><a style="text-decoration: none;color: white;text-align: center;text-transform: uppercase;" href="' + link + '">Open in site..</a></button>'
     html += '</div>';
     html += '</div>';
 
     return html;
+}
+
+function format_date_time(date_posted) {
+
+    let months, days, years, hrs, mins, secs;
+    months = date_posted.month;
+    days = date_posted.day;
+    years = date_posted.year;
+    hrs = date_posted.hour;
+    secs = date_posted.second;
+    mins = date_posted.minute;
+    if (date_posted.month <= 9) {
+        months = "0" + date_posted.month;
+    }
+    if (date_posted.day <= 9) {
+        days = "0" + date_posted.day;
+    }
+    if (date_posted.year <= 9) {
+        years = "0" + date_posted.year;
+    }
+    if (date_posted.hour <= 9) {
+        hrs = "0" + date_posted.hour;
+    }
+    if (date_posted.minute <= 9) {
+        mins = "0" + date_posted.minute;
+    }
+    if (date_posted.second <= 9) {
+        secs = "0" + date_posted.second;
+    }
+    let dateTime = new Date(years + "-" + months + "-" + days + "T" + hrs + ":" + mins + ":" + secs + "Z");
+    return dateTime;
 }

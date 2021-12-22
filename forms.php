@@ -13,35 +13,6 @@
 </head>
 
 <body>
-    <!--Intro, bounce ball-->
-    <div class="startbg"></div>
-    <div class="container">
-        <div class="logo"></div>
-    </div>
-    <div class="shadow"></div>
-    <!--end of intro-->
-
-    <!--MainPage Design-->
-    <header>
-        <section>
-            <div class="hero">
-                <img src="images/loginbg.png" alt="">
-                <h1 class="headline">Trestle</h1>
-                <br>
-                <p class="desc">Be a Trestler and have E-to-Z task management from e-learning platforms such as Canvas Instructure and Google Classroom. We bridge your E-ducation by organizing your assignments, projects, and deadlines all in one place.</p>
-            </div>
-        </section>
-    </header>
-    <div class="slider"></div>
-    <div class="circle1"></div>
-    <div class="circle2"></div>
-    <div class="circle3"></div>
-    <div class="circle4"></div>
-    <div class="circle5"></div>
-    <div class="circle6"></div>
-    <div class="circle7"></div>
-    <!--end of MPdesign-->
-
     <!--Form Container-->
     <div class="formbox">
         <div class="buttonbox">
@@ -70,21 +41,6 @@
         </div>
     </div>
     <!--end of forms-->
-
-    <!--social media icons-->
-    <div class="icons">
-        <a href="#"><img class="pic1" src="images/1.png"></a>
-        <a href="#"><img class="pic2" src="images/2.png"></a>
-        <a href="#"><img class="pic3" src="images/3.png"></a>
-    </div>
-    <!--end of social media icons-->
-    <!--end of Form Container-->
-
-    <!--scripts-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js" integrity="sha512-8Wy4KH0O+AuzjMm1w5QfZ5j5/y8Q/kcUktK9mPUVaUoBvh3QPUZB822W/vy7ULqri3yR8daH3F58+Y8Z08qzeg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TimelineMax.min.js" integrity="sha512-lJDBw/vKlGO8aIZB8/6CY4lV+EMAL3qzViHid6wXjH/uDrqUl+uvfCROHXAEL0T/bgdAQHSuE68vRlcFHUdrUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="designscript.js"></script>
-    <!--end of scripts-->
 </body>
 
 </html>

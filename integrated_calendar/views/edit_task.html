@@ -9,34 +9,47 @@
 </head>
 
 <body>
-    <button id="cancel_edit">cancel edit</button>
-    <h3>Edit Schedule</h3>
+    <div id="cancel_edit">&#10006;</div>
+    <h3>Edit Task</h3>
     <!-- Edit Reminders -->
-    <div class="edit-reminders-div" style="border: 1px solid black; padding: 15px; padding-top: 5px;">
-        <form id="edit-reminder-form">
-
-            Reminder ID:
-            <input type="text" name="reminder-id-field" disabled>
-            <input type="hidden" name="reminder-id">
-            Reminder type:
-            <input type="text" name="option-task" id="option-task" value="Task" disabled>
-            <input type="hidden" name="type" id="edit-reminder-type-option" value="TASK">
-
-            Title:
-            <input type="text" name="title">
-
-            Remind Date:
-            <input type="date" name="remind-date">
-
-            </br>
-
-            Message (Nullable):
-            <textarea name="message"></textarea>
-
-        </form>
-        <button id="edit-reminder-button">Edit Reminder</button> = <textarea id="edit-reminder-response" disabled
-            placeholder="Response"></textarea></br></br>
+    <div class="modal-container">
+        <div class="modal-image">
+            <img src="images/user_ico.png" alt="">
+        </div>
+        <div class="edit-reminders-div">
+            <form id="edit-reminder-form">
+    
+                <input type="text" name="reminder-id-field" class="edit-id" disabled>
+                <input type="hidden" name="reminder-id">
+                <label class="edit-label">Type:
+                    <input class="value" type="text" size="10" name="option-task" id="option-task" value="Task" disabled>
+                    <input type="hidden" name="type" id="edit-reminder-type-option" value="TASK">
+                </label>
+                
+    
+                <label class="edit-label">Title:
+                    <input class="value" type="text" size="10" name="title">
+                </label>
+                
+                <label class="edit-label">Date:
+                    <input class="value" type="date" size="0" name="remind-date">
+                </label>
+                
+                </br>
+    
+                <label class="edit-label">Description:
+                    <textarea class="edit-desc" cols="18" name="message" placeholder="(Not Required)"></textarea>
+                </label>
+                
+    
+            </form>
+            <div class="modal-btn-container">
+            <button id="edit-reminder-button">Save Changes</button><textarea id="edit-reminder-response" disabled
+                placeholder="Response"></textarea></br></br>
+            </div>
+        </div>
     </div>
+    
 </body>
 
 </html>

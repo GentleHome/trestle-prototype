@@ -14,27 +14,27 @@
     </div>
     <div class="row">
         <div class="column">
-            <p><strong>Tasks</strong></p>
+            <p style="text-align: center; text-transform: uppercase;"><strong>Tasks</strong></p>
             <task_preview></task_preview>
         </div>
 
         <div class="column">
-            <p id="clicked_date"></p>
+            <p id="clicked_date" style="text-align: center"></p>
             <!-- Post Reminders -->
-            <div class="post-reminders-div" style="border: 1px solid black; padding: 15px; padding-top: 5px;">
-                <form id="post-reminder-form">
+            <div class="post-reminders-div" style="border: 1px solid black; padding: 2rem; padding-top: 5px; border-radius: .5rem;">
+                <form id="post-reminder-form" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-wrap: wrap; flex: 2 2 30rem;">
 
                     Reminder type:
                     <select id="post-reminder-type-option" name="type">
                         <option selected value="RMDR">Reminders</option>
                         <option value="TASK">Task</option>
-                    </select>
+                    </select> <br>
 
                     Title:
-                    <input type="text" name="title">
+                    <input type="text" name="title"><br>
 
                     Remind Date:
-                    <input type="date" name="remind-date">
+                    <input type="date" name="remind-date"><br>
 
                     Is Recurring:
                     <input type="checkbox" name="is-recurring">

@@ -19,14 +19,9 @@ if (is_null($user)) {
 }
 
 $google_token = $user->get_google_token();
-$canvas_token = $user->get_canvas_token();
 
 if (!is_null($google_token)) {
     get_google_data($google_token);
-}
-
-if (!is_null($canvas_token)) {
-    get_canvas_data($canvas_token);
 }
 
 echo json_encode(array_merge(...array_filter($collection)));
@@ -50,36 +45,6 @@ function get_google_data(array $token)
     foreach ($courses as $course) {
         array_push($collection, get_google_assignments($course["id"], $course["name"], $service, SOURCE_GOOGLE_CLASSROOM));
     }
-}
-
-function get_canvas_data(string $token)
-{
-    global $collection;
-
-    $headers = array(
-        'Content-Type' => 'application/json',
-        'Authorization' => 'Bearer ' . $token
-    );
-
-    $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
-    $courses = json_decode($response->body);
-
-    foreach ($courses as $course) {
-        if (isset($course->account_id)) { //bypassing restricted courses
-            array_push($collection, get_canvas_assignments($course->id, $course->name, $headers, SOURCE_CANVAS));
-        }
-    }
-}
-
-function get_canvas_assignments($course_id, $course_name, $headers, $source)
-{
-    $courseworks = [];
-    $response = Requests::get('https://canvas.instructure.com/api/v1/courses/' . $course_id . '/assignments', $headers);
-    $courseworks_response = json_decode($response->body);
-    foreach ($courseworks_response as $coursework) {
-        array_push($courseworks, parse_coursework($coursework, $source, $course_name));
-    }
-    return $courseworks;
 }
 
 function get_google_assignments($course_id, $course_name, $service, $source)
