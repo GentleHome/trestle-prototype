@@ -1,24 +1,139 @@
-var collection = [];
-arrangeData();
-add_edit_delete_check();
-async function GETreminder() {
-    // Get Reminders
-    var req;
-
-    req = new Request(
-        `../../api/get_reminders.php?type=TASK`
-    );
-
-    const response = await fetch(req);
-    const data = await response.text();
-    let data_parse = await JSON.parse(data);
-    if ('errors' in data_parse) {
-        return;
+class DataFetch {
+    // arranged by latency
+    constructor(endpoint) {
+        this.endpoint = endpoint;
     }
-    console.log(data_parse);
-    collection = await data_parse;
+
+    fetching = async () => {
+        const req = new Request(this.endpoint);
+
+        const res = await fetch(req);
+        const data = await res.text();
+        let parsed = await JSON.parse(data);
+        if ('errors' in parsed) {
+            return;
+        }
+        return parsed;
+    }
+}
+class Reminder {
+    constructor(form, id, is_checked) {
+        this.form = form;
+        this.id = id;
+        this.is_checked = is_checked;
+    }
+    // post, update, delete
+
+    // get the form by querySelector or whatever
+    // set the form;
+    post = async () => {
+        const formData = new URLSearchParams();
+
+        for (const pair of new FormData(this.form)) {
+            formData.append(pair[0], pair[1]);
+        }
+
+        const data = {
+            method: 'POST',
+            body: formData
+        };
+
+        const req = new Request('../../api/post_reminder.php', data);
+        fetch(req)
+            .then((res) => res.text())
+            .then((data) => {
+                var parsed = JSON.parse(data);
+                console.log(parsed);
+                reminders(); // render the reminders again
+            });
+    }
+
+    update = async () => {
+        const formData = new URLSearchParams();
+
+        for (const pair of new FormData(this.form)) {
+            formData.append(pair[0], pair[1]);
+        }
+
+        const data = {
+            method: 'POST',
+            body: formData
+        };
+
+        const req = new Request('../../api/edit_reminder.php', data);
+        fetch(req)
+            .then((res) => res.text())
+            .then((data) => {
+                let parsed = JSON.parse(data);
+                console.log(parsed);
+                reminders(); // render the reminders again
+            });
+    }
+
+    delete = async () => {
+        // Delete Reminder
+
+        const formData = new URLSearchParams();
+
+        formData.append('reminder-id', this.id);
+
+        var data = {
+            method: 'POST',
+            body: formData
+        };
+
+        const req = new Request('../../api/delete_reminder.php', data);
+
+        fetch(req)
+            .then((res) => res.text())
+            .then((data) => {
+                var parsed = JSON.parse(data);
+                console.log(parsed);
+                reminders(); // render the reminders again
+            });
+    }
+
+    done = async () => {
+        // Set a task as DONE
+
+        var req;
+        const formData = new URLSearchParams();
+
+        formData.append('reminder-id', this.id);
+        formData.append('is-checked', this.is_checked);
+
+        var data = {
+            method: 'POST',
+            body: formData
+        };
+
+        req = new Request('../../api/set_is_checked.php', data);
+
+        fetch(req)
+            .then((res) => res.text())
+            .then((data) => {
+                var parsed = JSON.parse(data);
+                console.log(parsed);
+                reminders(); // render the reminders again
+            });
+    }
 }
 
+var collection = [];
+const dataFetch = new DataFetch();
+reminders();
+add_edit_delete_check();
+
+async function reminders() { // fetch reminders
+    dataFetch.endpoint = '../../api/get_reminders.php?type=TASK';
+    category_reminder = await dataFetch.fetching();
+    if (category_reminder == undefined) { // if undefined user not logged in
+        return;
+    }
+    collection = category_reminder;
+    arrangeData();
+    add_edit_delete_check();
+}
 async function arrangeData() {
     const image = "../static/icons/user_ico.png";
 
@@ -31,8 +146,7 @@ async function arrangeData() {
     var is_checked;
     var type;
     var is_recurring;
-
-    await GETreminder();
+    let html = "";
     if (collection) {
         const sortedCollection = sortCollection(collection);
         for (let x = 0; x < sortedCollection.length; x++) {
@@ -40,17 +154,18 @@ async function arrangeData() {
             if (tasks.type == "TASK") {
                 task_id = tasks.id;
                 title = tasks.title == null ? "" : tasks.title;
-                description = tasks.message == null ? "" : tasks.message;
+                description = tasks.message == null ? "\nDescription is not indicated." : tasks.message;
                 date_posted = new Date(tasks.dateCreated.date);
                 due_date = new Date(tasks.remindDate.date);
                 is_checked = tasks.isChecked;
                 type = tasks.type;
                 is_recurring = tasks.isRecurring;
-                tasksSection.innerHTML += notification_section(image, task_id, type, title, description, date_posted, due_date, is_checked, is_recurring);
+                html += notification_section(image, task_id, type, title, description, date_posted, due_date, is_checked, is_recurring);
                 add_edit_delete_check();
             }
         }
     }
+    tasksSection.innerHTML = html;
 }
 
 function sortCollection(forSorting) {
@@ -71,7 +186,7 @@ function sortCollection(forSorting) {
 function notification_section(image, task_id, type, title, description, date_posted, due_date, is_checked, is_recurring) {
     let html = "";
     let datePosted = format_date_time(date_posted);
-    let isChecked = is_checked ? "COMPLETED" : "";
+    let isChecked = is_checked ? "\nCOMPLETED" : "";
     let check_int = is_checked ? 1 : 0;
     let dueDate;
 
@@ -109,9 +224,6 @@ function notification_section(image, task_id, type, title, description, date_pos
     html += '</div>';
     html += '</div>';
     html += '</div>';
-
-
-
     return html;
 }
 
@@ -195,58 +307,25 @@ async function edit_schedule(reminderID) {
 
 function POSTreminder() {
     // Post Reminder
+    let modal = document.querySelector('.add_sched_modal');
     const postReminder = document.querySelector('#post-reminder-button');
-    postReminder.addEventListener('click', () => {
-        const textArea = document.querySelector('#post-reminder-response');
-        var req;
-
-        const form = document.querySelector("#post-reminder-form");
-        const formData = new URLSearchParams();
-
-        for (const pair of new FormData(form)) {
-            formData.append(pair[0], pair[1]);
-        }
-
-        var data = {
-            method: 'POST',
-            body: formData
-        };
-
-        req = new Request('../../api/post_reminder.php', data);
-
-        fetch(req)
-            .then((res) => res.text())
-            .then((data) => {
-                textArea.value = data;
-                var parsed = JSON.parse(data);
-                console.log(parsed);
-            });
+    postReminder.addEventListener('click', async () => {
+        const form = document.querySelector('#post-reminder-form');
+        const reminder = new Reminder(form, null, null);
+        await reminder.post();
+        modal.style.display = 'none';
     });
 }
 
-function DELETEreminder(reminderID) {
+async function DELETEreminder(reminderID) {
     // Delete Reminder
     var verify = confirm('Are you sure you want to delete this task?');
     if (verify) {
-        var req;
-
-        const formData = new URLSearchParams();
-
-        formData.append('reminder-id', reminderID);
-
-        var data = {
-            method: 'POST',
-            body: formData
-        };
-
-        req = new Request('../../api/delete_reminder.php', data);
-
-        fetch(req)
-            .then((res) => res.text())
-            .then((data) => {
-                var parsed = JSON.parse(data);
-                console.log(parsed);
-            });
+        const reminder = new Reminder(null, reminderID, null);
+        let parentDiv = document.getElementById('tasks_section');
+        let div = document.getElementById(reminderID);
+        await reminder.delete();
+        parentDiv.removeChild(div);
     }
 }
 
@@ -281,8 +360,8 @@ function CHECKreminder(reminderID, isChecked) {
             });
     }
 }
-
 function UPDATEreminder(button) {
+    let modal = document.querySelector('.add_sched_modal');
     // Edit Reminder
     const editReminder = document.querySelector('#edit-reminder-button');
     // Get fields
@@ -306,31 +385,10 @@ function UPDATEreminder(button) {
     }
 
     // Confirm edit
-    editReminder.addEventListener('click', () => {
-        const textArea = document.querySelector('#edit-reminder-response');
-
-        var req;
-
+    editReminder.addEventListener('click', async () => {
         const form = document.querySelector("#edit-reminder-form");
-        const formData = new URLSearchParams();
-
-        for (const pair of new FormData(form)) {
-            formData.append(pair[0], pair[1]);
-        }
-
-        var data = {
-            method: 'POST',
-            body: formData
-        };
-
-        req = new Request('../../api/edit_reminder.php', data);
-
-        fetch(req)
-            .then((res) => res.text())
-            .then((data) => {
-                textArea.value = data;
-                var parsed = JSON.parse(data);
-                console.log(parsed);
-            });
+        const reminder = new Reminder(form, null, null);
+        await reminder.update();
+        modal.style.display = 'none';
     });
 }
