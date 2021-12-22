@@ -6,27 +6,137 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/styles/tasks.css">
+    <script src="https://kit.fontawesome.com/5357b59286.js" crossorigin="anonymous"></script>
     <script src="../static/script/task-checklist.js" async></script>
-    <title>Task Checklist</title>
+    <title>Trestle | Task Checklist</title>
 </head>
 
 <body>
+    <!--Modal div-->
     <div class='add_sched_modal'>
         <div class='modal_content'>
         </div>
     </div>
-
-    <h1>Task Checklist</h1>
-
-    <a href="task_checklist.html"><button>Task</button></a>
-    <a href="calendar.html"><button>Calendar</button></a>
-    <a href="announcements.html"><button>Announcements</button></a>
-    <a href="../../api/tests.php"><button>Connect</button></a>
-    <br>
-    <br>
-    <button id="add_task">Create Task</button>
-    <div id="tasks_section">
+    <!--Start of header-->
+    <header id="navigation">
+        <a href="landingpage/landing.html" class="logo">Trestle</a>
+        <input type="checkbox" id="menu-bar">
+        <label for="menu-bar" class="fas fa-bars"></label>
+        <nav class="navbar">
+        <a href="#home">Home</a>
+        <a href="calendar.html">Calendar</a>
+        <a href="#taskchecklist">Task Checklist</a>
+        <a href="#announcements">Announcements</a>
+        <a href="#settings">Settings</a>
+        <a href="#help">Help</a>
+        <a href="#logout">Logout</a>
+        </nav>
+    </header>
+    <!--End of header-->
+    <!--Start of home-->
+    <section class="home" id="home">
+        <div class="content">
+        <h3>Work out on your<br><span>Task Checklist</span></h3>
+        <p>Welcome to your very own task checklist! Here you can create your personalized task to help you keep track of all the activities you must do. You can also edit and delete your existing tasks and update them if there are any changes needed. Keep in mind that everything will be sorted for your convenience showing first all unfinished ones.</p>
+        <a href="#body-container" class="btn">Let's Go<i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="image">
+        <img src="images/task-img.png" alt="">
+        </div>
+        <div class="custom-shape-divider-bottom-1639584489">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
+        </svg>
     </div>
+    </section>
+    <!--End of home-->
+    <!--Start of TASK BODY-->
+    <div class="body-container" id="body-container">
+    <h1 class="heading reveal">Task Checklist</h1>
+    <div class="task-container reveal">
+            <a href="task_checklist.html"><button>Task</button></a>
+            <a href="calendar.html"><button>Calendar</button></a>
+            <a href="announcements.html"><button>Announcements</button></a>
+            <a href="../../api/tests.php"><button>Connect</button></a>
+            <button id="add_task">Create Task</button>
+            <div id="tasks_section">
+            </div>
+    </div>
+    </div>
+    <!--End of TASK-->
+    <!--Start of footer-->
+    <div class="footer">
+        <div class="box-container">
+        <div class="box">
+            <h3>About Us</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium, placeat! Quasi ex suscipit, ducimus ipsum accusantium nobis culpa sapiente, maiores odit eaque ab. Quaerat minima vel ex minus omnis nemo architecto cupiditate debitis voluptas? Voluptate maxime autem, eos, velit debitis voluptates ab fugit culpa ducimus quis nobis corrupti iure doloribus?</p>
+        </div>
+        <div class="box">
+            <h3>Quick Links</h3>
+            <a href="#">Home</a>
+            <a href="#">Features</a>
+            <a href="#">About</a>
+            <a href="#">Calendar</a>
+            <a href="#">Settings</a>
+            <a href="#">Help</a>
+        </div>
+        <div class="box">
+            <h3>Follow Us</h3>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
+        </div>
+        <div class="box">
+            <h3>Contact Info</h3>
+            <div class="info">
+            <i class="fas fa-phone"></i>
+            <p>0123-456-7890 <br> 0987-654-321</p>
+            </div>
+            <div class="info">
+            <i class="fas fa-envelope"></i>
+            <p>trestle2022@gmail.com <br> trestle2022@yahoo.com</p>
+            </div>
+            <div class="info">
+            <i class="fas fa-map-marker-alt"></i>
+            <p>Malolos, Bulacan - Philippines, Zip code: 0123</p>
+            </div>
+        </div>
+        </div>
+        <h1 class="credit">&copy; Trestle 2022</h1>
+    </div>
+    <!--End of footer-->
+    <!--Scroll effects-->
+    <script type="text/javascript">
+        window.addEventListener('scroll', reveal);
+        function reveal(){
+        var reveals = document.querySelectorAll('.reveal');
+        for(var i = 0; i < reveals.length; i++){
+            var windowheight = window.innerHeight;
+            var revealtop = reveals[i].getBoundingClientRect().top;
+            var revealpoint = 150;
+            if(revealtop < windowheight - revealpoint){
+            reveals[i].classList.add('active');
+            }
+            else{
+            reveals[i].classList.remove('active');
+            }
+        }
+        }
+    </script>
+    <script type="text/javascript">
+        var lastScrollTop = 0;
+        navbar = document.getElementById("navigation");
+        window.addEventListener('scroll', function(){
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop){
+            navbar.style.top="-80px";
+            }else{
+            navbar.style.top="0";
+            }
+            lastScrollTop = scrollTop;
+        })
+    </script>
 </body>
 
 </html>
