@@ -26,45 +26,45 @@ body{
 background:#f9f9f9;
 }
 .wrapper{
-    display: flex;
-    flex-direction: row;
-    position: relative;
+display: flex;
+flex-direction: row;
+position: relative;
 }
 .wrapper .sidebar{
-    position: fixed;
-    height: 100vh;
-    width: 30rem;
-    background: linear-gradient(to bottom, #2d016c,#170048);
-    color: #fff;
-    text-transform: uppercase;
-    padding: auto 2rem;
-    box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
+position: fixed;
+height: 100vh;
+width: 30rem;
+background: linear-gradient(to bottom, #2d016c,#170048);
+color: #fff;
+padding: auto 2rem;
+box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
 }
 .wrapper .sidebar h2{
-    font-size: 3rem;
-    text-align: center;
-    padding: 4rem 2rem;
+font-size: 3rem;
+text-align: center;
+padding: 4rem 2rem;
+text-transform: uppercase;
 }
 .wrapper .sidebar ul li{
-    padding: 2rem;
-    border-bottom: 1px solid rgba(0,0,0,0.09);
-    border-top:1px solid rgba(225,225,225,0.09);
+padding: 2rem;
+border-bottom: 1px solid rgba(0,0,0,0.09);
+border-top:1px solid rgba(225,225,225,0.09);
 }
 .wrapper .sidebar ul li:hover{
-    background:#2d016c;
+background:#2d016c;
 }
 .wrapper .sidebar ul li a{
-    font-size: 1.5rem;
-    color: #fff;
-    text-decoration: none;
-    display:block;
-    transition: all 0.5s ease-in-out;
+font-size: 1.5rem;
+color: #fff;
+text-decoration: none;
+display:block;
+transition: all 0.5s ease-in-out;
 }
 .wrapper .sidebar ul li a:hover{
-    transform: translateX(0.8rem);
+transform: translateX(0.8rem);
 }
 .wrapper .sidebar ul li a i{
-    width: 2.5rem;
+width: 2.5rem;
 }
 #navigation{
 opacity: 0;
@@ -349,17 +349,6 @@ transform: translateY(-8px);
 margin-left: 3%;
 margin-top: 1%;
 }
-/*scrolleffects*/
-.reveal{
-position: relative;
-transform: translateY(150px);
-opacity: 0;
-transition: all 1.4s ease;
-}
-.reveal.active{
-transform: translateY(0px);
-opacity: 1;
-}
 /*media queries*/
 @media (max-width:1440px){
 html{
@@ -377,7 +366,7 @@ font-size: 45%;
 margin: 2rem 5rem;
 }
 .body-container{
-margin-left: 20%;
+margin-left: 21%;
 }
 }
 @media (max-width:991px){
@@ -388,7 +377,7 @@ padding-top: 7.5rem;
 }
 @media (max-width:768px){
 #navigation{
-    opacity: 1;
+opacity: 1;
 }
 header label{
 visibility: visible;
@@ -428,7 +417,7 @@ margin: auto;
 margin-top:10rem;
 }
 .wrapper .sidebar{
-    display: none;
+display: none;
 }
 }
 @media (max-width:450px){
