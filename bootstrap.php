@@ -16,8 +16,12 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), 
 
 // database configuration parameters
 $conn = array(
-    'driver' => 'pdo_sqlite',
-    'path' => __DIR__ . '/db.sqlite',
+    'driver' => 'pdo_pgsql',
+    'user' => 'lzccendxqkvvuk',
+    'dbname' => 'datr0o2ti8vsvk',
+    'password' => '4243b5ffcee2ddab9427a80d054134b94f03c8039f9ab66d64a07e578916deb1',
+    'host' => 'ec2-54-89-105-122.compute-1.amazonaws.com',
+    'port' => '5432',
 );
 
 // obtaining the entity manager

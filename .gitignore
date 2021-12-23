@@ -2,3 +2,4 @@
 /vendor
 client_secret.json
 db.sqlite
+bootstrap.php
