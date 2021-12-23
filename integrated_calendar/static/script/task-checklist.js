@@ -196,7 +196,7 @@ function notification_section(image, task_id, type, title, description, date_pos
         dueDate = "No due date."
     }
 
-    html += '<div class="task reveal" id="' + task_id + '">';
+    html += '<div class="task" id="' + task_id + '">';
     html += '<img src="' + image + '"" alt = "icon" width = "50" class="source_image"> ';
     html += '<div class="contents">';
     html += '<span class="title">' + title + '</span>';
