@@ -107,14 +107,13 @@ position: fixed;
 top: 0; left: 0;
 padding: 2rem 9%;
 width: 100%;
-background: rgba(255, 255, 255, 0.2);
+background: rgba(43,14,100,0.95);
 backdrop-filter: blur(5px);
 box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
 display:flex;
 align-items: center;
 justify-content: space-between;
 z-index: 1000;
-transition: 2s ease;
 }
 header .logo{
 font-size: 2.5rem;
@@ -194,10 +193,12 @@ padding-top: 7.5rem;
 }
 }
 @media (max-width:768px){
+#navigation{
+opacity: 1;
+}
 header label{
 visibility: visible;
 opacity: 1;
-transform: translateX(-100px);
 text-shadow: 2px 2px 5px black;
 }
 header .navbar{
@@ -228,16 +229,16 @@ transition: all .2s linear;
 header input:checked ~ label::before{
 content: '\f00d'
 }
+.body-container{
+margin: auto;
+margin-top:10rem;
+}
+.wrapper .sidebar{
+display: none;
+}
 }
 @media (max-width:450px){
 html{
 font-size: 50%;
-}
-header label{
-transform: translateX(-50px);
-}
-.body-container{
-margin: auto;
-margin-top:10rem;
 }
 }
