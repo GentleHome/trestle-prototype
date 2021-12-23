@@ -9,46 +9,37 @@
 </head>
 
 <body>
-    <div class="row">
-        <div id='close_modal'>&#10006;</div>
+    <div class="column">
+        <p id="clicked_date" style="text-align: center"></p>
+        <!-- Post Reminders -->
+        <div class="post-reminders-div" style="border: 1px solid black; padding: 2rem; padding-top: 5px; border-radius: .5rem;">
+            <form id="post-reminder-form" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-wrap: wrap; flex: 2 2 30rem;">
+
+                Reminder type:
+                <select id="post-reminder-type-option" name="type">
+                    <option selected value="RMDR">Reminders</option>
+                    <option value="TASK">Task</option>
+                </select> <br>
+
+                Title:
+                <input type="text" name="title"><br>
+
+                Remind Date:
+                <input type="date" name="remind-date"><br>
+
+                Is Recurring:
+                <input type="checkbox" name="is-recurring">
+
+                </br>
+
+                Message (Nullable):
+                <textarea name="message"></textarea>
+
+            </form>
+            <button id="post-reminder-button">Post Reminder</button> = <textarea id="post-reminder-response" disabled placeholder="Response"></textarea></br></br>
+        </div>
+        </br>
     </div>
-    <div class="row">
-        <div class="column">
-            <p style="text-align: center; text-transform: uppercase;"><strong>Tasks</strong></p>
-            <task_preview></task_preview>
-        </div>
-
-        <div class="column">
-            <p id="clicked_date" style="text-align: center"></p>
-            <!-- Post Reminders -->
-            <div class="post-reminders-div" style="border: 1px solid black; padding: 2rem; padding-top: 5px; border-radius: .5rem;">
-                <form id="post-reminder-form" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-wrap: wrap; flex: 2 2 30rem;">
-
-                    Reminder type:
-                    <select id="post-reminder-type-option" name="type">
-                        <option selected value="RMDR">Reminders</option>
-                        <option value="TASK">Task</option>
-                    </select> <br>
-
-                    Title:
-                    <input type="text" name="title"><br>
-
-                    Remind Date:
-                    <input type="date" name="remind-date"><br>
-
-                    Is Recurring:
-                    <input type="checkbox" name="is-recurring">
-
-                    </br>
-
-                    Message (Nullable):
-                    <textarea name="message"></textarea>
-
-                </form>
-                <button id="post-reminder-button">Post Reminder</button> = <textarea id="post-reminder-response" disabled placeholder="Response"></textarea></br></br>
-            </div>
-            </br>
-        </div>
     </div>
 </body>
 
