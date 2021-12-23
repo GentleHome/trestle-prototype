@@ -113,3 +113,90 @@ dates {
     border: 1px solid lightgray;
     color: lightgray;
 }
+/* Modal designs */
+tasks_holder > div {
+    font-family: "Roboto", sans-serif;
+    display: flex;
+    flex-direction: row;
+    border: 2px solid gray;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    margin-bottom: 0.1rem;
+}
+
+tasks_holder > div:hover {
+    border: 2px solid black;
+}
+tasks_holder > div > p {
+    height: fit-content;
+    font-size: 1rem;
+}
+
+tasks_holder > div > actions {
+    height: fit-content;
+    color: red;
+    align-self: center;
+    margin-left: auto;
+}
+
+tasks_holder > div > actions > .update_btn {
+    cursor: pointer;
+    color: blue;
+    background-color: white;
+    border: none;
+}
+
+tasks_holder > div > actions > .delete_btn {
+    cursor: pointer;
+    color: red;
+    background-color: white;
+    border: none;
+}
+
+.no-content {
+    color: gray;
+}
+
+/* individual tasks/reminders design */
+preview_card_user {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 1rem;
+}
+
+preview_card_user > preview_type,
+preview_date {
+    margin-left: auto;
+}
+
+preview_card_user > preview_message {
+    border: 1px solid black;
+    padding: 0.5rem;
+}
+
+preview_card_user > preview_isChecked {
+    margin-left: auto;
+}
+
+/* Individual modal courseworks design */
+preview_card_source {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 1rem;
+}
+
+preview_card_source > preview_date,
+preview_type {
+    margin-left: auto;
+}
+
+preview_card_source > preview_description {
+    border: 1px solid black;
+    padding: 0.5rem;
+}
+
+preview_card_source > preview_link {
+    margin-left: auto;
+}
