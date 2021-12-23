@@ -29,43 +29,14 @@ calendar = async () => {
                 break;
             case 1:
                 // getMonth() has 1 offset e.g 0 = january
-                if (d.getMonth() <= 0) {
-                    url.set('date', `${d.getFullYear() - 1}-12-${d.getDate()}`);
-                } else {
-                    url.set('date', `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`);
-                }
+                let prevmonth = new Date(d.getFullYear(), d.getMonth() - 1, d.getDate());
+                url.set('date', `${prevmonth.getFullYear()}-${prevmonth.getMonth() + 1}-${prevmonth.getDate()}`);
                 month_interface();
                 break;
             case 2:
-                let weekcontrol = new WeekControl(d.getFullYear(), d.getMonth() + 1, d.getDate());
-                weekcontrol.render();
-                if (weekcontrol.index == 0) {
-                    let weeks;
-                    let year;
-                    let month;
-                    if (d.getMonth() <= 0) {
-                        year = d.getFullYear() - 1;
-                        month = 12
-                        weeks = weekcontrol.getWeeksInMonth(year, month);
-                    } else {
-                        year = d.getFullYear();
-                        month = d.getMonth();
-                        weeks = weekcontrol.getWeeksInMonth(year, month);
-                    }
-
-                    let date = weeks.at(-1).length != 7 ? weeks.at(-2)[d.getDay()] : weeks.at(-1)[d.getDay()];
-                    url.set('date', `${year}-${month}-${date}`);
-                } else {
-                    let weeks = weekcontrol.getWeeksInMonth(d.getFullYear(), d.getMonth());
-                    let date = null;
-                    if (weekcontrol.weeks[weekcontrol.index - 1].length != 7) {
-                        date = [...weeks.at(-1), ...weekcontrol.weeks[weekcontrol.index - 1]][d.getDay()];
-                    } else {
-                        date = weekcontrol.weeks[weekcontrol.index - 1][d.getDay()];
-                    }
-                    url.set('date', `${d.getFullYear()}-${d.getMonth() + 1}-${date}`);
-                }
-
+                let weekcontrol = new WeekControl();
+                let prevweek = new Date(weekcontrol.prevWeek(d))
+                url.set('date', `${prevweek.getFullYear()}-${prevweek.getMonth() + 1}-${prevweek.getDate()}`);
                 week_interface();
                 break;
 
@@ -83,13 +54,16 @@ calendar = async () => {
                 break;
             case 1:
                 // getMonth() has 1 offset e.g 0 = january
-                if (d.getMonth() >= 11) {
-                    url.set('date', `${d.getFullYear() + 1}-1-${d.getDate()}`)
-                } else {
-                    url.set('date', `${d.getFullYear()}-${d.getMonth() + 2}-${d.getDate()}`)
-                }
+                let nextMonth = new Date(d.getFullYear(), d.getMonth() + 1, d.getDate());
+                url.set('date', `${nextMonth.getFullYear()}-${nextMonth.getMonth() + 1}-${nextMonth.getDate()}`);
 
                 month_interface();
+                break;
+            case 2:
+                let weekcontrol = new WeekControl();
+                let nextweek = new Date(weekcontrol.nextWeek(d))
+                url.set('date', `${nextweek.getFullYear()}-${nextweek.getMonth() + 1}-${nextweek.getDate()}`);
+                week_interface();
                 break;
 
             default:
@@ -199,7 +173,7 @@ function year_interface() {
                 excess++;
                 db.innerText = excess;
                 db.classList.add('disabled');
-                db.setAttribute('date', `${month + 1 == 1 ? year - 1 : year}-${month}-${d.innerText}`);
+                db.setAttribute('date', `${month + 1 == 1 ? year - 1 : year}-${month == 0 ? 12 : month}-${db.innerText}`);
             } else if (day_counter != month_end) {
                 day_counter++;
                 db.innerText = day_counter;
@@ -208,7 +182,7 @@ function year_interface() {
                 next_month_counter++;
                 db.innerText = next_month_counter;
                 db.classList.add('disabled');
-                db.setAttribute('date', `${month + 1 == 12 ? year + 1 : year}-${month + 2}-${d.innerText}`);
+                db.setAttribute('date', `${month + 1 == 12 ? year + 1 : year}-${month + 2}-${db.innerText}`);
             }
 
             if (db.getAttribute('date') == `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`) {
