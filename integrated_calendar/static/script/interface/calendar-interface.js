@@ -221,6 +221,7 @@ function month_builder() {
 }
 
 async function month_interface() {
+    const current_date = new Date();
     let d = new Date(url.date);
     let dates = document.querySelector('dates').children;
 
@@ -241,11 +242,12 @@ async function month_interface() {
     let next_month_counter = 0;
     [...dates].forEach(d => {
         d.classList.remove('disabled');
+        d.classList.remove('current_date');
         if (excess != prev_month) {
             excess++;
             d.innerText = excess
             d.classList.add('disabled');
-            d.setAttribute('date', `${month + 1 == 1 ? year - 1 : year}-${month}-${d.innerText}`);
+            d.setAttribute('date', `${month + 1 == 1 ? year - 1 : year}-${month <= 1 ? 12 : month}-${d.innerText}`);
         } else if (day_counter != month_end) {
             day_counter++;
             d.innerText = day_counter;
@@ -254,7 +256,11 @@ async function month_interface() {
             next_month_counter++;
             d.innerText = next_month_counter;
             d.classList.add('disabled');
-            d.setAttribute('date', `${month + 1 == 12 ? year + 1 : year}-${month + 2}-${d.innerText}`);
+            d.setAttribute('date', `${month + 1 == 12 ? year + 1 : year}-${month + 2 >= 12 ? 1 : month + 2}-${d.innerText}`);
+        }
+
+        if (d.getAttribute('date') == `${current_date.getFullYear()}-${current_date.getMonth() + 1}-${current_date.getDate()}`) {
+            d.classList.add('current_date');
         }
         // render collection
         collectionWidgets(d);
@@ -266,6 +272,7 @@ async function month_interface() {
 
 // week
 function week_interface() {
+    const current_date = new Date();
     let dates = document.querySelectorAll(".date");
     let urldate = url.urlDate();
     let d = new Date(url.date);
@@ -277,9 +284,14 @@ function week_interface() {
     let week = weekcontrol.week;
 
     [...dates].forEach((d, i) => {
+        d.classList.remove('current_date');
         d.innerText = week[i];
         d.setAttribute('date', `${urldate.year}-${urldate.month}-${d.innerText}`);
         collectionWidgets(d);
+
+        if (d.getAttribute('date') == `${current_date.getFullYear()}-${current_date.getMonth() + 1}-${current_date.getDate()}`) {
+            d.classList.add('current_date');
+        }
 
         d.addEventListener("mouseup", () => { modalInterface(d) });
     })
@@ -323,6 +335,7 @@ async function taskPreviewInterface(d) {
         collection.forEach(c => {
             if (c.type == "TASK" || c.type == "RMDR") {
                 let div = document.createElement('div');
+                let image = document.createElement('img');
                 let p = document.createElement('p');
                 let actions = document.createElement('actions');
                 let text = null;
@@ -333,6 +346,16 @@ async function taskPreviewInterface(d) {
                     text = document.createTextNode(`${c.title}`);
                 }
                 p.appendChild(text);
+
+                div.appendChild(image);
+                if (c.type == "TASK") {
+                    image.setAttribute('src', '../static/icons/user_ico.png');
+                    image.setAttribute('height', '50rem');
+                    c.isChecked ? image.classList.add('done') : image.classList.add('not-done');
+                } else {
+                    image.setAttribute('src', '../static/icons/bell_ico.png');
+                    image.setAttribute('height', '50rem');
+                }
 
                 let update_btn = document.createElement('button');
                 update_btn.classList.add('update_btn');
@@ -355,7 +378,7 @@ async function taskPreviewInterface(d) {
                     let week = new Date(d.getAttribute('date'));
                     if (week.getDay() == c.isRecurring) {
                         tasks_holder.appendChild(div);
-                        div.addEventListener("mouseup", async () => {
+                        p.addEventListener("mouseup", async () => {
                             individualSchedInterface(c);
                         }); // Event listener -------------------------------------
                     }
@@ -363,7 +386,7 @@ async function taskPreviewInterface(d) {
                     let c_date = new Date(c.remindDate.date);
                     if (d.getAttribute('date') == `${c_date.getFullYear()}-${c_date.getMonth() + 1}-${c_date.getDate()}`) {
                         tasks_holder.appendChild(div);
-                        div.addEventListener("mouseup", () => {
+                        p.addEventListener("mouseup", () => {
                             console.log("Task clicked");
                             individualSchedInterface(c);
                         }); // Event listener -------------------------------------
@@ -381,6 +404,8 @@ async function taskPreviewInterface(d) {
                     const update_schedule = await dataFetch.fetchingHTML();
                     const body = update_schedule.querySelector('body');
                     tasks_holder.replaceChildren(body);
+
+                    individual_modal.innerHTML = "";
 
                     const cancel_btn = document.querySelector('#cancel_edit');
                     cancel_btn.addEventListener("mouseup", () => {
@@ -429,14 +454,20 @@ async function taskPreviewInterface(d) {
                 let c_date = c.dueDate;
                 if (d.getAttribute('date') == `${c_date.year}-${c_date.month}-${c_date.day}`) {
                     let div = document.createElement('div');
+                    let image = document.createElement('img');
                     let p = document.createElement('p');
                     let text = document.createTextNode(`${c.title}`);
                     p.appendChild(text);
+                    div.appendChild(image);
                     div.appendChild(p);
 
+                    c.source == "CANVAS" ? image.setAttribute('src', '../static/icons/canvas_ico.png') : image.setAttribute('src', '../static/icons/classroom_ico.png');
+                    image.setAttribute('height', '50rem');
+
+                    c.hasSubmitted ? image.classList.add('done') : image.classList.add('not-done');
+
                     tasks_holder.appendChild(div);
-                    div.addEventListener("mouseup", () => {
-                        console.log("coursework clicked");
+                    p.addEventListener("mouseup", () => {
                         individualSrcInterface(c)
                     }); // Event listener -------------------------------------
                 }
@@ -482,9 +513,11 @@ function collectionWidgets(d) {
     if (collection != null) {
         collection.forEach(c => {
             if (c.type == "TASK" || c.type == "RMDR") {
-                let div = document.createElement('div')
+                let div = document.createElement('div');
+                let image = document.createElement('img');
                 div.classList.add(c.type);
-                let text = document.createTextNode(c.title == "" ? "no-title" : c.title);
+                let text = document.createTextNode(c.title == "" ? "(no-title)" : `${c.title.substr(0, 12)}...`);
+                div.appendChild(image);
                 div.appendChild(text);
 
                 if (c.isRecurring) {
@@ -499,15 +532,30 @@ function collectionWidgets(d) {
                     }
                 }
 
+                if (c.type == "TASK") {
+                    c.isChecked ? div.classList.add('done') : div.classList.add('not-done');
+                    image.setAttribute('src', '../static/icons/user_ico.png');
+                    image.setAttribute('height', '25px');
+                } else {
+                    image.setAttribute('src', '../static/icons/bell_ico.png');
+                    image.setAttribute('height', '25px');
+                }
             }
 
             if (c.type == "COURSEWORK" && c.dueDate) {
                 let c_date = c.dueDate;
                 if (d.getAttribute('date') == `${c_date.year}-${c_date.month}-${c_date.day}`) {
                     let div = document.createElement('div')
+                    let image = document.createElement('img');
+                    div.appendChild(image);
+
+                    c.source == "CANVAS" ? image.setAttribute('src', '../static/icons/canvas_ico.png') : image.setAttribute('src', '../static/icons/classroom_ico.png');
+                    image.setAttribute('height', '25px');
+
                     div.classList.add(c.source);
-                    let text = document.createTextNode(c.title == "" ? "no-title" : c.title);
+                    let text = document.createTextNode(c.title == "" ? "(no-title)" : `${c.title.substr(0, 12)}...`);
                     div.appendChild(text);
+                    c.hasSubmitted ? div.classList.add('done') : div.classList.add('not-done');
                     d.appendChild(div);
                 }
             }
@@ -517,7 +565,6 @@ function collectionWidgets(d) {
 
 // Individual modals
 async function individualSchedInterface(c) {
-    console.log("Recurring clicked");
     const individual_modal = document.querySelector("individual_modal");
     dataFetch.endpoint = "./view_individual_schedule.html";
     const individual_schedule = await dataFetch.fetchingHTML();
