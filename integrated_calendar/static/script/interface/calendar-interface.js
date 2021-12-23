@@ -286,138 +286,196 @@ function week_interface() {
 }
 
 // Modal interface
+
 async function modalInterface(d) {
-    {
-        url.set('date', d.getAttribute('date'));
-        let urldate = await url.urlDate(); //urldate object
+    dataFetch.endpoint = "./calendar_modal.html";
+    const calendar_modal = await dataFetch.fetchingHTML();
+    const modal_content = document.querySelector(".modal_content");
+    modal_content.replaceChildren(calendar_modal.querySelector("body"));
 
-        dataFetch.endpoint = 'add_schedule.html';
-        const add_schedule = await dataFetch.fetchingHTML();
-        const modal_content = document.querySelector('.modal_content');
-        modal_content.replaceChildren(add_schedule.querySelector('body'));
+    const close_modal = document.querySelector("#close_modal");
+    const task_reminders_btn = document.querySelector(".task-reminders-btn");
+    const add_sched_btn = document.querySelector(".add-sched-btn");
 
-        const clicked_date = document.querySelector('#clicked_date');
-        const close_modal = document.querySelector('#close_modal');
-        const task_preview = document.querySelector('task_preview');
-        const postReminder = document.querySelector('#post-reminder-button');
-        const remind_date = document.querySelector("input[name='remind-date']");
+    const content = document.querySelector("content");
 
-        clicked_date.replaceChildren(d.getAttribute('date'));
+    taskPreviewInterface(d); // first to load
+    close_modal.addEventListener("mouseup", () => {
+        modal_content.removeChild(modal_content.firstChild);
+    });
 
-        close_modal.addEventListener("mouseup", () => {
-            modal_content.removeChild(modal_content.firstChild);
-        });
+    task_reminders_btn.addEventListener("mouseup", () => {
+        taskPreviewInterface(d);
+    });
 
-        // set value of date picker
-        remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
+    add_sched_btn.addEventListener("mouseup", () => {
+        addScheduleInterface(d);
+    });
+}
 
-        if (collection != null) {
-            collection.forEach(c => {
-                if (c.type == "TASK" || c.type == "RMDR") {
-                    let div = document.createElement('div');
-                    let p = document.createElement('p');
-                    let text = document.createTextNode(`Title: ${c.title}`);
-                    p.appendChild(text);
-                    let delete_btn = document.createElement('button');
-                    let update_btn = document.createElement('button');
-                    text = document.createTextNode('delete');
-                    delete_btn.appendChild(text);
-                    text = document.createTextNode('update');
-                    update_btn.appendChild(text);
-                    div.appendChild(p);
-                    div.appendChild(delete_btn);
-                    div.append(update_btn);
+async function taskPreviewInterface(d) {
+    const content = document.querySelector("content");
+    const individual_modal = document.querySelector("individual_modal");
+    const tasks_holder = document.createElement("tasks_holder");
+    url.set('date', d.getAttribute('date'));
+    let urldate = await url.urlDate(); //urldate object
+    if (collection != null) {
+        collection.forEach(c => {
+            if (c.type == "TASK" || c.type == "RMDR") {
+                let div = document.createElement('div');
+                let p = document.createElement('p');
+                let actions = document.createElement('actions');
+                let text = null;
+                if (c.title == "") {
+                    text = document.createTextNode("Title");
+                    p.classList.add('no-content');
+                } else {
+                    text = document.createTextNode(`${c.title}`);
+                }
+                p.appendChild(text);
+
+                let update_btn = document.createElement('button');
+                update_btn.classList.add('update_btn');
+                let delete_btn = document.createElement('button');
+                delete_btn.classList.add('delete_btn');
+
+                text = document.createTextNode('Update');
+                update_btn.appendChild(text);
+                text = document.createTextNode('Delete');
+                delete_btn.appendChild(text);
+
+                div.appendChild(p);
+
+                actions.appendChild(update_btn)
+                actions.appendChild(delete_btn);
+
+                div.appendChild(actions);
+
+                if (c.isRecurring) {
+                    let week = new Date(d.getAttribute('date'));
+                    if (week.getDay() == c.isRecurring) {
+                        tasks_holder.appendChild(div);
+                        div.addEventListener("mouseup", async () => {
+                            individualSchedInterface(c);
+                        }); // Event listener -------------------------------------
+                    }
+                } else {
+                    let c_date = new Date(c.remindDate.date);
+                    if (d.getAttribute('date') == `${c_date.getFullYear()}-${c_date.getMonth() + 1}-${c_date.getDate()}`) {
+                        tasks_holder.appendChild(div);
+                        div.addEventListener("mouseup", () => {
+                            console.log("Task clicked");
+                            individualSchedInterface(c);
+                        }); // Event listener -------------------------------------
+                    }
+                }
+
+                delete_btn.addEventListener("mouseup", async () => {
+                    const reminder = new Reminder(null, c.id);
+                    await reminder.delete();
+                    tasks_holder.removeChild(div);
+                });
+
+                update_btn.addEventListener("mouseup", async () => {
+                    dataFetch.endpoint = 'edit_schedule.html';
+                    const update_schedule = await dataFetch.fetchingHTML();
+                    const body = update_schedule.querySelector('body');
+                    tasks_holder.replaceChildren(body);
+
+                    const cancel_btn = document.querySelector('#cancel_edit');
+                    cancel_btn.addEventListener("mouseup", () => {
+                        modalInterface(d); // render prev contents of task_preview
+                    });
+
+                    // Edit Reminder
+                    const edit_btn = document.querySelector('#edit-reminder-button');
+                    // Get fields
+                    const id = document.querySelector("input[name='reminder-id']");
+                    const type = document.querySelector('#edit-reminder-type-option');
+                    const title = document.querySelector("input[name='title']");
+                    const remind_date = document.querySelector("input[name='remind-date']");
+                    const isRecurring = document.querySelector("input[name='is-recurring']");
+                    const message = document.querySelector("textarea[name='message']");
+
+                    // Assign values to fields
+                    id.value = c.id;
+
+                    for (let index = 0; index < type.options.length; index++) {
+                        if (type.options[index].value == c.type) {
+                            type.options[index].selected = true;
+                        }
+                    }
+                    title.value = c.title;
+                    if (c.remindDate) {
+                        remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
+                    }
 
                     if (c.isRecurring) {
-                        let week = new Date(d.getAttribute('date'));
-                        if (week.getDay() == c.isRecurring) {
-                            task_preview.appendChild(div);
-                        }
-                    } else {
-                        let c_date = new Date(c.remindDate.date);
-                        if (d.getAttribute('date') == `${c_date.getFullYear()}-${c_date.getMonth() + 1}-${c_date.getDate()}`) {
-                            task_preview.appendChild(div);
-                        }
+                        isRecurring.checked = true;
+                    }
+                    if (c.message) {
+                        message.value = c.message;
                     }
 
-                    delete_btn.addEventListener("mouseup", async () => {
-                        const reminder = new Reminder(null, c.id);
-                        await reminder.delete();
-                        task_preview.removeChild(div);
-                    });
+                    edit_btn.addEventListener("mouseup", async () => {
+                        const form = document.querySelector("#edit-reminder-form");
+                        const reminder = new Reminder(form, null);
+                        await reminder.update();
+                    })
+                });
+            }
 
-                    update_btn.addEventListener("mouseup", async () => {
-                        dataFetch.endpoint = 'edit_schedule.html';
-                        const update_schedule = await dataFetch.fetchingHTML();
-                        const body = update_schedule.querySelector('body');
-                        task_preview.replaceChildren(body);
+            if (c.type == "COURSEWORK" && c.dueDate) {
+                let c_date = c.dueDate;
+                if (d.getAttribute('date') == `${c_date.year}-${c_date.month}-${c_date.day}`) {
+                    let div = document.createElement('div');
+                    let p = document.createElement('p');
+                    let text = document.createTextNode(`${c.title}`);
+                    p.appendChild(text);
+                    div.appendChild(p);
 
-                        const cancel_btn = document.querySelector('#cancel_edit');
-                        cancel_btn.addEventListener("mouseup", () => {
-                            modalInterface(d); // render prev contents of task_preview
-                        });
-
-                        // Edit Reminder
-                        const edit_btn = document.querySelector('#edit-reminder-button');
-                        // Get fields
-                        const id = document.querySelector("input[name='reminder-id']");
-                        const type = document.querySelector('#edit-reminder-type-option');
-                        const title = document.querySelector("input[name='title']");
-                        const remind_date = document.querySelector("input[name='remind-date']");
-                        const isRecurring = document.querySelector("input[name='is-recurring']");
-                        const message = document.querySelector("textarea[name='message']");
-
-                        // Assign values to fields
-                        id.value = c.id;
-
-                        for (let index = 0; index < type.options.length; index++) {
-                            if (type.options[index].value == c.type) {
-                                type.options[index].selected = true;
-                            }
-                        }
-                        title.value = c.title;
-                        if (c.remindDate) {
-                            remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
-                        }
-
-                        if (c.isRecurring) {
-                            isRecurring.checked = true;
-                        }
-                        if (c.message) {
-                            message.value = c.message;
-                        }
-
-                        edit_btn.addEventListener("mouseup", async () => {
-                            const form = document.querySelector("#edit-reminder-form");
-                            const reminder = new Reminder(form, null);
-                            await reminder.update();
-                        })
-                    });
+                    tasks_holder.appendChild(div);
+                    div.addEventListener("mouseup", () => {
+                        console.log("coursework clicked");
+                        individualSrcInterface(c)
+                    }); // Event listener -------------------------------------
                 }
-
-                if (c.type == "COURSEWORK" && c.dueDate) {
-                    let c_date = c.dueDate;
-                    if (d.getAttribute('date') == `${c_date.year}-${c_date.month}-${c_date.day}`) {
-                        let div = document.createElement('div');
-                        let p = document.createElement('p');
-                        let text = document.createTextNode(`Title: ${c.title}`);
-                        p.appendChild(text);
-                        div.appendChild(p);
-
-                        task_preview.appendChild(div);
-                    }
-                }
-
-            });
-        }
-
-        postReminder.addEventListener("mouseup", async () => {
-            const form = document.querySelector('#post-reminder-form');
-            const reminder = new Reminder(form, null);
-            await reminder.post();
+            }
         });
-
     }
+    if (tasks_holder.innerHTML == "") {
+        let p = document.createElement('p');
+        let text = document.createTextNode("Nothing to see here...");
+        p.appendChild(text);
+        tasks_holder.appendChild(p)
+    }
+    content.replaceChildren(tasks_holder);
+}
+
+async function addScheduleInterface(d) {
+    const content = document.querySelector("content");
+
+    url.set('date', d.getAttribute('date'));
+    let urldate = await url.urlDate(); //urldate object
+
+    dataFetch.endpoint = 'add_schedule.html';
+    const add_schedule = await dataFetch.fetchingHTML();
+
+    content.replaceChildren(add_schedule.querySelector('body'));
+
+    const clicked_date = document.querySelector('#clicked_date');
+    const postReminder = document.querySelector('#post-reminder-button');
+    const remind_date = document.querySelector("input[name='remind-date']");
+
+    clicked_date.replaceChildren(d.getAttribute('date'));
+    // set value of date picker
+    remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
+
+    postReminder.addEventListener("mouseup", async () => {
+        const form = document.querySelector('#post-reminder-form');
+        const reminder = new Reminder(form, null);
+        await reminder.post();
+    });
 }
 // indicators for collection
 function collectionWidgets(d) {
@@ -455,4 +513,77 @@ function collectionWidgets(d) {
             }
         });
     }
+}
+
+// Individual modals
+async function individualSchedInterface(c) {
+    console.log("Recurring clicked");
+    const individual_modal = document.querySelector("individual_modal");
+    dataFetch.endpoint = "./view_individual_schedule.html";
+    const individual_schedule = await dataFetch.fetchingHTML();
+    const card_user = individual_schedule.querySelector('preview_card_user');
+    const close_preview_btn = card_user.querySelector("#close_modal");
+    const date = card_user.querySelector("preview_date");
+    const type = card_user.querySelector("preview_type");
+    const title = card_user.querySelector("preview_title");
+    const target_course = card_user.querySelector("preview_target_course");
+    const message = card_user.querySelector("preview_message");
+    const isRecurring = card_user.querySelector("preview_isRecurring");
+    const isChecked = card_user.querySelector("preview_isChecked");
+
+    close_preview_btn.addEventListener("mouseup", () => {
+        individual_modal.removeChild(individual_modal.firstChild);
+    });
+
+    let c_date = new Date(url.date);
+
+    date.innerText = c.remindDate == null ? "" : `${c_date.getFullYear()}-${c_date.getMonth() + 1}-${c_date.getDate()}`;
+    type.innerText = c.type == "RMDR" ? "Reminder" : "Task";
+    title.innerText = c.title;
+    target_course.innerText = c.targetCourse;
+    message.innerText = c.message;
+    isRecurring.innerText = c.isRecurring == null ? "" : `Recurring every ${c_date.toLocaleString('default', { weekday: 'long' })}`;
+    isChecked.innerText = c.isChecked ? "Done" : "Not yet done.";
+
+    individual_modal.replaceChildren(card_user);
+    console.log(c);
+}
+// Individial source interface modal for data from api
+async function individualSrcInterface(c) {
+    const individual_modal = document.querySelector("individual_modal");
+    dataFetch.endpoint = "./view_individual_schedule.html";
+    const individual_schedule = await dataFetch.fetchingHTML();
+    const card_source = individual_schedule.querySelector('preview_card_source');
+
+    const close_preview_btn = card_source.querySelector("#close_modal");
+    const date = card_source.querySelector("preview_date"); //dueDate
+    const type = card_source.querySelector("preview_type"); // coursework
+    const source = card_source.querySelector("preview_source"); // google or canvas
+
+    const title = card_source.querySelector("preview_title");
+    const courseName = card_source.querySelector("preview_courseName");
+    const description = card_source.querySelector("preview_description");
+    const hasSubmitted = card_source.querySelector("preview_hasSubmitted");
+    const link = card_source.querySelector("preview_link");
+    const isQuiz = card_source.querySelector("preview_isQuiz");
+
+    close_preview_btn.addEventListener("mouseup", () => {
+        individual_modal.removeChild(individual_modal.firstChild);
+    });
+
+    let c_date = c.dueDate;
+
+    date.innerText = `${c_date.year}-${c_date.month}-${c_date.day}`;
+    type.innerText = c.type;
+    source.innerText = c.source;
+    title.innerText = c.title;
+    courseName.innerText = c.courseName;
+    description.innerHTML = c.description;
+    hasSubmitted.innerText = c.hasSubmitted ? "Submitted" : "Not yet submitted";
+    isQuiz.innerText = c.isQuiz ? "Quiz" : "Activity/Assignment";
+    link.innerHTML = `<a href="${c.link}">${c.link}</a>`;
+
+    individual_modal.replaceChildren(card_source);
+    console.log(c);
+
 }
