@@ -88,24 +88,54 @@ dates {
 }
 /* based on TYPE*/
 .TASK {
-    background-color: burlywood;
+    border-radius: 5px;
+    border: 2px solid lightgray;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: fit-content;
     margin: 1px;
 }
 
 .RMDR {
-    background-color: green;
+    border-radius: 5px;
+    border: 2px solid lightgray;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: fit-content;
     margin: 1px;
 }
 
 /* based on source */
 .CANVAS {
-    background-color: chocolate;
+    border-radius: 5px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: fit-content;
     margin: 1px;
 }
 
 .GCLASS {
-    background-color: coral;
+    border-radius: 5px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: fit-content;
     margin: 1px;
+}
+
+.done {
+    border: 2px solid lightgreen;
+}
+
+.not-done {
+    border: 2px solid red;
 }
 
 .disabled {
@@ -122,14 +152,22 @@ tasks_holder > div {
     padding-right: 1rem;
     padding-left: 1rem;
     margin-bottom: 0.1rem;
+    align-items: center;
 }
 
 tasks_holder > div:hover {
     border: 2px solid black;
 }
 tasks_holder > div > p {
+    cursor: pointer;
+    margin-left: 1rem;
     height: fit-content;
     font-size: 1rem;
+}
+
+tasks_holder > div > img {
+    border-radius: 50%;
+    border: 1px solid black;
 }
 
 tasks_holder > div > actions {
