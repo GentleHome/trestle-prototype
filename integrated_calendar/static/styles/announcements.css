@@ -154,12 +154,15 @@ header label:hover{
 color: var(--teal);
 }
 .body-container{
-padding-bottom: 5rem;
-margin-left: 15%;
+margin-left: 21%;
 margin-top:5rem;
 }
 .button_container{
 text-align: center;
+}
+.announcement-container{
+  text-align: center;
+  justify-content: center;
 }
 h1{
 text-align: center;
@@ -169,18 +172,36 @@ background: #fff;
 background-size: cover;
 box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
 display: flex;
-flex-direction: row;
+flex-direction: column;
 justify-content: flex-start;
 font-size:2rem;
-margin: 2rem 40rem;
+margin: 2rem 20rem;
 border-radius: .5rem;
 padding: .8rem;
 }
+.notification-head{
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid 	#E8E8E8;
+}
+.message{
+margin-top:1rem;
+text-align: left;
+}
+
+.image img{
+width: 7rem;
+justify-content:center;
+text-align: center;
+}
 .contents {
+display:flex;
+flex-direction: column;
 display: block;
+text-align: left;
 }
 .source_image {
-margin-right: 10px;
+margin-right: 1rem;
 }
 .title {
 margin-right: 5px;
