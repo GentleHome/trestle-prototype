@@ -37,7 +37,6 @@ width: 30rem;
 background: linear-gradient(to bottom, #2d016c,#170048);
 color: #fff;
 padding: auto 2rem;
-box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
 }
 .wrapper .sidebar h2{
 font-size: 3rem;
@@ -65,6 +64,16 @@ transform: translateX(0.8rem);
 }
 .wrapper .sidebar ul li a i{
 width: 2.5rem;
+}
+.li-active{
+background:#f9f9f9;
+}
+.li-active:hover{
+background:#f9f9f9 !important;
+}
+.a-active{
+color: #2d016c !important;
+font-weight: 500;
 }
 #navigation{
 opacity: 0;
