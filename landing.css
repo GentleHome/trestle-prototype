@@ -122,16 +122,6 @@ background-position: center;
 }
 .home .image img{
 width: 40vw;
-animation: float 3s linear infinite;
-}
-/*image animation*/
-@keyframes float{
-0%, 100%{
-transform: translateY(0rem);
-}
-50%{
-transform: translateY(-3.5rem);
-}
 }
 .home .content h3{
 font-size: 5rem;
@@ -237,6 +227,10 @@ height:40rem;
 text-align: center;
 justify-content: center;
 padding: 2rem;
+transition: all 0.5s ease-in-out;
+}
+.about-container img:hover{
+transform: translateY(-0.8rem);
 }
 .about-container h3{
 font-size:4rem;

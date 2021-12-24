@@ -63,16 +63,19 @@ function notification_section(image, course_name, title, message, date_posted, l
         month: 'long',
     });
     message = message.replaceAll('\n', '<br>');
-    html += '<div class="notification reveal">';
-    html += '<img src="' + image + '"" alt = "icon" width="10%" class="source_image"> ';
+    html += '<div class="notification">';
+    html += '<div class="notification-head">';
+    html += '<div class="image"><img src="' + image + '"" alt = "icon" class="source_image"> </div>';
     html += '<div class="contents">';
     html += '<div class="courseName"><b>' + course_name + '</b></div>'
-    html += '<p class="title">' + title + '</p>';
-    html += '<p class="datePosted"><b>Date Posted:</b> ' + datePosted + '</p>';
+    html += '<div class="title">' + title + '</div>';
+    html += '<div class="datePosted"><b>Date Posted:</b> ' + datePosted + '</div>';
+    html += '</div>';
+    html += '</div>';
     html += '<div class="message"><p>' + message + '</p></div>';
-    html += '<br><button class="link"><a style="text-decoration: none;color: white;text-align: center;text-transform: uppercase;" href="' + link + '">Open in site..</a></button>'
+    html += '<br><div class="button-container"><button class="link"><a style="text-decoration: none; color: white;text-align: center;text-transform: uppercase;" href="' + link + '">Open in site..</a></button></div>'
     html += '</div>';
-    html += '</div>';
+    
 
     return html;
 }
