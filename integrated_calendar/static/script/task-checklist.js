@@ -199,9 +199,9 @@ function notification_section(image, task_id, type, title, description, date_pos
     html += '<div class="task" id="' + task_id + '">';
     html += '<img src="' + image + '"" alt = "icon" width = "50" class="source_image"> ';
     html += '<div class="contents">';
-    html += '<span class="title">' + title + '</span><br>';
-    html += '<span class="dueDate"><b> | Date Posted: </b>' + datePosted + '</span>';
-    html += '<span class="dueDate"><b> | Due Date: </b>' + dueDate + '</span>';
+    html += '<span class="title"><b> Title: </b>' + title + '</span><br>';
+    html += '<span class="dueDate"><b> Date Posted: </b>' + datePosted + '</span><br>';
+    html += '<span class="dueDate"><b> Due Date: </b>' + dueDate + '</span><br>';
     html += '<span class="finish"><b>' + isChecked + '</b></span>';
     html += '<div class="description">' + description + '</div><br></div>';
     html += '<div class="button-container">';

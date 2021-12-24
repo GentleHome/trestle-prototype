@@ -35,7 +35,7 @@
                 <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
                 <li><a href="#"><i class="far fa-calendar"></i>Calendar</a></li>
                 <li><a href="#"><i class="fas fa-tasks"></i>Task Checklist</a></li>
-                <li><a href="#"><i class="fas fa-bullhorn"></i>Announcements</a></li>
+                <li class="li-active"><a class="a-active" href="#"><i class="fas fa-bullhorn"></i>Announcements</a></li>
                 <li><a href="#"><i class="fas fa-cog"></i>Settings</a></li>
                 <li><a href="#"><i class="far fa-question-circle"></i>Help</a></li>
                 <li><a href="#"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
@@ -44,15 +44,17 @@
         <!--Start of Announcements-->
         <div class="body-container">
             <h1 class="heading">Announcements</h1>
-            <div class="button_container">
-                <a href="task_checklist.html"><button>Task</button></a>
-                <a href="calendar.html"><button>Calendar</button></a>
-                <a href="announcements.html"><button>Announcements</button></a>
-                <a href="../../api/tests.php"><button>Connect</button></a>
+            <div class="announcement-container">
+                <div class="button_container">
+                    <a href="task_checklist.html"><button>Task</button></a>
+                    <a href="calendar.html"><button>Calendar</button></a>
+                    <a href="announcements.html"><button>Announcements</button></a>
+                    <a href="../../api/tests.php"><button>Connect</button></a>
+                    </div>
+                <br>
+                <br>
+                <div id="notification_section">
                 </div>
-            <br>
-            <br>
-            <div id="notification_section">
             </div>
         </div>
         <!--End of Announcements-->
