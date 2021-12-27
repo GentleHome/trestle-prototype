@@ -5,23 +5,11 @@ require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . '/helpers/constants.php';
 session_start();
 
-$errors = [];
-$messages = [];
+$errors = "";
+$messages = "";
 
-if (!isset($_POST['username'])) {
-    array_push($errors, "Username input is missing");
-}
-
-if (!isset($_POST['password1'])) {
-    array_push($errors, "Password input is missing");
-}
-
-if (!isset($_POST['password2'])) {
-    array_push($errors, "Confirm Password input is missing");
-}
-
-if (!count($errors) === 0) {
-
+if (!isset($_POST['username']) || $_POST['username'] == null ||!isset($_POST['password1']) || $_POST['password1'] == null || !isset($_POST['password2']) || $_POST['password2'] == null) {
+    $errors = "All fields are required.";
     echo json_encode(array("errors" => $errors));
     exit();
 }
@@ -37,11 +25,13 @@ if($password1 === $password2){
     try{
         $entityManager->persist($user);
         $entityManager->flush();
-        array_push($messages, "Registration Success");
+        $messages = "Registration Success!";
         echo json_encode(array("success" => $messages));
+        exit();
     }
     catch(UniqueConstraintViolationException $e){
-        array_push($errors, "Username already exists!");
+        $errors = "Username already exists!";
         echo json_encode(array("errors" => $errors));
+        exit();
     }
 }
