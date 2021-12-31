@@ -182,7 +182,7 @@ function year_interface() {
                 next_month_counter++;
                 db.innerText = next_month_counter;
                 db.classList.add('disabled');
-                db.setAttribute('date', `${month + 1 == 12 ? year + 1 : year}-${month == 11 ? month + 1 : month + 2}-${db.innerText}`);
+                db.setAttribute('date', `${month + 1 == 12 ? year + 1 : year}-${month == 11 ? 1 : month + 2}-${db.innerText}`);
             }
 
             if (db.getAttribute('date') == `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`) {
