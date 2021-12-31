@@ -12,6 +12,22 @@
 
     <link rel="stylesheet" href="../static/styles/calendar.css" />
     <title>Trestle - Calendar</title>
+
+    <!-- delete style tag and contents after -->
+    <style>
+        .modal-background {
+            z-index: 1;
+            position: fixed;
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.534);
+        }
+
+        .modal-position {
+            margin: 15% auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -57,17 +73,18 @@
                 <span class=dot></span>
                 <div id='date'></div>
 
-                    <div class="date_navigation">
-                        <select class="choose_view">
-                            <option value="0" selected>Year</option>
-                            <option value="1">Month</option>
-                            <option value="2">Week</option>
-                        </select>
+                <div class="date_navigation">
+                    <select class="choose_view">
+                        <option value="0" selected>Year</option>
+                        <option value="1">Month</option>
+                        <option value="2">Week</option>
+                    </select>
 
-                        <button id="prev"><</button>
-                        <button id="today">Today</button>
-                        <button id="next">></button>
-                    </div>
+                    <button id="prev">
+                        < </button>
+                            <button id="today">Today</button>
+                            <button id="next">></button>
+                </div>
                 <br>
                 <p class="heading" id="date_indication"></p>
                 <div class="container"></div>
@@ -75,4 +92,5 @@
         </div>
     </div>
 </body>
+
 </html>
