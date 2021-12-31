@@ -182,7 +182,7 @@ function year_interface() {
                 next_month_counter++;
                 db.innerText = next_month_counter;
                 db.classList.add('disabled');
-                db.setAttribute('date', `${month + 1 == 12 ? year + 1 : year}-${month + 2}-${db.innerText}`);
+                db.setAttribute('date', `${month + 1 == 12 ? year + 1 : year}-${month == 11 ? 1 : month + 2}-${db.innerText}`);
             }
 
             if (db.getAttribute('date') == `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`) {
@@ -293,13 +293,18 @@ function week_interface() {
             d.classList.add('current_date');
         }
 
-        d.addEventListener("mouseup", () => { modalInterface(d) });
+        d.addEventListener("mouseup", () => {
+            modalInterface(d);
+        });
     })
 }
 
 // Modal interface
 
 async function modalInterface(d) {
+    const add_sched_modal = document.querySelector(".add_sched_modal");
+    add_sched_modal.classList.add("modal-background"); /* MODAL BACKGROUND ----------------------------------*/
+
     dataFetch.endpoint = "./calendar_modal.html";
     const calendar_modal = await dataFetch.fetchingHTML();
     const modal_content = document.querySelector(".modal_content");
@@ -311,9 +316,14 @@ async function modalInterface(d) {
 
     const content = document.querySelector("content");
 
+    modal_content.classList.add("modal-position"); /* MODAL POSITION --------------------------------------*/
+
     taskPreviewInterface(d); // first to load
     close_modal.addEventListener("mouseup", () => {
         modal_content.removeChild(modal_content.firstChild);
+        /* remove the modal styles on close */
+        add_sched_modal.classList.remove("modal-background");
+        modal_content.classList.remove("modal-position");
     });
 
     task_reminders_btn.addEventListener("mouseup", () => {
