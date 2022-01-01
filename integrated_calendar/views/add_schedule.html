@@ -10,33 +10,42 @@
 
 <body>
     <div class="column">
-        <p id="clicked_date" style="text-align: center"></p>
+        <p id="clicked_date"></p>
         <!-- Post Reminders -->
         <div class="post-reminders-div" style="border: 1px solid black; padding: 2rem; padding-top: 5px; border-radius: .5rem;">
-            <form id="post-reminder-form" style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-wrap: wrap; flex: 2 2 30rem;">
+            <form id="post-reminder-form" style="display:flex; flex-direction:column; text-align: center; align-items: center;">
 
-                Reminder type:
-                <select id="post-reminder-type-option" name="type">
-                    <option selected value="RMDR">Reminders</option>
-                    <option value="TASK">Task</option>
-                </select> <br>
+                <div class="form-field">
+                    <label>Type: </label>
+                        <select id="post-reminder-type-option" name="type">
+                            <option selected value="RMDR">Reminders</option>
+                            <option value="TASK">Task</option>
+                        </select>
+                </div>
 
-                Title:
-                <input type="text" name="title"><br>
+                <div class="form-text-field">
+                    <input class="textfield-form" type="text" id="title" name="title" placeholder=" "><label for="title" class="form-label">Title</label>
+                </div>
+                
+                <div class="form-field-date">
+                    <label>Remind Date: </label>
+                    <input class="form-date" type="date" name="remind-date">
+                </div>
+                
+                <div class="form-field">
+                    <label>Is Recurring: </label> 
+                    <input type="checkbox" name="is-recurring">
+                </div>
+                
+                <div class="form-text-field">
+                    <input class="textfield-form" type="text" id="description" name="message" placeholder=" "></input><label for="description" class="form-label">Description</label>
+                </div>
 
-                Remind Date:
-                <input type="date" name="remind-date"><br>
-
-                Is Recurring:
-                <input type="checkbox" name="is-recurring">
-
-                </br>
-
-                Message (Nullable):
-                <textarea name="message"></textarea>
-
+                <div class="button-container">
+                    <button id="post-reminder-button">Post Reminder</button><textarea id="post-reminder-response" disabled placeholder="Response"></textarea></br></br>
+                </div>
             </form>
-            <button id="post-reminder-button">Post Reminder</button> = <textarea id="post-reminder-response" disabled placeholder="Response"></textarea></br></br>
+            
         </div>
         </br>
     </div>
