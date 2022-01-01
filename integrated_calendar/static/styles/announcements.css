@@ -158,8 +158,9 @@ header label:hover {
   color: var(--teal);
 }
 .body-container {
-  margin-left: 21%;
+  margin-left: 15%;
   margin-top: 5rem;
+  width: 100%;
 }
 .button_container {
   text-align: center;
@@ -212,6 +213,11 @@ h1 {
   font-weight: bold;
 }
 /*media queries*/
+@media (max-width:1440px){
+  html{
+  font-size: 45%;
+  }
+}
 @media (max-width: 1200px) {
   html {
     font-size: 45%;
