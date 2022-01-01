@@ -93,6 +93,10 @@ pointer-events: none;
 .modal_content h3{
 margin-left: 3rem;
 }
+.modal-head-edit h3{
+    width: 100%;
+    margin-left: -3.5rem;
+}
 header{
 position: fixed;
 top: 0; left: 0;
@@ -174,8 +178,8 @@ margin-top: 4%;
 height: 5rem;
 width: 10rem;
 }
-.delete_task {background-image: linear-gradient(to right, #D31027 0%, #EA384D  51%, #D31027  100%)}
-.delete_task{
+.delete_task, .delete_btn {background-image: linear-gradient(to right, #D31027 0%, #EA384D  51%, #D31027  100%)}
+.delete_task, .delete_btn{
 margin-top: 4%;
 margin-left: 1rem;
 padding: 1rem 2rem;
@@ -190,7 +194,7 @@ border: none;
 height: 5rem;
 width: 10rem;
 }
-.delete_task:hover {
+.delete_task:hover,.delete_btn:hover {
 background-position: right center; /* change the direction of the change here */
 color: #fff;
 text-decoration: none;
@@ -199,8 +203,9 @@ cursor: pointer;
 }
 .mark_as_done, 
 #edit-reminder-button, 
-#post-reminder-button {background-image: linear-gradient(to right, #02AAB0 0%, #00CDAC  51%, #02AAB0  100%)}
-.mark_as_done {
+#post-reminder-button,
+.update_btn {background-image: linear-gradient(to right, #02AAB0 0%, #00CDAC  51%, #02AAB0  100%)}
+.update_btn {
 margin-top: 4%;
 margin-left: 1rem;
 padding: 1rem 2rem;
@@ -215,7 +220,7 @@ border: none;
 height: 5rem;
 width: 15rem;
 }
-.mark_as_done:hover {
+.update_btn:hover {
 background-position: right center; /* change the direction of the change here */
 color: #fff;
 text-decoration: none;
@@ -230,15 +235,273 @@ align-content: center;
 flex-direction: row;
 top: 0;left: 0;
 }
-
+.legends{
+margin-top: 1.5%;
+margin-bottom: 1%;
+}
+.legends label, .cview{
+font-size:1.5rem;
+font-weight:600;
+color:#2d016c;
+}
+.cview{
+text-transform: uppercase;
+}
+.legends, .legends .def{
+display:flex;
+flex-direction: row;
+text-align: center;
+justify-content:center;
+height: fit-content;
+align-items: center;
+}
+.legends .def{
+margin: auto 1%;
+}
+.legends .def p{
+font-size:1.3rem;
+font-weight:400;
+}
+.legends .def .color1{
+width: 2rem;
+height: 2rem;
+background: #51b364;
+border: 3px solid white;
+border-radius:5px;
+}
+.legends .def .color2{
+width: 2rem;
+height: 2rem;
+background: #e12423;
+border: 3px solid white;
+border-radius:5px;
+}
+.legends .def .color3{
+width: 2rem;
+height: 2rem;
+background: #f4bc1c;
+border: 3px solid white;
+border-radius:5px;
+}
+.legends .def .color4{
+width: 2rem;
+height: 2rem;
+background: #2d016c;
+border: 3px solid white;
+border-radius:5px;
+}
+.legends .def .color5{
+width: 2rem;
+height: 2rem;
+background: gray;
+border: 3px solid white;
+border-radius:5px;
+}
 .calendar-container{
 text-align: center;
-justify-content: center;
+justify-content: space-around;
 width: 100%;
 margin: auto;
 }
 #date_indication{
-font-weight: 600 !important;
+font-size:3.5rem;
+font-weight: 700 !important;
+text-transform: uppercase;
+background: #2d016c;
+color: #fff;
+padding:1rem;
+}
+.modal-background {
+z-index: 1;
+position: fixed;
+overflow: auto;
+width: 100%;
+height: 100%;
+background-color: rgba(128, 128, 128, 0.493) !important;
+}
+#close_modal, #cancel_edit{
+cursor: pointer;
+float: right;
+color: #fff;
+font-size:2rem;
+font-weight: bold;
+margin-right: 20px;
+transition: all 0.5s ease-in-out;
+}
+#close_modal:hover, #cancel_edit:hover{
+transform: rotate(360deg);
+}
+.modal-position {
+margin:20vh auto;
+width: fit-content;
+height: fit-content;
+box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+background: transparent;
+}
+.modal-position body{
+background: #fff;
+}
+.cal-modal-button{
+border-radius:0px !important;
+background: none !important;
+color: #fff !important;
+border: none;
+box-shadow: none !important;
+font-size: 2rem !important;
+font-weight:600 !important;
+border-bottom: 3px solid #fff !important;
+}
+.modal-head{
+background: #2d016c;
+padding: 1rem;
+box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .5)
+}
+tasks_holder p{
+font-size: 2rem;
+color:#2d016c;
+font-weight: 500;
+margin-top: -2%;
+padding-bottom: 2rem;
+text-align: center;
+justify-content: center;
+}
+#clicked_date{
+margin-top: 2.5%;
+text-align: center;
+font-size: 2rem;
+font-weight: 500;
+text-transform: uppercase;
+pointer-events: none;
+color: #2d016c;
+}
+tasks_holder{
+display: flex;
+flex-direction: column;
+}
+.holder{
+padding: 3rem;
+width:50%;
+margin: auto;
+margin-left: 12.5rem;
+justify-content: center;
+text-align: center;
+align-content: center;
+}
+#post-reminder-form{
+background: #fff;
+}
+.post-reminders-div{
+border: none !important;
+padding: 3rem !important;
+}
+#post-reminder-response{
+display:none;
+}
+.textfield-form{
+border-radius: 5px;
+}
+.form-field, .form-field-date{
+display: flex;
+flex-direction: row;
+align-items: center;
+justify-content: center;
+text-align: center;
+font-size:1.8rem;
+font-weight:500;
+color: #2d016c;
+height: 100%;
+padding: 0rem;
+width: fit-content;
+}
+.form-field-date{
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+font-size:1.8rem;
+font-weight:500;
+color: #2d016c;
+height: 100%;
+width: 100%;
+padding: 1.25rem !important;
+}
+.form-field-date label{
+font-size:1.2rem;
+position: absolute;
+width: fit-content;
+background-color:#fff;
+margin-left: -42.5rem;
+padding: 0.3rem !important;
+transform: translateY(-2.25rem);
+}
+.form-field label{
+padding: 1rem;
+}
+.form-field select,
+.form-field-date .form-date{
+font-size:1.5rem;
+font-weight: 500;
+color: #2d016c;
+width: 100%;
+height: 100%;
+border: 3px solid #2d016c;
+border-radius:0.5rem;
+outline: none;
+padding: 1rem;
+}
+.form-text-field{
+display:grid;
+height: fit-content;
+align-items: center;
+font-size:1.5rem;
+padding: 1.25rem;
+width: 100%;
+}
+.textfield-form{
+font-size:2rem;
+color: #2d016c;
+height: 100%;
+border: 3px solid #2d016c;
+border-radius:0.5rem;
+outline: none;
+padding: 1.25rem;
+}
+.form-text-field label{
+position: absolute;
+color:#2d016c;
+font-weight: 500;
+cursor:text;
+transition: all 0.3s ease-in-out;
+width: fit-content;
+background-color:#fff;
+margin-left: 1rem;
+padding: 0.3rem !important;
+}
+.textfield-form:focus ~ .form-label,
+.textfield-form:not(:placeholder-shown).textfield-form:not(:focus)~.form-label{
+transform: translateY(-2.7rem);
+font-size: 1.2rem;
+}
+.modal-head-edit{
+display: flex;
+flex-direction: row;
+width:100%;
+}
+.edit-left{
+margin: auto 1rem !important;
+padding: 1rem !important;
+float: left !important;
+font-size:3rem !important;
+color:#2d016c !important;
+border: none;
+border-radius: 0;
+background: none !important;
+box-shadow: none;
+transition: all 0.5s ease-in-out;
+}
+.edit-left:hover{
+transform: translateX(-0.5rem) !important;
 }
 /* use rem for parent elements */
 /* year */
@@ -295,11 +558,13 @@ year {
 }
 
 .active {
-    background-color: lightblue;
+    background-color: gray !important;
+    color: white !important;
 }
 
 .current_date {
-    background-color: aqua;
+    background-color: #2d016c !important;
+    color: white !important;
 }
 
 /* month and week view uses these*/
@@ -313,12 +578,13 @@ year {
 .wk {
     margin: auto;
     font-size: 2rem !important;
+    font-weight: 600 !important;
     width: 100%;
     padding:0.5rem;
     border: 1px solid lightgray;
-    background-color: #2d016c;
+    background-color: #fff;
     font-size: 0.9em;
-    color: white;
+    color: #2d016c;
     text-align: center;
 }
 dates {
@@ -412,29 +678,49 @@ dates {
 }
 /* Modal designs */
 tasks_holder > div {
-    font-family: "Roboto", sans-serif;
     display: flex;
     flex-direction: row;
-    border: 2px solid gray;
-    padding-right: 1rem;
-    padding-left: 1rem;
-    margin-bottom: 0.1rem;
+    padding:1rem;
+    margin: 0;
     align-items: center;
+    text-align: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid rgba(0,0,0,0.09);
+    border-top:1px solid rgba(225,225,225,0.09);
 }
-
+preview_card_user #close_modal,
+preview_card_source #close_modal{
+font-size:3rem;
+display: flex;
+flex-direction: row;
+width: fit-content;
+justify-content:flex-end;
+color: #2d016c;
+transform: translateY(-1.5rem);
+}
+preview_card_user #close_modal:hover,
+preview_card_source #close_modal:hover{
+transform: translateY(-2rem);
+}
 tasks_holder > div:hover {
-    border: 2px solid black;
+background-color:#eeeeee;
 }
 tasks_holder > div > p {
     cursor: pointer;
+    margin-top: 1.5rem;
     margin-left: 1rem;
-    height: fit-content;
-    font-size: 1rem;
+    padding-left: 1rem;
+    height: 100%;
+    font-size: 1.5rem;
+    font-weight:500;
+    align-items:center;
 }
 
 tasks_holder > div > img {
-    border-radius: 50%;
-    border: 1px solid black;
+border-radius: 0.5rem;
+padding: 1rem;
 }
 
 tasks_holder > div > actions {
@@ -442,20 +728,6 @@ tasks_holder > div > actions {
     color: red;
     align-self: center;
     margin-left: auto;
-}
-
-tasks_holder > div > actions > .update_btn {
-    cursor: pointer;
-    color: blue;
-    background-color: white;
-    border: none;
-}
-
-tasks_holder > div > actions > .delete_btn {
-    cursor: pointer;
-    color: red;
-    background-color: white;
-    border: none;
 }
 
 .no-content {
@@ -466,39 +738,47 @@ tasks_holder > div > actions > .delete_btn {
 preview_card_user {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    border: 3px solid #2d016c;
     padding: 1rem;
+    font-size: 1.5rem;
 }
 
 preview_card_user > preview_type,
 preview_date {
     margin-left: auto;
+    font-weight: 500;
 }
 
 preview_card_user > preview_message {
-    border: 1px solid black;
+    border: 2px solid #2d016c;
     padding: 0.5rem;
 }
 
 preview_card_user > preview_isChecked {
     margin-left: auto;
 }
-
+preview_title,
+preview_source,
+preview_coursename{
+font-weight: 500;
+}
 /* Individual modal courseworks design */
 preview_card_source {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    border: 3px solid #2d016c;
     padding: 1rem;
+    font-size: 1.5rem;
 }
 
 preview_card_source > preview_date,
 preview_type {
     margin-left: auto;
+    font-weight: 500;
 }
 
 preview_card_source > preview_description {
-    border: 1px solid black;
+    border: 2px solid #2d016c;
     padding: 0.5rem;
 }
 
@@ -628,9 +908,91 @@ display:none;
 text-align:center;
 }
 .modal_content h3{
-font-size:2.5rem;
+font-size:2.5rem !important;
 }
 #close_modal, #cancel_edit{
 transform: translateX(3rem);
+}
+.container {
+height: 50vh;
+}
+#date_indication{
+font-size:2rem;
+}
+.wk {
+    font-size: 1.3rem !important;
+}
+.date {
+width: 100%;
+font-size:1.5rem;
+}
+.TASK,
+.RMDR,
+.CANVAS,
+.GCLASS{
+font-size:0.7rem !important;
+}
+.TASK img,
+.RMDR img,
+.CANVAS img,
+.GCLASS img{
+display:none;
+}
+actions{
+display:flex;
+flex-direction:row;
+}
+tasks_holder > div > img {
+height:5rem;
+}
+.update_btn,
+.delete_btn{
+height: fit-content;
+width: fit-content;
+}
+button,.choose_view{
+font-size:1rem !important;
+}
+.legends label, .legends .def p, .cview{
+font-size:1rem !important;
+}
+.cal-modal-button{
+font-size:1rem !important;
+padding:0.5rem !important;
+}
+.form-field-date label {
+margin-left: -23.5rem;
+}
+tasks_holder{
+margin-top: 6%;
+}
+.holder{
+margin-left:auto;
+width: 40%;
+padding: 0.5rem;
+}
+.edit-left{
+transform: translateX(-0.5rem) !important;
+}
+}
+@media (max-width:375px){
+.form-field-date label {
+margin-left: -18.5rem;
+}
+}
+@media (max-width:320px){
+.post-reminders-div{
+margin-left:-1.25rem;
+}
+.form-field-date {
+width:107.75%;
+margin-left: 2rem;
+}
+.form-field-date label {
+margin-left: -16.5rem;
+}
+.update_btn,
+.delete_btn{
+padding:0.5rem;
 }
 }
