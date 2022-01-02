@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,25 +8,8 @@
     <script src="../static/script/interface/calendar-interface.js"></script>
     <script src="../static/script/models/calendar-model.js"></script>
     <script src="../static/script/calendar.js"></script>
-
     <link rel="stylesheet" href="../static/styles/calendar.css" />
-    <title>Trestle - Calendar</title>
-
-    <!-- delete style tag and contents after -->
-    <style>
-        .modal-background {
-            z-index: 1;
-            position: fixed;
-            overflow: auto;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.534);
-        }
-
-        .modal-position {
-            margin: 15% auto;
-        }
-    </style>
+    <title>Trestle | Calendar</title>
 </head>
 
 <body>
@@ -74,19 +56,44 @@
                 <div id='date'></div>
 
                 <div class="date_navigation">
+                    <label class="cview">Calendar View: </label>
                     <select class="choose_view">
                         <option value="0" selected>Year</option>
                         <option value="1">Month</option>
                         <option value="2">Week</option>
                     </select>
+                <div>
+                    <button id="prev"><</button>
+                    <button id="today">Today</button>
+                    <button id="next">></button>
+                </div>
+                </div>
 
-                    <button id="prev">
-                        < </button>
-                            <button id="today">Today</button>
-                            <button id="next">></button>
+                <div class="legends">
+                    <label>Legend: </label>
+                    <div class="def">
+                        <div class="color1"></div>
+                        <div class="label"><p>Submitted</p></div>
+                    </div>
+                    <div class="def">
+                        <div class="color2"></div>
+                        <div class="label"><p>Undone</p></div>
+                    </div>
+                    <div class="def">
+                        <div class="color3"></div>
+                        <div class="label"><p>Reminder</p></div>
+                    </div>
+                    <div class="def">
+                        <div class="color4"></div>
+                        <div class="label"><p>Today</p></div>
+                    </div>
+                    <div class="def">
+                        <div class="color5"></div>
+                        <div class="label"><p>Selector</p></div>
+                    </div>
                 </div>
                 <br>
-                <p class="heading" id="date_indication"></p>
+                <p id="date_indication"></p>
                 <div class="container"></div>
             </div>
         </div>

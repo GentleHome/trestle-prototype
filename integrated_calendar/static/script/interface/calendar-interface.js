@@ -486,9 +486,13 @@ async function taskPreviewInterface(d) {
     }
     if (tasks_holder.innerHTML == "") {
         let p = document.createElement('p');
+        let image = document.createElement('img');
         let text = document.createTextNode("Nothing to see here...");
+        image.src = "../static/icons/placeholder.png";
+        image.setAttribute("class", "holder");
         p.appendChild(text);
-        tasks_holder.appendChild(p)
+        tasks_holder.appendChild(image);
+        tasks_holder.appendChild(p);
     }
     content.replaceChildren(tasks_holder);
 }
