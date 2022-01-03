@@ -441,7 +441,7 @@ async function taskPreviewInterface(d) {
                         }
                     }
 
-                    type.setAttribute("disabled", ""); // disabled so that user can change it
+                    type.setAttribute("disabled", ""); // disabled so that user cant change it
 
                     title.value = c.title;
                     if (c.remindDate) {
@@ -452,7 +452,7 @@ async function taskPreviewInterface(d) {
                         isRecurring.checked = true;
                     }
 
-                    isRecurring.setAttribute("disabled", ""); // disabled so that user can change it
+                    isRecurring.setAttribute("disabled", ""); // disabled so that user cant change it
 
                     if (c.message) {
                         message.value = c.message;
