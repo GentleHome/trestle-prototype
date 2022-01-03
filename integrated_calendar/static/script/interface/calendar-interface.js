@@ -440,6 +440,7 @@ async function taskPreviewInterface(d) {
                             type.options[index].selected = true;
                         }
                     }
+
                     title.value = c.title;
                     if (c.remindDate) {
                         remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
@@ -448,6 +449,7 @@ async function taskPreviewInterface(d) {
                     if (c.isRecurring) {
                         isRecurring.checked = true;
                     }
+
                     if (c.message) {
                         message.value = c.message;
                     }
