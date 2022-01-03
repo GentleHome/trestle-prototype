@@ -286,7 +286,7 @@ function week_interface() {
     [...dates].forEach((d, i) => {
         d.classList.remove('current_date');
         d.innerText = week[i];
-        d.setAttribute('date', `${urldate.year}-${urldate.month}-${d.innerText}`);
+        d.setAttribute('date', `${urldate.year}-${urldate.monthNoZero}-${d.innerText}`);
         collectionWidgets(d);
 
         if (d.getAttribute('date') == `${current_date.getFullYear()}-${current_date.getMonth() + 1}-${current_date.getDate()}`) {

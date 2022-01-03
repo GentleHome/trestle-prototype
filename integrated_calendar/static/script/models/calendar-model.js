@@ -56,10 +56,10 @@ class Reminder {
         const req = new Request('../../api/post_reminder.php', data);
         fetch(req)
             .then((res) => res.text())
-            .then((data) => {
+            .then(async (data) => {
                 var parsed = JSON.parse(data);
                 console.log(parsed);
-                reminders(); // render the reminders again
+                await reminders(); // render the reminders again
             });
     }
 
@@ -78,10 +78,10 @@ class Reminder {
         const req = new Request('../../api/edit_reminder.php', data);
         fetch(req)
             .then((res) => res.text())
-            .then((data) => {
+            .then(async (data) => {
                 let parsed = JSON.parse(data);
                 console.log(parsed);
-                reminders(); // render the reminders again
+                await reminders(); // render the reminders again
             });
     }
 
@@ -101,10 +101,10 @@ class Reminder {
 
         fetch(req)
             .then((res) => res.text())
-            .then((data) => {
+            .then(async (data) => {
                 var parsed = JSON.parse(data);
                 console.log(parsed);
-                reminders(); // render the reminders again
+                await reminders(); // render the reminders again
             });
     }
 }
@@ -159,7 +159,8 @@ class Update {
         let d = new Date(date);
         let urldate = {
             year: d.getFullYear(),
-            month: (d.getMonth() + 1).toString().length <= 1 ? `0${d.getMonth() + 1}` : d.getMonth() + 1,
+            month: (d.getMonth() + 1).toString().length <= 1 ? `0${d.getMonth() + 1}` : d.getMonth() + 1, // with zero 01
+            monthNoZero: d.getMonth() + 1, // no zero e.g 01 -> 1
             date: d.getDate().toString().length <= 1 ? `0${d.getDate()}` : d.getDate(),
             day: d.getDay(),
         }
