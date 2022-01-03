@@ -440,6 +440,9 @@ async function taskPreviewInterface(d) {
                             type.options[index].selected = true;
                         }
                     }
+
+                    type.setAttribute("disabled", ""); // disabled so that user can change it
+
                     title.value = c.title;
                     if (c.remindDate) {
                         remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
@@ -448,6 +451,9 @@ async function taskPreviewInterface(d) {
                     if (c.isRecurring) {
                         isRecurring.checked = true;
                     }
+
+                    isRecurring.setAttribute("disabled", ""); // disabled so that user can change it
+
                     if (c.message) {
                         message.value = c.message;
                     }
