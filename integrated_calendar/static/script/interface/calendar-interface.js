@@ -441,8 +441,6 @@ async function taskPreviewInterface(d) {
                         }
                     }
 
-                    type.setAttribute("disabled", ""); // disabled so that user cant change it
-
                     title.value = c.title;
                     if (c.remindDate) {
                         remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
@@ -451,8 +449,6 @@ async function taskPreviewInterface(d) {
                     if (c.isRecurring) {
                         isRecurring.checked = true;
                     }
-
-                    isRecurring.setAttribute("disabled", ""); // disabled so that user cant change it
 
                     if (c.message) {
                         message.value = c.message;
