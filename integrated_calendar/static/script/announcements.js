@@ -1,5 +1,4 @@
 var collection;
-
 arrangeData();
 
 async function getAnnouncements() {
@@ -10,6 +9,7 @@ async function getAnnouncements() {
         collection = null;
     } else {
         collection = await data_parse;
+        console.log(collection);
     }
 }
 
@@ -29,9 +29,8 @@ async function arrangeData() {
 
     await getAnnouncements();
     if (collection) {
-        let sortedCollection = collection.sort((a, b) => { new Date(format_date_time(a.datePosted)) - new Date(format_date_time(b.datePosted)) });
-        for (let x = 0; x < sortedCollection.length; x++) {
-            let announcements = sortedCollection[x];
+        for (let x = 0; x < collection.length; x++) {
+            let announcements = collection[x];
             switch (announcements.source) {
                 case "CANVAS":
                     image = CANVAS;
@@ -64,7 +63,7 @@ function notification_section(image, id, course_name, title, date_posted) {
         year: 'numeric',
         month: 'long',
     });
-    html += `<div class="notification" onclick="showAnnouncement(${id})">`;
+    html += `<div class="notification" onclick="showAnnouncement('${id}')">`;
     html += '<div class="notification-head">';
     html += '<div class="image"><img src="' + image + '"" alt = "icon" class="source_image"> </div>';
     html += '<div class="contents">';
@@ -115,19 +114,18 @@ function showAnnouncement(newid) {
     const GCLASS = "../static/icons/classroom_ico.png";
     const USER = "../static/icons/user_ico.png";
 
-    const modalSection = document.querySelector("#modal_content");
+    var modalSection = document.querySelector("#modal_content");
     var image;
     var title;
     var message;
     var date_posted;
     var link;
     var course_name;
-    var id;
     if (collection) {
         for (let x = 0; x < collection.length; x++) {
             let announcements = collection[x];
             id = announcements.id;
-            if (id = newid) {
+            if (id == newid) {
                 switch (announcements.source) {
                     case "CANVAS":
                         image = CANVAS;
@@ -148,7 +146,6 @@ function showAnnouncement(newid) {
                 course_name = announcements.courseName;
                 document.getElementById("show_modal").style.display = 'block';
                 modalSection.innerHTML = modal_section(image, course_name, title, message, date_posted, link);
-                break;
             }
         }
     }
