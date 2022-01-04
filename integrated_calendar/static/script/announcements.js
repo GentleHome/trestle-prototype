@@ -9,7 +9,6 @@ async function getAnnouncements() {
         collection = null;
     } else {
         collection = await data_parse;
-        console.log(collection);
     }
 }
 
