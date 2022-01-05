@@ -184,10 +184,14 @@ h1 {
   border-radius: 0.5rem;
   padding: 0.8rem;
 }
+#notification_section .notification:hover{
+background:	#f5f5f5;
+}
 .notification-head {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #e8e8e8;
+  pointer-events: none;
 }
 .message {
   margin-top: 1rem;
@@ -212,6 +216,30 @@ h1 {
   margin-right: 5px;
   font-weight: bold;
 }
+#show_modal {
+  justify-content: center;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(128, 128, 128, 0.493);
+  z-index: 1;
+  position: fixed;
+}
+#modal_content{
+  margin: 30vh auto;
+}
+#close_modal, #cancel_edit{
+  cursor: pointer;
+  float: right;
+  color: #2d016c;
+  font-size:2rem;
+  font-weight: bold;
+  margin-right: 20px;
+  transition: all 0.7s ease-in-out;
+  }
+  #close_modal:hover, #cancel_edit:hover{
+  transform: rotate(360deg);
+  }
 /*media queries*/
 @media (max-width:1440px){
   html{
@@ -282,25 +310,17 @@ h1 {
   html {
     font-size: 50%;
   }
-}
-#show_modal {
-  justify-content: center;
-  padding-top: 10%;
+  .notification{
+  width: 75%;
+  margin: 2vh auto;
+  }
+  .image{
   display: none;
-  margin: auto;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(128, 128, 128, 0.493);
-  z-index: 1;
-  position: fixed;
-}
-
-#close_modal {
-  cursor: pointer;
-  float: right;
-  color: red;
-  font-size: 2rem;
-  font-weight: bold;
-  margin-right: 20px;
-  transition: all 0.7s ease-in-out;
+  }
+  .modal_content{
+  margin: 20vh auto;
+  }
+  .message{
+  font-size:1rem;
+  }
 }
