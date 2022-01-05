@@ -2,11 +2,13 @@
 require_once dirname(__FILE__) . "/./bootstrap.php";
 require_once dirname(__FILE__) . "/./setup.php";
 require_once dirname(__FILE__) . '/./api/helpers/db_utils.php';
+require_once dirname(__FILE__) . '/./api/helpers/constants.php';
+
 
 session_start();
 $client = get_client();
 $user = get_logged_in_user($entityManager);
-
+echo "USER ID: ".$_SESSION[USER_ID];
 if (is_null($user)) {
     header("Location: ./forms.php");
     exit;
@@ -23,6 +25,9 @@ $auth_url = $client->createAuthUrl();
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="settings.css">
     <script src="https://kit.fontawesome.com/5357b59286.js" crossorigin="anonymous"></script>
     <title>Trestle | Settings</title>
@@ -129,7 +134,77 @@ $auth_url = $client->createAuthUrl();
                         <?php } ?>
                     </div>
                 </div>
+                <!-- Change Password Script -->
+            <script>
+                function checkPassword() {
+                    let newpass = $("#new-pass").val(); 
+                    let confirmpass = $("#confirm-pass").val();
+                    if ((newpass != "") && (confirmpass != "") && newpass != confirmpass) {
+                        $('#error-message').text('Password does not match.');
+                    } else {
+                        $('#error-message').text('');
+                    }
+                }
+                function changePassword(){
+                    let current = $("#current-pass").val(); 
+                    let newpass = $("#new-pass").val(); 
+                    let confirmpass = $("#confirm-pass").val();
+                    if(current != "" && current != null && confirmpass != "" && confirmpass != null && newpass != "" && newpass != null){
+                        if(newpass == confirmpass){
+                            console.log(current, newpass, confirmpass);
+                            $.ajax({
+                            method: "POST",
+                            url: "./api/change_password.php",
+                            data: {
+                                currentPassword : current,
+                                newPassword1: newpass,
+                                newPassword2: confirmpass,
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                let newdata = JSON.parse(data);
+
+                                if(newdata.hasOwnProperty("messages")){
+                                    $("#current-pass").val(""); 
+                                    $("#new-pass").val(""); 
+                                    $("#confirm-pass").val("");
+                                    $("#error-message").text("");
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: newdata.messages,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }else{
+                                    $("#error-message").text("");
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: newdata.errors,
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            }
+                        });
+                        }
+                    }
+                }
+            </script>
+            <!-- Change Password Form -->
+            <div id="change_password_container" style="margin-left: 200px">
+            <h2>Password Settings</h2>
+                <form method="POST" onsubmit="changePassword(); return false" >
+                    <input type="password" name="current" id="current-pass" required><br>
+                    <input type="password" name="new" id="new-pass" onkeyup="checkPassword();" required><br>
+                    <input type="password" name="confirm" id="confirm-pass" onkeyup="checkPassword();" required><br>
+                    <p id="error-message" style="color: red;"></p>
+                    <input type="submit" value="Save Changes">
+                    <input type="reset" value="Cancel">
+                </form>
             </div>
+            </div>
+            <br><br><br>
+                
             <!--End of Settings-->
 </body>
 </html>

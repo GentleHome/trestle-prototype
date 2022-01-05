@@ -17,30 +17,28 @@
         <div class="column">
             <p id="clicked_date"></p>
             <!-- Post Reminders -->
-            <div class="modal-container">
-                <div class="modal-image">
-                    <img src="images/user_ico.png" alt="">
-                </div>
             <div class="post-reminders-div">
-                <form id="post-reminder-form">
 
-                    <label class="edit-label">Type:
-                    <input class="value" size="10" type="text" name="option-task" id="option-task" value="Task" disabled>
-                    <input type="hidden" id="post-reminder-type-option" value="TASK" name="type">
-                    </label>
+                <form id="post-reminder-form" style="display:flex; flex-direction:column; text-align: center; align-items: center;">
 
-                    <label class="edit-label">Title:
-                    <input class="value" size="10" type="text" name="title">
-                    </label>
+                    <div class="form-field" style="display: none;">
+                        <label>Type: </label>
+                        <input type="text" name="option-task" id="option-task" value="Task" disabled>
+                        <input type="hidden" id="post-reminder-type-option" value="TASK" name="type">
+                    </div>
 
-                    <label class="edit-label">Date:
-                    <input  class="value" size="10" type="date" name="remind-date">
-                    </label>
-                    </br>
+                    <div class="form-text-field">
+                        <input class="textfield-form" type="text" id="title" name="title" placeholder=" "><label for="title" class="form-label">Title</label>
+                    </div>
 
-                    <label class="edit-label">Description:
-                    <textarea class="edit-desc" cols="18" name="message" placeholder="(Not Required)"></textarea>
-                    </label>
+                    <div class="form-field-date">
+                        <label>Remind Date: </label>
+                        <input class="form-date" type="date" name="remind-date">
+                    </div>
+
+                    <div class="form-textarea-field">
+                        <textarea class="textareafield-form" id="description" name="message" placeholder=" "></textarea><label for="description" class="formarea-label">Description</label>
+                    </div>
 
                 </form>
                 <div class="modal-btn-container">
@@ -48,8 +46,6 @@
                     disabled></textarea></br></br>
                 </div>
             </div>
-            </div>
-            </br>
         </div>
     </div>
 </body>
