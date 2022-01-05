@@ -297,7 +297,7 @@ margin-top: 10%;
 margin-left: 10%;
 }
 .modal_content{
-margin:30vh auto;
+margin:25vh auto;
 overflow: auto;
 background-color: white;
 width: fit-content;
@@ -325,22 +325,8 @@ text-align: center;
 .edit-reminders-div, .post-reminders-div{
 padding: 3rem;
 }
-#edit-reminder-form{
-display:flex;
-flex-direction: column;
-text-align: left;
-padding: auto 20rem;
-}
-.edit-label{
-display: flex;
-flex-direction: row;
-font-size:2rem;
-font-weight: 700;
-text-transform: uppercase;
-margin-bottom: 3%;
-}
 #clicked_date{
-margin-top: 1.5%;
+margin-top: 3.5%;
 text-align:center;
 font-size: 2rem;
 font-weight: 500;
@@ -351,19 +337,11 @@ pointer-events: none;
 background: white;
 border:none;
 }
-.value{
-border-left: none;
-border-right: none;
-border-top: none;
-margin-left: 1%;
-margin-bottom:1%;
-font-size: 2rem;
-}
 .edit-id{
 display: none;
 }
 .modal-btn-container{
-text-align: left;
+text-align: center;
 justify-content: center
 }
 #edit-reminder-response, #post-reminder-response{
@@ -378,6 +356,98 @@ transform: translateY(-8px);
 margin-left: 3%;
 margin-top: 1%;
 }
+.form-field, .form-field-date{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size:1.8rem;
+  font-weight:500;
+  color: #2d016c;
+  height: 100%;
+  padding: 0rem;
+  width: fit-content;
+  }
+  .form-field-date{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size:1.8rem;
+  font-weight:500;
+  color: #2d016c;
+  height: 100%;
+  width: 100%;
+  padding: 1.25rem !important;
+  }
+  .form-field-date label{
+  font-size:1.2rem;
+  position: absolute;
+  width: fit-content;
+  background-color:#fff;
+  margin-left: -17rem;
+  padding: 0.3rem !important;
+  transform: translateY(-2.25rem);
+  }
+  .form-field label{
+  padding: 1rem;
+  }
+  .form-field select,
+  .form-field-date .form-date{
+  font-size:1.5rem;
+  font-weight: 500;
+  color: #2d016c;
+  width: 100%;
+  height: 100%;
+  border: 3px solid #2d016c;
+  border-radius:0.5rem;
+  outline: none;
+  padding: 1rem;
+  }
+  .form-text-field,.form-textarea-field{
+  display:grid;
+  height: fit-content;
+  align-items: center;
+  font-size:1.5rem;
+  padding: 1.25rem;
+  width: 100%;
+  }
+  .textfield-form, .textareafield-form{
+  font-size:2rem;
+  color: #2d016c;
+  height: 100%;
+  border: 3px solid #2d016c;
+  border-radius:0.5rem;
+  outline: none;
+  padding: 1.25rem;
+  width: fit-content;
+  }
+  .textareafield-form{
+    resize: none;
+  }
+  .form-text-field label, .form-textarea-field label{
+  position: absolute;
+  color:#2d016c;
+  font-weight: 500;
+  cursor:text;
+  transition: all 0.3s ease-in-out;
+  width: fit-content;
+  background-color:#fff;
+  margin-left: 1rem;
+  padding: 0.3rem !important;
+  }
+  .textfield-form:focus ~ .form-label,
+  .textfield-form:not(:placeholder-shown).textfield-form:not(:focus)~.form-label{
+  transform: translateY(-2.7rem);
+  font-size: 1.2rem;
+  }
+  .textareafield-form:focus ~ .formarea-label,
+  .textareafield-form:not(:placeholder-shown).textareafield-form:not(:focus)~.formarea-label{
+  transform: translateY(-3.7rem);
+  font-size: 1.2rem;
+  }
 /*media queries*/
 @media (max-width:1440px){
 html{
@@ -504,4 +574,27 @@ font-size:2.5rem;
 #close_modal, #cancel_edit{
 transform: translateX(3rem);
 }
+.cview{
+font-size:1rem;
+}
+button, .edit_task, .link{
+padding: 1rem;
+font-size: 1rem;
+}
+.textfield-form, .textareafield-form {
+  width: 100%;
+  }
+  .form-field-date label {
+    margin-left: -24rem;
+  }
+}
+@media (max-width:375px){
+  .form-field-date label {
+    margin-left: -19rem;
+  }
+}
+@media (max-width:320px){
+  .form-field-date label {
+    margin-left: -13.5rem;
+  }
 }
