@@ -9,7 +9,7 @@ session_start();
 $client = get_client();
 $user = get_logged_in_user($entityManager);
 if (is_null($user)) {
-    header("Location: ./forms.php");
+    header("Location: ./index.php");
     exit;
 }
 
@@ -32,33 +32,60 @@ $auth_url = $client->createAuthUrl();
     <title>Trestle | Settings</title>
 </head>
 <body>
+    <!-- Function for logout -->
+    <script>
+        function logout() {
+            Swal.fire({
+                title: 'Are you sure you want to log out?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirm'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        method: 'POST',
+                        url: '../../logout.php',
+                        success: function () {
+                            window.location.replace('../../index.html');
+                        }
+                    })
+                }
+            })
+        }
+    </script>
+
     <!--Start of header-->
     <header id="navigation">
         <a href="landingpage/landing.html" class="logo">Trestle</a>
         <input type="checkbox" id="menu-bar">
         <label for="menu-bar" class="fas fa-bars"></label>
         <nav class="navbar">
-            <a href="#home">Home</a>
-            <a href="calendar.html">Calendar</a>
-            <a href="#taskchecklist">Task Checklist</a>
-            <a href="#announcements">Announcements</a>
-            <a href="#settings">Settings</a>
+            <a href="./landing.html">Home</a>
+            <a href="./integrated_calendar/views/calendar.html">Calendar</a>
+            <a href="./integrated_calendar/views/task_checklist.html">Task Checklist</a>
+            <a href="./integrated_calendar/views/announcements.html">Announcements</a>
+            <a href="">Settings</a>
             <a href="#help">Help</a>
-            <a href="#logout">Logout</a>
+            <a href="#" onclick="logout();">Logout</a>
         </nav>
     </header>
     <!--End of header-->
+
+    
+
         <div class="wrapper">
             <div class="sidebar">
                 <h2>Trestle</h2>
                 <ul>
-                    <li><a href="#"><i class="fas fa-home"></i>Home</a></li>
-                    <li><a href="#"><i class="far fa-calendar"></i>Calendar</a></li>
-                    <li><a href="#"><i class="fas fa-tasks"></i>Task Checklist</a></li>
-                    <li><a href="#"><i class="fas fa-bullhorn"></i>Announcements</a></li>
+                    <li><a href="./landing.html"><i class="fas fa-home"></i>Home</a></li>
+                    <li><a href="./integrated_calendar/views/calendar.html"><i class="far fa-calendar"></i>Calendar</a></li>
+                    <li><a href="./integrated_calendar/views/task_checklist.html"><i class="fas fa-tasks"></i>Task Checklist</a></li>
+                    <li><a href="./integrated_calendar/views/announcements.html"><i class="fas fa-bullhorn"></i>Announcements</a></li>
                     <li class="li-active"><a class="a-active" href="#"><i class="fas fa-cog"></i>Settings</a></li>
-                    <li><a href="#"><i class="far fa-question-circle"></i>Help</a></li>
-                    <li><a href="#"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
+                    <li><a href="#help"><i class="far fa-question-circle"></i>Help</a></li>
+                    <li><a href="#" onclick="logout();"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
                 </ul>
             </div>
             <!--Start of Settings-->
@@ -73,20 +100,20 @@ $auth_url = $client->createAuthUrl();
                     <h2>User Information</h2>
                     <div class="user-container">
                         <div class="user-name">
-                        <label>Username: </label><p>Jane Doe</p>
+                        <label>Username: </label><p><?php echo $user->get_username(); ?></p>
                         </div>
 
                         <div class="user-mail">
-                        <label>Email: </label><p>janedoe@example.com</p>
+                        <label>Email: </label><p><?php echo $user->get_username(); ?>@gmail.com</p>
                         </div>
 
                         <!-- Change Password Form -->
                         <div id="change_password_container">
                             <h2>Password Settings</h2>
                             <form method="POST" onsubmit="changePassword(); return false" >
-                            <div class="form-div"><label for="current">Current Password: </label><input type="password" name="current" id="current-pass" autocomplete="off" required><a href="#">Help</a></div>
-                            <div class="form-div"><label for="new">New Password: </label><input type="password" name="new" id="new-pass" onkeyup="checkPassword();" required><a href="#">Help</a></div>
-                            <div class="form-div"><label for="confirm">Confirm password: </label><input type="password" name="confirm" id="confirm-pass" onkeyup="checkPassword();" required><a href="#">Help</a></div>
+                            <div class="form-div"><label for="current">Current Password: </label><input type="password" name="current" id="current-pass" autocomplete="off" required></div>
+                            <div class="form-div"><label for="new">New Password: </label><input type="password" name="new" id="new-pass" onkeyup="checkPassword();" required></div>
+                            <div class="form-div"><label for="confirm">Confirm password: </label><input type="password" name="confirm" id="confirm-pass" onkeyup="checkPassword();" required></div>
                             <p id="error-message" style="color: red;"></p>
                             <div class="button-container">
                             <input class="save" type="submit" value="Save Changes">
@@ -120,9 +147,9 @@ $auth_url = $client->createAuthUrl();
                                 <img src="images/classroom.png" alt="">
                             </div>
 
-                            <div class="code" style="display:none">
+                            <div class="code" style="display:block">
                                 <?php if (!is_null($current_google_token)) { ?>
-                                <p><?php echo $current_google_token["access_token"]; ?></p>
+                                <p  style="display:none" ><?php echo $current_google_token["access_token"]; ?></p>
                                 </br>
                             </div>
 
@@ -191,6 +218,7 @@ $auth_url = $client->createAuthUrl();
                         }
                     }
                 }
+
             </script>
 </body>
 </html>

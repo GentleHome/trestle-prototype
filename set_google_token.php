@@ -23,7 +23,7 @@ if (isset($_GET['code'])) {
 
         $entityManager->flush();
 
-        header("Location: ./api/tests.php");
+        header("Location: ./settings.php");
         exit;
     } else {
         echo $response['error'];
