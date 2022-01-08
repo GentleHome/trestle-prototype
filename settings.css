@@ -44,6 +44,9 @@ text-align: center;
 padding: 4rem 2rem;
 text-transform: uppercase;
 }
+.wrapper .sidebar h2 a{
+color: #fff !important;
+}
 .wrapper .sidebar ul li{
 padding: 2rem;
 border-bottom: 1px solid rgba(0,0,0,0.09);
@@ -136,202 +139,226 @@ color: var(--teal);
 padding-bottom: 5rem;
 margin-left: 15%;
 margin-top:5rem;
+width: 100%;
 }
-h1{
+.gear{
+width: 100%;
+padding: 2rem;
 text-align: center;
-}
-.settings-container{
-text-align: center;
+align-items: center;
 justify-content: center;
-background: #fff;
-background-size: cover;
-box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+.gear i{
+font-size: 10rem;
+color: #2d016c;
+}
+.user-container{
 display: flex;
 flex-direction: column;
-justify-content: center;
-font-size:2rem;
-margin: 2rem 10rem;
+width: 100%;
+}
+label{
+font-size: 1.8rem;
+font-weight:600;
+color: #2d016c;
+text-transform: uppercase;
+}
+p{
+font-size:1.5rem;
+color: gray;
+align-items: center;
+justify-content:center;
+height: fit-content;
+pointer-events: none;
+}
+.user-mail, .user-name{
+display: flex;
+flex-direction: row;
+border-bottom: 1px solid rgba(0,0,0,0.09);
+border-top:1px solid rgba(225,225,225,0.09);
+align-items: center;
+padding: 0.8rem;
+padding-left: 8%;
+}
+.user-name p{
+margin-left: 22%;
+}
+.user-mail p{
+margin-left: 29.5%;
+}
+.settings-container{
+display: flex;
+flex-direction:column;
+width: fit-content;
+margin: auto;
+align-items: center;
+box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
 border-radius: .5rem;
-padding: .8rem 20rem;
+background-color: #fff;
+padding: 1rem;
+padding-bottom: 1.5rem;
+z-index: 1;
 }
-.settings-container .btn{
-margin: 1rem;
+#change_password_container{
+margin-top: 1rem;
 }
-.copybtn{background-image: linear-gradient(to right, #2d016c,#170048)}
-.copybtn{
-font-size: 1.5rem;
-margin: 1rem;
-padding: 1rem 3rem;
+#change_password_container h2,
+.settings-container h2{
+align-items: center;
+justify-content:center;
 text-align: center;
-text-transform: uppercase;
-transition: 0.5s;
-background-size: 200% auto;
-color: white;            
-border-radius: 10px;
-box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
-border: none;
-}
-.copybtn:hover, .edit_task:hover, .link:hover{
-background-position: right center; /* change the direction of the change here */
-color: #fff;
-text-decoration: none;
-transform: scale(1.1);
-cursor: pointer;
-}
-.edit_task{
-margin-top: 4%;
-height: 5rem;
-width: 10rem;
-}
-.revoke {background-image: linear-gradient(to right, #D31027 0%, #EA384D  51%, #D31027  100%)}
-.revoke{
+padding: 0.8rem;
+color: #2d016c;
 font-size: 1.5rem;
-margin-top: 4%;
-margin-left: 1rem;
-padding: 1rem 2rem;
-text-align: center;
 text-transform: uppercase;
-transition: 0.5s;
-background-size: 200% auto;
-color: white;            
-border-radius: 10px;
-box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
-border: none;
-height: 5rem;
-width: 10rem;
+margin-top:2%;
+border-bottom: 1px solid rgba(0,0,0,0.09);
+width: 100%;
 }
-.revoke:hover {
-background-position: right center; /* change the direction of the change here */
-color: #fff;
-text-decoration: none;
-transform: scale(1.1);
-cursor: pointer;
+.settings-container h2{
+margin-top:3%;
 }
-.set-token,.grant{background-image: linear-gradient(to right, #02AAB0 0%, #00CDAC  51%, #02AAB0  100%)}
-.set-token,.grant{
-font-size: 1.5rem;
-margin-top: 4%;
-margin-left: 1rem;
-padding: 1rem 2rem;
-text-align: center;
-text-transform: uppercase;
-transition: 0.5s;
-background-size: 200% auto;
-color: white;            
-border-radius: 10px;
-box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
-border: none;
-height: 5rem;
-width: 15rem;
+#change_password_container input{
+border:1px solid gray;
+border-radius:0.5rem;
+padding: 0.5rem;
+color: gray;
+font-weight: bold;
+margin-left: 6.5%;
 }
-.set-token:hover,.grant:hover {
-background-position: right center; /* change the direction of the change here */
-color: #fff;
-text-decoration: none;
-transform: scale(1.1);
-cursor: pointer;
+#new-pass{
+margin-left:14.25% !important;
+}
+#confirm-pass{
+margin-left:7.10% !important;
+}
+#change_password_container a{
+text-decoration: underline;
+font-size: 1.3rem;
+margin-left: 23.5%;
+}
+.form-div{
+align-items: center;
+padding: 0.8rem;
+padding-left: 8%;
+border-bottom: 1px solid rgba(0,0,0,0.09);
+border-top:1px solid rgba(225,225,225,0.09);
 }
 .button-container{
-display:flex;
-justify-content: center;
-text-align: center;
-align-content: center;
-flex-direction: row;
-top: 0;left: 0;
-}
-#gear{
-  font-size:15rem;
-  color:#170048;
-  text-align: center;
-  justify-content: center;
-  padding: 2rem;
-  transition: all 1s ease-in-out;
-}
-#gear:hover{
-  transform: rotate(360deg);
-}
-.tokens{
-display:flex;
-flex-direction:column;
-justify-content: center;
-text-align: center;
-align-content: center;
-}
-.current{
-display:flex;
-flex-direction:column;
-justify-content: center;
-text-align: center;
-align-content: center;
-}
-.current .col1 .labels{
-  font-size:1.8rem;
-  font-weight: 600;
-  padding: 1rem;
-}
-.current .col2 .code{
-font-size:1.4rem;
-padding: 1rem 10rem;
-}
-.tokens .col1{
-display:flex;
-flex-direction:row;
-justify-content: center;
-text-align: center;
-align-content: center;
-}
-.tokens .col1 .labels, .tokens .col2 .labels{
-font-size:1.8rem;
-font-weight: 600;
-padding: 3rem;
-}
-.tokens .col2{
-display:flex;
-flex-direction:row;
-justify-content: center;
-text-align: center;
-align-content: center;
-}
-.tokens .col1 .code, .tokens .col2 .code{
-font-size:1.5rem;
-padding: 3rem;
-}
-.tokens .col1 .icon,.tokens .col2 .icon{
-padding: 1.5rem;
-}
-.form{
-display:flex;
-flex-direction: row;
-justify-content: center;
-text-align: center;
-align-content: center;
-}
-.form .field{
-padding: 3rem;
-}
-.form .field #setfield{
-width: 30rem;
-height: 4rem;
-border-radius:1rem;
-}
-.form .setbtn{
-padding: 1.5rem;
-}
-.toggle{
-display:flex;
-flex-direction:column;
-padding:1rem;
-justify-content: center;
-align-content: center;
 align-items: center;
+justify-content:center;
+text-align: center;
+padding: 0.8rem;
+height: fit-content;
+width: fit-content;
+margin: auto;
+}
+.cancel, .revoke {background-image: linear-gradient(to right, #D31027 0%, #EA384D  51%, #D31027  100%)}
+.cancel, .revoke {
+margin: auto 0.5rem !important;
+padding: 1rem !important;
+text-align: center;
+text-transform: uppercase;
+transition: 0.5s;
+background-size: 200% auto;
+color: white !important;            
+border-radius: 0.5rem;
+box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
+border: none;
+height: fit-content;
+width: fit-content;
+border: none !important;
+font-size: 1.3rem;
+font-weight:400 !important;
+}
+.cancel:hover, .revoke:hover {
+background-position: right center; /* change the direction of the change here */
+color: #fff;
+text-decoration: none;
+transform: scale(1.1);
+cursor: pointer;
+}
+.save, .grant, .set-token{background-image: linear-gradient(to right, #02AAB0 0%, #00CDAC  51%, #02AAB0  100%)}
+.save, .grant, .set-token {
+margin: auto 0.5rem !important;
+padding: 1rem !important;
+text-align: center;
+text-transform: uppercase;
+transition: 0.5s;
+background-size: 200% auto;
+color: white !important;            
+border-radius: 0.5rem;
+box-shadow: 0 .5rem 1rem rgba(0,0,0,.7);
+border: none;
+height: fit-content;
+width: fit-content;
+border: none !important;
+font-size: 1.3rem;
+font-weight:400 !important;
+}
+.save:hover, .grant:hover, .set-token:hover {
+background-position: right center; /* change the direction of the change here */
+color: #fff;
+text-decoration: none;
+transform: scale(1.1);
+cursor: pointer;
+}
+.token-container{
+display: flex;
+flex-direction: row;
+border-bottom: 1px solid rgba(0,0,0,0.09);
+padding-bottom: 2rem;
+}
+.canvas-token, .google-token{
+width: fit-content;
+margin: auto 10%;
+text-align: center;
+justify-content: center;
+}
+.set-image{
+margin: auto;
+padding: 2rem;
+width: fit-content;
+text-align: center;
+justify-content: center;
+}
+img{
+width: 50%;
+margin: auto;
+}
+.token-field{
+border:1px solid gray;
+border-radius:0.5rem;
+padding: 0.5rem;
+color: gray;
+font-weight: bold;
+margin-bottom: 1rem;
+}
+#setfield{
+font-weight: 400;
 }
 /*media queries*/
 @media (max-width:1440px){
 html{
 font-size: 45%;
 }
-.task{
-margin: 2rem 35rem;
+.user-name p{
+margin-left: 18%;
+}
+.user-mail p{
+margin-left: 23.5%;
+}
+#change_password_container input{
+margin-left: 6.5%;
+}
+#new-pass{
+margin-left:12.25% !important;
+}
+#confirm-pass{
+margin-left:7% !important;
+}
+#change_password_container a{
+margin-left: 28.5%;
 }
 }
 @media (max-width:1200px){
@@ -397,55 +424,48 @@ display: none;
 html{
 font-size: 50%;
 }
-.source_image {
-display: none;
+.settings-container{
+box-shadow: none;
+background:#f9f9f9;
 }
-.task{
-margin: 2rem 5rem;
+.user-name p{
+margin-left: 20.5%;
+}
+.user-mail p{
+margin-left: 27.5%;
+}
+label{
+font-size: 1rem;
+}
+#change_password_container input{
+font-size: 1rem;
+}
+#new-pass{
+margin-left:12.75% !important;
+}
+#confirm-pass{
+margin-left:7% !important;
+}
+#change_password_container a{
+margin-left: 10.5%;
+font-size: 1rem;
+}
+.token-container{
 flex-direction: column;
 }
-.notification{
-margin: 1rem 1rem;
-flex-direction: column;
+img{
+width: 25%;
 }
-.button-container{
-display:flex;
-flex-direction: row;
-padding-top: 5%;
-margin:auto;
+.google-token, .canvas-token{
+border-bottom: 1px solid rgba(0,0,0,0.09);
+padding:2rem;
 }
-.mark_as_done, .edit_task, .delete_task, .link{
-height: 4rem;
-width: 7rem;
-font-size:1.2rem;
-padding:1rem;
 }
-.mark_as_done{
-width: 8rem;
-margin-right: 1rem;
+@media (max-width:320px){
+#new-pass{
+margin-left:14% !important;
 }
-.modal_content {
-width: 80vw;
-}
-.modal-container{
-border: none;
-}
-.edit-label{
-font-size:1.3rem;
-}
-.value{
-font-size:1.3rem;
-}
-.modal-image{
-display:none;
-}
-.modal-btn-container{
-text-align:center;
-}
-.modal_content h3{
-font-size:2.5rem;
-}
-#close_modal, #cancel_edit{
-transform: translateX(3rem);
+#confirm-pass{
+margin-left:6..90% !important;
 }
 }

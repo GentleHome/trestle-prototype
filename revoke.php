@@ -24,4 +24,4 @@ $user->set_google_token(null);
 
 $entityManager->flush();
 
-header('location:index.php');
+header('Location: ./settings.php');
