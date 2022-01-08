@@ -19,7 +19,12 @@ $password2 = $_POST['newPassword2'];
 if ($user->authenticate($current_password)) {
     if ($password1 == $password2) {
         $user->set_password($password1);
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+        
         $messages = "Password Change Success!";
+
         echo json_encode(array("messages" => $messages));
     } else {
         $errors = ERROR_INVALID_VALUE . ": Confirm New Password";
