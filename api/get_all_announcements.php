@@ -54,6 +54,7 @@ function get_google_data(array $token)
 
 function get_canvas_data(string $token)
 {
+    
     global $collection;
 
     $headers = array(
@@ -61,8 +62,15 @@ function get_canvas_data(string $token)
         'Authorization' => 'Bearer ' . $token
     );
 
-    $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
-    $courses = json_decode($response->body);
+    if (isset($_GET['start_date'])) {
+        $response = Requests::get('https://canvas.instructure.com/api/v1/courses?start_date=' . $_GET['start_date'], $headers);
+        $courses = json_decode($response->body);
+    } else {
+        $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
+        $courses = json_decode($response->body);
+    }
+
+    
 
     foreach ($courses as $course) {
         if (isset($course->account_id)) { //bypassing restricted courses
