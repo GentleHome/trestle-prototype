@@ -167,7 +167,7 @@ background-size: cover;
 box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
 display: flex;
 flex-direction: row;
-justify-content: flex-start;
+justify-content: space-evenly;
 font-size:2rem;
 margin: 2rem 40rem;
 border-radius: .5rem;
@@ -269,9 +269,7 @@ flex-direction: row;
 top: 0;left: 0;
 }
 .source_image {
-width: 15%;
-margin: 1rem 0;
-padding: 2rem;
+display:none;
 }
 .title{
 margin-right: 5px;
@@ -391,6 +389,7 @@ margin-top: 1%;
   margin-left: -17rem;
   padding: 0.3rem !important;
   transform: translateY(-2.25rem);
+  -moz-transform: translateY(-2rem);
   }
   .form-field label{
   padding: 1rem;
@@ -438,15 +437,18 @@ margin-top: 1%;
   background-color:#fff;
   margin-left: 1rem;
   padding: 0.3rem !important;
+  -moz-transform: translateY(-1.2rem);
   }
   .textfield-form:focus ~ .form-label,
   .textfield-form:not(:placeholder-shown).textfield-form:not(:focus)~.form-label{
   transform: translateY(-2.7rem);
+  -moz-transform: translateY(-3.8rem);
   font-size: 1.2rem;
   }
   .textareafield-form:focus ~ .formarea-label,
   .textareafield-form:not(:placeholder-shown).textareafield-form:not(:focus)~.formarea-label{
   transform: translateY(-3.7rem);
+  -moz-transform: translateY(-5.8rem);
   font-size: 1.2rem;
   }
 /*media queries*/
