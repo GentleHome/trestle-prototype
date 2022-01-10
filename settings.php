@@ -46,9 +46,9 @@ $auth_url = $client->createAuthUrl();
                 if (result.isConfirmed) {
                     $.ajax({
                         method: 'POST',
-                        url: '../../logout.php',
+                        url: './logout.php',
                         success: function () {
-                            window.location.replace('../../index.html');
+                            window.location.replace('./index.html');
                         }
                     })
                 }
