@@ -63,9 +63,9 @@ function get_canvas_data(string $token)
     );
 
     if (isset($_GET['start_date'])) {
-        $remind_date = new DateTime($_GET['start_date'], new DateTimeZone('Asia/Manila'));
+        $start_date = new DateTime($_GET['start_date'], new DateTimeZone('Asia/Manila'));
         
-        $response = Requests::get('https://canvas.instructure.com/api/v1/courses?start_date=' . $remind_date->format('Y-m-d'), $headers);
+        $response = Requests::get('https://canvas.instructure.com/api/v1/courses?start_date=' . $start_date->format('Y-m-d'), $headers);
         $courses = json_decode($response->body);
     } else {
         $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
