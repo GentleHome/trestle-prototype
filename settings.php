@@ -103,10 +103,6 @@ $auth_url = $client->createAuthUrl();
                         <label>Username: </label><p><?php echo $user->get_username(); ?></p>
                         </div>
 
-                        <div class="user-mail">
-                        <label>Email: </label><p><?php echo $user->get_username(); ?>@gmail.com</p>
-                        </div>
-
                         <!-- Change Password Form -->
                         <div id="change_password_container">
                             <h2>Password Settings</h2>
