@@ -384,7 +384,7 @@ async function taskPreviewInterface(d) {
 
                 div.appendChild(actions);
 
-                if (c.isRecurring) {
+                if (c.isRecurring || c.isRecurring == 0) {
                     let week = new Date(d.getAttribute('date'));
                     if (week.getDay() == c.isRecurring) {
                         tasks_holder.appendChild(div);
@@ -446,7 +446,7 @@ async function taskPreviewInterface(d) {
                     remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
 
 
-                    if (c.isRecurring) {
+                    if (c.isRecurring || c.isRecurring == 0) {
                         isRecurring.checked = true;
                     }
 
@@ -536,7 +536,7 @@ function collectionWidgets(d) {
                 div.appendChild(image);
                 div.appendChild(text);
 
-                if (c.isRecurring >= 0) {
+                if (c.isRecurring || c.isRecurring == 0) {
                     let week = new Date(d.getAttribute('date'))
                     if (week.getDay() == c.isRecurring) {
                         d.appendChild(div);
