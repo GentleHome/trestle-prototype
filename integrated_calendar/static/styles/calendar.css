@@ -477,10 +477,12 @@ width: fit-content;
 background-color:#fff;
 margin-left: 1rem;
 padding: 0.3rem !important;
+-moz-transform: translateY(-1.2rem);
 }
 .textfield-form:focus ~ .form-label,
 .textfield-form:not(:placeholder-shown).textfield-form:not(:focus)~.form-label{
 transform: translateY(-2.7rem);
+-moz-transform: translateY(-3.8rem);
 font-size: 1.2rem;
 }
 .modal-head-edit{
