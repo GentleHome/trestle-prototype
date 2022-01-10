@@ -63,15 +63,15 @@ function get_canvas_data(string $token)
     );
 
     if (isset($_GET['start_date'])) {
-        $response = Requests::get('https://canvas.instructure.com/api/v1/courses?start_date=' . $_GET['start_date'], $headers);
+        $remind_date = new DateTime($_GET['start_date'], new DateTimeZone('Asia/Manila'));
+        
+        $response = Requests::get('https://canvas.instructure.com/api/v1/courses?start_date=' . $remind_date->format('Y-m-d'), $headers);
         $courses = json_decode($response->body);
     } else {
         $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
         $courses = json_decode($response->body);
     }
-
     
-
     foreach ($courses as $course) {
         if (isset($course->account_id)) { //bypassing restricted courses
             array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));

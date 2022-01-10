@@ -36,7 +36,7 @@ if (empty($errors['errors'])) {
     }
 
     if (isset($_POST['remind-date'])) {
-        if($reminder->get_is_recurring() != 0){
+        if(!is_null($reminder->get_is_recurring())){
             $reminder->set_is_recurring(date('w', strtotime($_POST['remind-date'])));
         }else{
             $remind_date = new DateTime($_POST['remind-date'], new DateTimeZone('Asia/Manila'));
