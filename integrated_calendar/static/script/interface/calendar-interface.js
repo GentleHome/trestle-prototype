@@ -536,7 +536,7 @@ function collectionWidgets(d) {
                 div.appendChild(image);
                 div.appendChild(text);
 
-                if (c.isRecurring || c.isRecurring == 0) {
+                if (c.isRecurring >= 0) {
                     let week = new Date(d.getAttribute('date'))
                     if (week.getDay() == c.isRecurring) {
                         d.appendChild(div);
