@@ -430,7 +430,7 @@ async function taskPreviewInterface(d) {
                     const title = document.querySelector("input[name='title']");
                     const remind_date = document.querySelector("input[name='remind-date']");
                     const isRecurring = document.querySelector("input[name='is-recurring']");
-                    const message = document.querySelector("textarea[name='message']");
+                    const message = document.querySelector("input[name='message']");
 
                     // Assign values to fields
                     id.value = c.id;
