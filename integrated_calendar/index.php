@@ -9,9 +9,9 @@
 </head>
 
 <body>
-    <a href="views/task_checklist.html"><button>Task</button></a>
-    <a href="views/calendar.html"><button>Calendar</button></a>
-    <a href="views/announcements.html"><button>Announcements</button></a>
+    <a href="views/task_checklist.php"><button>Task</button></a>
+    <a href="views/calendar.php"><button>Calendar</button></a>
+    <a href="views/announcements.php"><button>Announcements</button></a>
     <br> <br>
     <a href="../api/tests.php" target="_blank"><button>Connect</button></a>
 </body>

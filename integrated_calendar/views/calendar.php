@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['user_id'])){
+    header("Location: ./index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,16 +31,16 @@
 
     <!--Start of header-->
     <header id="navigation">
-        <a href="../../landing.html" class="logo">Trestle</a>
+        <a href="../../landing.php" class="logo">Trestle</a>
         <input type="checkbox" id="menu-bar">
         <label for="menu-bar" class="fas fa-bars"></label>
         <nav class="navbar">
-            <a href="../../landing.html">Home</a>
+            <a href="../../landing.php">Home</a>
             <a href="">Calendar</a>
-            <a href="./task_checklist.html">Task Checklist</a>
-            <a href="./announcements.html">Announcements</a>
+            <a href="./task_checklist.php">Task Checklist</a>
+            <a href="./announcements.php">Announcements</a>
             <a href="../../settings.php">Settings</a>
-            <a href="#help">Help</a>
+            <a href="../../help.php">Help</a>
             <a href="#" onclick="logout();">Logout</a>
         </nav>
     </header>
@@ -43,12 +49,12 @@
         <div class="sidebar">
             <h2>Trestle</h2>
             <ul>
-                <li><a href="../../landing.html"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="../../landing.php"><i class="fas fa-home"></i>Home</a></li>
                 <li class="li-active"><a class="a-active" href="#"><i class="far fa-calendar"></i>Calendar</a></li>
-                <li><a href="./task_checklist.html"><i class="fas fa-tasks"></i>Task Checklist</a></li>
-                <li><a href="./announcements.html"><i class="fas fa-bullhorn"></i>Announcements</a></li>
+                <li><a href="./task_checklist.php"><i class="fas fa-tasks"></i>Task Checklist</a></li>
+                <li><a href="./announcements.php"><i class="fas fa-bullhorn"></i>Announcements</a></li>
                 <li><a href="../../settings.php"><i class="fas fa-cog"></i>Settings</a></li>
-                <li><a href="#help"><i class="far fa-question-circle"></i>Help</a></li>
+                <li><a href="../../help.php"><i class="far fa-question-circle"></i>Help</a></li>
                 <li><a href="#" onclick="logout();"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
             </ul>
         </div>
@@ -68,8 +74,8 @@
                     </select>
                     <div>
                         <button id="prev"><</button>
-                        <button id="today">Today</button>
-                        <button id="next">></button>
+                                <button id="today">Today</button>
+                                <button id="next">></button>
                     </div>
                 </div>
 

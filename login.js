@@ -21,7 +21,7 @@ function loginUser() {
                     $('#login-user').val('');
                     $('#login-pass').val('');
                     $('#return-message').text('');
-                    window.location.replace('./landing.html');
+                    window.location.replace('./landing.php');
                 });
             } else {
                 $('#return-message').text(newdata.errors);
@@ -67,7 +67,7 @@ function registerUser() {
                             $('#reg-cpass').val('');
                             $('#reg-email').val('');
                             $('#password-message').text('');
-                            window.location.replace('./index.html');
+                            window.location.replace('./index.php');
                         });
 
                     } else {
