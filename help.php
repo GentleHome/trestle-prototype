@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['user_id'])){
+    header("Location: ./index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +36,7 @@
                         method: 'POST',
                         url: '../../logout.php',
                         success: function () {
-                            window.location.replace('../../index.html');
+                            window.location.replace('../../index.php');
                         }
                     })
                 }
@@ -40,15 +46,15 @@
 
     <!--Start of header-->
     <header id="navigation">
-        <a href="../../landing.html" class="logo">Trestle</a>
+        <a href="./landing.php" class="logo">Trestle</a>
         <input type="checkbox" id="menu-bar">
         <label for="menu-bar" class="fas fa-bars"></label>
         <nav class="navbar">
-            <a href="../../landing.html">Home</a>
-            <a href="./calendar.html">Calendar</a>
-            <a href="#taskchecklist">Task Checklist</a>
-            <a href="./announcements.html">Announcements</a>
-            <a href="../../settings.php">Settings</a>
+            <a href="./landing.php">Home</a>
+            <a href="./integrated_calendar/views/calendar.php">Calendar</a>
+            <a href="./integrated_calendar/views/task_checklist.php">Task Checklist</a>
+            <a href="./integrated_calendar/views/announcements.php">Announcements</a>
+            <a href="./settings.php">Settings</a>
             <a href="#help">Help</a>
             <a href="#" onclick="logout();">Logout</a>
         </nav>
@@ -56,13 +62,13 @@
     <!--End of header-->
     <div class="wrapper">
         <div class="sidebar">
-            <h2><a href="../../landing.html">Trestle</a></h2>
+            <h2><a href="./landing.php">Trestle</a></h2>
             <ul>
-                <li><a href="../../landing.html"><i class="fas fa-home"></i>Home</a></li>
-                <li><a href="./calendar.html"><i class="far fa-calendar"></i>Calendar</a></li>
-                <li><a href="#"><i class="fas fa-tasks"></i>Task Checklist</a></li>
-                <li><a href="./announcements.html"><i class="fas fa-bullhorn"></i>Announcements</a></li>
-                <li><a href="../../settings.php"><i class="fas fa-cog"></i>Settings</a></li>
+                <li><a href="./landing.php"><i class="fas fa-home"></i>Home</a></li>
+                <li><a href="./integrated_calendar/views/calendar.php"><i class="far fa-calendar"></i>Calendar</a></li>
+                <li><a href="./integrated_calendar/views/task_checklist.php"><i class="fas fa-tasks"></i>Task Checklist</a></li>
+                <li><a href="./integrated_calendar/views/announcements.php"><i class="fas fa-bullhorn"></i>Announcements</a></li>
+                <li><a href="./settings.php"><i class="fas fa-cog"></i>Settings</a></li>
                 <li class="li-active"><a class="a-active" href="#help"><i class="far fa-question-circle"></i>Help</a></li>
                 <li><a href="#" onclick="logout();"><i class="fas fa-sign-out-alt"></i>Log Out</a></li>
             </ul>

@@ -1,3 +1,9 @@
+<?php
+session_start();
+if(!isset($_SESSION['user_id'])){
+    header("Location: ./index.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,11 +29,11 @@
         <label for="menu-bar" class="fas fa-bars"></label>
         <nav class="navbar">
             <a href="#Home">Home</a>
-            <a href="integrated_calendar/views/calendar.html">Calendar</a>
-            <a href="integrated_calendar/views/task_checklist.html">Task Checklist</a>
-            <a href="integrated_calendar/views/announcements.html">Announcements</a>
+            <a href="integrated_calendar/views/calendar.php">Calendar</a>
+            <a href="integrated_calendar/views/task_checklist.php">Task Checklist</a>
+            <a href="integrated_calendar/views/announcements.php">Announcements</a>
             <a href="./settings.php">Settings</a>
-            <a href="#help">Help</a>
+            <a href="./help.php">Help</a>
             <a href="#" onclick="logout();">Logout</a>
         </nav>
     </header>
@@ -40,12 +46,12 @@
                 platforms which are Canvas Instructure and Google Classroom. You can create your own tasks and checklist
                 of your personalized activities as well as manage them together with the course works from Classroom and
                 Canvas. You also have your own Calendar to help you see your activities and manage them accordingly.</p>
-            <a href="help.html" class="btn">New To Trestle?<i class="fas fa-arrow-right"></i></a>
+            <a href="help.php" class="btn">New To Trestle?<i class="fas fa-arrow-right"></i></a>
         </div>
         <div class="image">
             <img src="images/home-img.png" alt="">
         </div>
-        
+
     </section>
     <!--End of home-->
     <div class="body-container">
@@ -150,11 +156,11 @@
             <div class="box">
                 <h3>Quick Links</h3>
                 <a href="#Home">Home</a>
-                <a href="./integrated_calendar/views/calendar.html">Calendar</a>
-                <a href="./integrated_calendar/views/task_checklist.html">Task Checklist</a>
-                <a href="./integrated_calendar/views/announcements.html">Announcements</a>
+                <a href="./integrated_calendar/views/calendar.php">Calendar</a>
+                <a href="./integrated_calendar/views/task_checklist.php">Task Checklist</a>
+                <a href="./integrated_calendar/views/announcements.php">Announcements</a>
                 <a href="./settings.php">Settings</a>
-                <a href="#help">Help</a>
+                <a href="./help.php">Help</a>
             </div>
             <div class="box">
                 <h3>Follow Us</h3>
