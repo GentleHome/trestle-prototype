@@ -15,7 +15,7 @@ function logout() {
                 method: 'POST',
                 url: './logout.php',
                 success: function () {
-                    window.location.replace('./index.html');
+                    window.location.replace('./index.php');
                 }
             })
         }
