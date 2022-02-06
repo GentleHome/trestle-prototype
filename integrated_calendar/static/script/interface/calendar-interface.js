@@ -247,7 +247,7 @@ async function month_interface() {
             excess++;
             d.innerText = excess
             d.classList.add('disabled');
-            d.setAttribute('date', `${month + 1 == 1 ? year - 1 : year}-${month <= 1 ? 12 : month}-${d.innerText}`);
+            d.setAttribute('date', `${month + 1 == 1 ? year - 1 : year}-${month <= 0 ? 12 : month}-${d.innerText}`);
         } else if (day_counter != month_end) {
             day_counter++;
             d.innerText = day_counter;
@@ -266,7 +266,9 @@ async function month_interface() {
         collectionWidgets(d);
 
         // event listener
-        d.addEventListener("mouseup", async () => { modalInterface(d) });
+        d.addEventListener("mouseup", async () => {
+            if (!d.classList.contains('disabled')) { modalInterface(d) }
+        });
     });
 }
 
@@ -538,7 +540,7 @@ function collectionWidgets(d) {
 
                 if (c.isRecurring || c.isRecurring == 0) {
                     let week = new Date(d.getAttribute('date'))
-                    if (week.getDay() == c.isRecurring && !d.classList.contains('disabled')) {
+                    if (week.getDay() == c.isRecurring) {
                         d.appendChild(div);
                     }
                 } else {
