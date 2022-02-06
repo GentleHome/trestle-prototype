@@ -538,7 +538,7 @@ function collectionWidgets(d) {
 
                 if (c.isRecurring || c.isRecurring == 0) {
                     let week = new Date(d.getAttribute('date'))
-                    if (week.getDay() == c.isRecurring) {
+                    if (week.getDay() == c.isRecurring && !d.classList.contains('disabled')) {
                         d.appendChild(div);
                     }
                 } else {
