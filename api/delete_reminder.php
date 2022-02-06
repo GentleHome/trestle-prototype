@@ -36,14 +36,11 @@ if (empty($errors['errors'])) {
         exit;
     }
 
-    echo json_encode(array("success" => "Reminder deleted for " . $reminder->get_remind_date()->format("M-d-Y h:i"), "reminder" => parse_reminder($reminder)));
+    echo json_encode(array("success" => $reminder->get_type() . " deleted", "reminder" => parse_reminder($reminder)));
 
     $entityManager->remove($reminder);
     $entityManager->flush();
-
-
 } else {
 
     echo json_encode($errors);
-
 }

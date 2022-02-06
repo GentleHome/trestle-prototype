@@ -9,37 +9,50 @@
 </head>
 
 <body>
-    <button id="cancel_edit">cancel edit</button>
-    <h3>Edit Schedule</h3>
+    <div class="modal-head-edit">
+        <button class="edit-left" id="cancel_edit">&#129052;</button>
+        <h3>Edit Schedule</h3>
+    </div>
     <!-- Edit Reminders -->
-    <div class="edit-reminders-div" style="border: 1px solid black; padding: 15px; padding-top: 5px;">
-        <form id="edit-reminder-form">
+    <div class="edit-reminders-div" style="padding: 2rem; padding-top: 5px; text-align: center;">
+        <form id="edit-reminder-form" style="display:flex; flex-direction:column; text-align: center; align-items: center;">
 
-            Reminder ID:
-            <input type="text" name="reminder-id">
+            <div style="display:none">
+                Reminder ID:
+                <input type="text" name="reminder-id">
+            </div>
 
-            Reminder type:
-            <select id="edit-reminder-type-option" name="type">
-                <option selected value="RMDR">Reminders</option>
-                <option value="TASK">Task</option>
-            </select>
+            <div class="form-field">
+                <label>Type: </label>
+                <select id="edit-reminder-type-option" name="type" disabled>
+                    <option selected value="RMDR">Reminders</option>
+                    <option value="TASK">Task</option>
+                </select>
+            </div>
 
-            Title:
-            <input type="text" name="title">
+            <div class="form-text-field">
+                <input class="textfield-form" type="text" id="title" name="title" placeholder=" "><label for="title" class="form-label">Title</label>
+            </div>
 
-            Remind Date:
-            <input type="date" name="remind-date">
+            <div class="form-field-date">
+                <label>Remind Date: </label>
+                <input class="form-date" type="date" name="remind-date">
+            </div>
 
-            Is Recurring:
-            <input type="checkbox" name="is-recurring">
+            <div class="form-field">
+                <label>Is Recurring: </label>
+                <input type="checkbox" name="is-recurring" disabled>
+            </div>
 
-            </br>
-
-            Message (Nullable):
-            <textarea name="message"></textarea>
-
+            <div class="form-text-field">
+                <input class="textfield-form" type="text" id="description" name="message" placeholder=" "></input><label for="description" class="form-label">Description</label>
+            </div>
         </form>
-        <button id="edit-reminder-button">Edit Reminder</button> = <textarea id="edit-reminder-response" disabled placeholder="Response"></textarea></br></br>
+
+        <div class="button-container">
+            <button id="edit-reminder-button">Edit Reminder</button><textarea id="edit-reminder-response" disabled placeholder="Response" style="display: none;"></textarea>
+        </div>
+
     </div>
 </body>
 

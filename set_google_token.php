@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . './setup.php';
-require_once dirname(__FILE__) . "./bootstrap.php";
-require_once dirname(__FILE__) . './api/helpers/constants.php';
+require_once dirname(__FILE__) . '/./setup.php';
+require_once dirname(__FILE__) . "/./bootstrap.php";
+require_once dirname(__FILE__) . '/./api/helpers/constants.php';
 session_start();
 
 $client = get_client();
@@ -23,7 +23,7 @@ if (isset($_GET['code'])) {
 
         $entityManager->flush();
 
-        header("Location: ./api/tests.php");
+        header("Location: ./settings.php");
         exit;
     } else {
         echo $response['error'];

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Schedule</title>
+</head>
+
+<body>
+
+    <div class="modal-head">
+        <div id="cancel_edit">&#10006;</div>
+        <h3>Edit Task</h3>
+    </div>
+
+    <!-- Edit Reminders -->
+    <div class="edit-reminders-div">
+
+        <form id="edit-reminder-form" style="display:flex; flex-direction:column; text-align: center; align-items: center;">
+
+            <input type="text" name="reminder-id-field" class="edit-id" disabled>
+            <input type="hidden" name="reminder-id">
+
+            <div class="form-field" style="display: none;">
+                <label>Type: </label>
+                    <input type="text" name="option-task" id="option-task" value="Task" disabled>
+                    <input type="hidden" name="type" id="edit-reminder-type-option" value="TASK">
+            </div>
+            
+            <div class="form-text-field">
+                <input class="textfield-form" type="text" id="title" name="title" placeholder=" "><label for="title" class="form-label">Title</label>
+            </div>
+            
+            <div class="form-field-date">
+                <label>Remind Date: </label>
+                <input class="form-date" type="date" name="remind-date">
+            </div>
+
+            <div class="form-textarea-field">
+                <textarea class="textareafield-form" id="description" name="message" placeholder=" "></textarea><label for="description" class="formarea-label">Description</label>
+            </div>
+            
+        </form>
+
+        <div class="modal-btn-container">
+        <button id="edit-reminder-button">Save Changes</button><textarea id="edit-reminder-response" disabled
+            placeholder="Response"></textarea></br></br>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

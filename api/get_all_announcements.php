@@ -43,7 +43,7 @@ function get_google_data(array $token)
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
         }
     }
-    
+
     $service = new Google\Service\Classroom($client);
     $courses = $service->courses->listCourses()->getCourses();
 
@@ -54,6 +54,7 @@ function get_google_data(array $token)
 
 function get_canvas_data(string $token)
 {
+    
     global $collection;
 
     $headers = array(
@@ -61,13 +62,21 @@ function get_canvas_data(string $token)
         'Authorization' => 'Bearer ' . $token
     );
 
-    $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
-    $courses = json_decode($response->body);
-
-    foreach ($courses as $course) {
-        array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
+    if (isset($_GET['start_date'])) {
+        $start_date = new DateTime($_GET['start_date'], new DateTimeZone('Asia/Manila'));
+        
+        $response = Requests::get('https://canvas.instructure.com/api/v1/courses?start_date=' . $start_date->format('Y-m-d'), $headers);
+        $courses = json_decode($response->body);
+    } else {
+        $response = Requests::get('https://canvas.instructure.com/api/v1/courses', $headers);
+        $courses = json_decode($response->body);
     }
     
+    foreach ($courses as $course) {
+        if (isset($course->account_id)) { //bypassing restricted courses
+            array_push($collection, get_canvas_announcements($course->id, $course->name, $headers, SOURCE_CANVAS));
+        }
+    }
 }
 
 function get_canvas_announcements($course_id, $course_name, $headers, $source)

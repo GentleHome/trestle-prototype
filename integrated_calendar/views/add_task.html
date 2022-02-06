@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="modal-head">
+        <div id="close_modal">&#10006;</div>
+        <h3>Create Task</h3>
+    </div>
+    <div class="row">
+        <div class="column">
+            <p id="clicked_date"></p>
+            <!-- Post Reminders -->
+            <div class="post-reminders-div">
+
+                <form id="post-reminder-form" style="display:flex; flex-direction:column; text-align: center; align-items: center;">
+
+                    <div class="form-field" style="display: none;">
+                        <label>Type: </label>
+                        <input type="text" name="option-task" id="option-task" value="Task" disabled>
+                        <input type="hidden" id="post-reminder-type-option" value="TASK" name="type">
+                    </div>
+
+                    <div class="form-text-field">
+                        <input class="textfield-form" type="text" id="title" name="title" placeholder=" "><label for="title" class="form-label">Title</label>
+                    </div>
+
+                    <div class="form-field-date">
+                        <label>Remind Date: </label>
+                        <input class="form-date" type="date" name="remind-date">
+                    </div>
+
+                    <div class="form-textarea-field">
+                        <textarea class="textareafield-form" id="description" name="message" placeholder=" "></textarea><label for="description" class="formarea-label">Description</label>
+                    </div>
+
+                </form>
+                <div class="modal-btn-container">
+                <button id="post-reminder-button">Create Task</button><textarea id="post-reminder-response"
+                    disabled></textarea></br></br>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
