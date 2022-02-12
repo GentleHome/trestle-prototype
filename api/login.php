@@ -21,7 +21,10 @@ $user = $entityManager->getRepository('User')->findOneBy(array('username' => $us
 if ($user && $user->authenticate($password)) {
     $_SESSION[USER_ID] = $user->get_id();
 
-    if ($remember_me) session_set_cookie_params(time() + 60 * 60 * 24 * 30);
+    // Ispagetting pababa, pababa ng pababa
+    if ($remember_me) {
+        session_set_cookie_params(time() + 60 * 60 * 24 * 30);
+    }
 
     $messages = "Login Successful!";
     echo json_encode(array("messages" => $messages));
