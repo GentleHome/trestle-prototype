@@ -50,7 +50,6 @@ if(!isset($_SESSION['user_id'])){
         <input type="checkbox" id="menu-bar">
         <label for="menu-bar" class="fas fa-bars"></label>
         <nav class="navbar">
-            <a href="./landing.php">Home</a>
             <a href="./integrated_calendar/views/calendar.php">Calendar</a>
             <a href="./integrated_calendar/views/task_checklist.php">Task Checklist</a>
             <a href="./integrated_calendar/views/announcements.php">Announcements</a>
@@ -64,7 +63,6 @@ if(!isset($_SESSION['user_id'])){
         <div class="sidebar">
             <h2><a href="./landing.php">Trestle</a></h2>
             <ul>
-                <li><a href="./landing.php"><i class="fas fa-home"></i>Home</a></li>
                 <li><a href="./integrated_calendar/views/calendar.php"><i class="far fa-calendar"></i>Calendar</a></li>
                 <li><a href="./integrated_calendar/views/task_checklist.php"><i class="fas fa-tasks"></i>Task Checklist</a></li>
                 <li><a href="./integrated_calendar/views/announcements.php"><i class="fas fa-bullhorn"></i>Announcements</a></li>

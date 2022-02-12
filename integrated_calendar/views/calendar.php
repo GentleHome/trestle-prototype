@@ -49,7 +49,6 @@ if(!isset($_SESSION['user_id'])){
         <div class="sidebar">
             <h2>Trestle</h2>
             <ul>
-                <li><a href="../../landing.php"><i class="fas fa-home"></i>Home</a></li>
                 <li class="li-active"><a class="a-active" href="#"><i class="far fa-calendar"></i>Calendar</a></li>
                 <li><a href="./task_checklist.php"><i class="fas fa-tasks"></i>Task Checklist</a></li>
                 <li><a href="./announcements.php"><i class="fas fa-bullhorn"></i>Announcements</a></li>
