@@ -21,7 +21,7 @@ function loginUser() {
                     $('#login-user').val('');
                     $('#login-pass').val('');
                     $('#return-message').text('');
-                    window.location.replace('./landing.php');
+                    window.location.replace('./integrated_calendar/views/calendar.php');
                 });
             } else {
                 $('#return-message').text(newdata.errors);
