@@ -409,7 +409,7 @@ async function taskPreviewInterface(d) {
                     const reminder = new Reminder(null, c.id);
 
                     await Swal.fire({
-                        title: 'Are you sure?',
+                        title: 'Are you sure you want to delete?',
                         text: "You won't be able to revert this!",
                         icon: 'warning',
                         showCancelButton: true,
