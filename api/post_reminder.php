@@ -36,6 +36,25 @@ if (empty($errors['errors'])) {
     $type = $_POST['type'];
     $remind_date = new DateTime($_POST['remind-date'], new DateTimeZone('Asia/Manila'));
 
+    // Ispagetting pataas, pataas ng pataas
+    $recurring_fields = [
+        $_POST["recurring_sun"]     ? 0 : false,
+        $_POST["recurring_mon"]     ? 1 : false,
+        $_POST["recurring_tues"]    ? 2 : false,
+        $_POST["recurring_wed"]     ? 3 : false,
+        $_POST["recurring_thurs"]   ? 4 : false,
+        $_POST["recurring_fri"]     ? 5 : false,
+        $_POST["recurring_sat"]     ? 6 : false
+    ];
+
+    $recurring_days = '';
+
+    foreach($recurring_fields as $field){
+        if ($field){
+            $recurring_days = $recurring_days . (string)$field;
+        }
+    }
+
     $user = $entityManager->find("User", $user_id);
 
     if ($type != TYPE_TASK && $type != TYPE_REMINDER) {
@@ -57,9 +76,9 @@ if (empty($errors['errors'])) {
         if (!empty($message)) { $reminder->set_message($message); }
     }
 
-    if ($type == TYPE_REMINDER && isset($_POST['is-recurring'])) {
+    if ($type == TYPE_REMINDER && $recurring_days != '') {
 
-        $reminder->set_is_recurring(date('w', strtotime($_POST['remind-date'])));
+        $reminder->set_is_recurring((int)$recurring_days);
 
     } else {
 

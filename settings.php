@@ -64,7 +64,6 @@ $auth_url = $client->createAuthUrl();
         <input type="checkbox" id="menu-bar">
         <label for="menu-bar" class="fas fa-bars"></label>
         <nav class="navbar">
-            <a href="./landing.php">Home</a>
             <a href="./integrated_calendar/views/calendar.php">Calendar</a>
             <a href="./integrated_calendar/views/task_checklist.php">Task Checklist</a>
             <a href="./integrated_calendar/views/announcements.php">Announcements</a>
