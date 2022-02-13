@@ -57,8 +57,7 @@ class Reminder {
         fetch(req)
             .then((res) => res.text())
             .then(async (data) => {
-                var parsed = JSON.parse(data);
-                console.log(parsed);
+                console.log(data);
                 await reminders(); // render the reminders again
             });
     }
@@ -79,8 +78,7 @@ class Reminder {
         fetch(req)
             .then((res) => res.text())
             .then(async (data) => {
-                let parsed = JSON.parse(data);
-                console.log(parsed);
+                console.log(data);
                 await reminders(); // render the reminders again
             });
     }
