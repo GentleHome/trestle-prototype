@@ -82,7 +82,7 @@ if(isset($_SESSION['user_id'])){
         <div class="content">
           <h3>Already a Trestler?</h3>
           <p>
-            Let's go to login<br>and see what tasks await you.
+            Let's go and login<br>and see what tasks await you.
           </p>
           <button class="btn transparent" id="sign-in-btn">
             Login
