@@ -34,9 +34,9 @@ if(!isset($_SESSION['user_id'])){
                 if (result.isConfirmed) {
                     $.ajax({
                         method: 'POST',
-                        url: './logout.php',
+                        url: '../../logout.php',
                         success: function () {
-                            window.location.replace('./index.php');
+                            window.location.replace('../../index.php');
                         }
                     })
                 }
