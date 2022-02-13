@@ -67,7 +67,7 @@ function registerUser() {
                             $('#reg-cpass').val('');
                             $('#reg-email').val('');
                             $('#password-message').text('');
-                            window.location.replace('./index.php');
+                            window.location.replace('./signup.php');
                         });
 
                     } else {
