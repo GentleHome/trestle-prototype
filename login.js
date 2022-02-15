@@ -4,13 +4,17 @@ $(document).ready(function () {
 function loginUser() {
     let username = $('#login-user').val();
     let password = $('#login-pass').val();
+    let remember_me = 1;
+    if (!$("#remember_me").prop('checked')) {
+        remember_me = 0;
+    }
+    console.log(remember_me);
     $.ajax({
         method: 'POST',
         url: './api/login.php',
-        data: { username: username, password: password },
+        data: { username: username, password: password, remember_me: remember_me },
         success: function (data) {
             let newdata = JSON.parse(data);
-            console.log(newdata.errors);
             if (newdata.hasOwnProperty('messages')) {
                 Swal.fire({
                     icon: 'success',
