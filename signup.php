@@ -38,6 +38,7 @@ if(isset($_SESSION['user_id'])){
             <input type="password" id="login-pass" name="password" placeholder="Password" />
           </div>
           <div id="return-message" style="color: red;"></div>
+          <input type="checkbox" class="checkbox" name="remember_me" id="remember_me"><span>Remember Me</span>
           <input type="submit" name="login" id="login-btn" value="Login" class="btn solid" />
           <a href="./index.php" class="home">Back to home</a>
         </form>
