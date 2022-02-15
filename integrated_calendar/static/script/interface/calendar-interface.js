@@ -386,9 +386,10 @@ async function taskPreviewInterface(d) {
 
                 div.appendChild(actions);
 
-                if (c.isRecurring || c.isRecurring == 0) {
+                if (c.isRecurring != undefined) {
                     let week = new Date(d.getAttribute('date'));
-                    if (week.getDay() == c.isRecurring) {
+                    let recurring = `${c.isRecurring}`.match(/.{1}/g) || [];
+                    if (recurring.includes(`${week.getDay()}`)) {
                         tasks_holder.appendChild(div);
                         p.addEventListener("mouseup", async () => {
                             individualSchedInterface(c);
@@ -407,8 +408,26 @@ async function taskPreviewInterface(d) {
 
                 delete_btn.addEventListener("mouseup", async () => {
                     const reminder = new Reminder(null, c.id);
-                    await reminder.delete();
-                    tasks_holder.removeChild(div);
+
+                    await Swal.fire({
+                        title: 'Are you sure you want to delete?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            )
+                            await reminder.delete();
+                            tasks_holder.removeChild(div);
+                        }
+                    });
                 });
 
                 update_btn.addEventListener("mouseup", async () => {
@@ -431,7 +450,7 @@ async function taskPreviewInterface(d) {
                     const type = document.querySelector('#edit-reminder-type-option');
                     const title = document.querySelector("input[name='title']");
                     const remind_date = document.querySelector("input[name='remind-date']");
-                    const isRecurring = document.querySelector("input[name='is-recurring']");
+                    const recurrings = document.querySelectorAll(".recurring");
                     const message = document.querySelector("input[name='message']");
 
                     // Assign values to fields
@@ -447,9 +466,13 @@ async function taskPreviewInterface(d) {
 
                     remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
 
-
-                    if (c.isRecurring || c.isRecurring == 0) {
-                        isRecurring.checked = true;
+                    if (c.isRecurring != undefined) {
+                        let recurr = `${c.isRecurring}`.match(/.{1}/g) || [];
+                        recurrings.forEach(recurring => {
+                            if (recurr.includes(recurring.value)) {
+                                recurring.checked = true;
+                            }
+                        });
                     }
 
                     if (c.message) {
@@ -538,9 +561,11 @@ function collectionWidgets(d) {
                 div.appendChild(image);
                 div.appendChild(text);
 
-                if (c.isRecurring || c.isRecurring == 0) {
-                    let week = new Date(d.getAttribute('date'))
-                    if (week.getDay() == c.isRecurring) {
+                if (c.isRecurring != undefined) {
+                    let week = new Date(d.getAttribute('date'));
+                    let recurring = `${c.isRecurring}`.match(/.{1}/g) || [];
+
+                    if (recurring.includes(`${week.getDay()}`)) {
                         d.appendChild(div);
                     }
                 } else {

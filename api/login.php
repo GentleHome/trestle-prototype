@@ -1,7 +1,6 @@
 <?php
 require_once dirname(__FILE__) . "/../bootstrap.php";
 require_once dirname(__FILE__) . '/helpers/constants.php';
-session_start();
 
 $errors = "";
 $messages = "";
@@ -19,13 +18,14 @@ $remember_me = $_POST['remember_me'];
 $user = $entityManager->getRepository('User')->findOneBy(array('username' => $username));
 
 if ($user && $user->authenticate($password)) {
+    if ($remember_me) {
+       session_set_cookie_params(time() + 60 * 60 * 24 * 30);
+    }
+    session_start();
     $_SESSION[USER_ID] = $user->get_id();
 
     // Ispagetting pababa, pababa ng pababa
-    if ($remember_me) {
-        session_set_cookie_params(time() + 60 * 60 * 24 * 30);
-    }
-
+    
     $messages = "Login Successful!";
     echo json_encode(array("messages" => $messages));
     
