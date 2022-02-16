@@ -49,6 +49,20 @@ input {
   grid-template-columns: 1fr;
   z-index: 5;
 }
+.rememberdiv{
+display:flex;
+flex-direction:row;
+justify-content:space-around;
+align-items:center;
+}
+.rememberdiv input[type="checkbox"]{
+  margin-right:10px;
+  cursor: pointer;
+}
+.rememberlabel{
+pointer-events:none;
+color:white;
+}
 a.home{
 color: white;
 text-decoration: none;
