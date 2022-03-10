@@ -464,7 +464,14 @@ async function taskPreviewInterface(d) {
 
                     title.value = c.title;
 
-                    remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}`;
+
+                    if (c.remindDate != null) {
+                        let r_date = new Date(c.remindDate.date);
+                        r_date.setMinutes(r_date.getMinutes() - r_date.getTimezoneOffset());
+                        remind_date.value = r_date.toISOString().slice(0, 16);
+                    } else {
+                        remind_date.value = `${urldate.year}-${urldate.month}-${urldate.date}T23:59`;
+                    }
 
                     if (c.isRecurring != undefined) {
                         let recurr = `${c.isRecurring}`.match(/.{1}/g) || [];
@@ -608,6 +615,7 @@ function collectionWidgets(d) {
 
 // Individual modals
 async function individualSchedInterface(c) {
+    console.log(c);
     const individual_modal = document.querySelector("individual_modal");
     dataFetch.endpoint = "./view_individual_schedule.html";
     const individual_schedule = await dataFetch.fetchingHTML();
@@ -625,9 +633,19 @@ async function individualSchedInterface(c) {
         individual_modal.removeChild(individual_modal.firstChild);
     });
 
+
+
+    date.innerText = "";
+    if (c.remindDate != null) {
+        var r_date = new Date(c.remindDate.date);
+        let format_date = `${r_date.getFullYear()}-${r_date.getMonth() + 1}-${r_date.getDate()}`;
+        let format_time = r_date.toLocaleString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+
+        date.innerText = `${format_date} | ${format_time}`;
+    }
+
     let c_date = new Date(url.date);
 
-    date.innerText = c.remindDate == null ? "" : `${c_date.getFullYear()}-${c_date.getMonth() + 1}-${c_date.getDate()}`;
     type.innerText = c.type == "RMDR" ? "Reminder" : "Task";
     title.innerText = c.title;
     target_course.innerText = c.targetCourse;
