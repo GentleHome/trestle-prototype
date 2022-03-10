@@ -80,7 +80,6 @@ $auth_url = $client->createAuthUrl();
         <div class="sidebar">
             <h2>Trestle</h2>
             <ul>
-                <li><a href="./landing.php"><i class="fas fa-home"></i>Home</a></li>
                 <li><a href="./integrated_calendar/views/calendar.php"><i class="far fa-calendar"></i>Calendar</a></li>
                 <li><a href="./integrated_calendar/views/task_checklist.php"><i class="fas fa-tasks"></i>Task Checklist</a></li>
                 <li><a href="./integrated_calendar/views/announcements.php"><i class="fas fa-bullhorn"></i>Announcements</a></li>
